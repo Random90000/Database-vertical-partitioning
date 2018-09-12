@@ -498,11 +498,11 @@ TEST(merge, 6_5) {
 TEST(merge, 6_6) {
     read_and_run_merge_test("../test_6_6");
 }
-
+/*
 TEST(merge, 6_7) {
     read_and_run_merge_test("../test_6_7");
 }
-
+*/
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

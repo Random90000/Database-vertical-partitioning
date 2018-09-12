@@ -4,7 +4,10 @@
 
 float BabNode::threshold = 0.0;
 
-BabNode::BabNode(Matrix* m, float z_low = 0.0, std::set<int>* duplicated = nullptr)
+BabNode::BabNode(Matrix* m, float z_low, std::set<int>* duplicated)
+    :matrix(new Matrix(*m)), z_low(z_low), duplicated(new std::set<int>(*duplicated)) {}
+
+BabNode::BabNode(const Matrix* m, const float z_low, const std::set<int>* duplicated)
     :matrix(new Matrix(*m)), z_low(z_low), duplicated(new std::set<int>(*duplicated)) {}
 
 BabNode::~BabNode() {
@@ -149,7 +152,7 @@ Matrix* merge_clusters(const Matrix* m1, const Matrix* m2) {
 
     int tt = 0;
 
-    std::cout << "clusters " << tt << "\n" << std::flush;
+    //std::cout << "clusters " << tt << "\n" << std::flush;
 
     for (int i = 0; i < m1->C; i++) {
         columns.emplace(m1->col_id[i]);
@@ -164,7 +167,7 @@ Matrix* merge_clusters(const Matrix* m1, const Matrix* m2) {
         rows.emplace(m2->row_id[i]);
     }
 
-    std::cout << "clusters " << tt << "\n" << std::flush;
+    //std::cout << "clusters " << tt << "\n" << std::flush;
 
     Matrix* output_matrix = new Matrix(static_cast<int>(rows.size()), static_cast<int>(columns.size()));
     int row_it            = 0;
@@ -178,33 +181,33 @@ Matrix* merge_clusters(const Matrix* m1, const Matrix* m2) {
         column_it++;
     }
 
-    std::cout << "clusters " << tt << "\n" << std::flush;
+    //std::cout << "clusters " << tt << "\n" << std::flush;
 
     for (int i = 0; i < output_matrix->R; i++) {
         for (int j = 0; j < output_matrix->C; j++) {
             (*output_matrix)[j][i] = 0;
-              for (int m1_i = 0; m1_i < m1->R; m1_i++) {
-              /*  for (int m1_j = 0; m1_j < m1->C; m1_j++) {
+            for (int m1_i = 0; m1_i < m1->R; m1_i++) {
+                for (int m1_j = 0; m1_j < m1->C; m1_j++) {
                     if ((m1->row_id[m1_i] == output_matrix->row_id[i]) &&
                         (m1->col_id[m1_j] == output_matrix->col_id[j])) {
                         (*output_matrix)[j][i] |= (*m1)[m1_j][m1_i];
                     }
-                }*/
+                }
             }
 
             for (int m2_i = 0; m2_i < m2->R; m2_i++) {
-               /* for (int m2_j = 0; m2_j < m2->C; m2_j++) {
+                for (int m2_j = 0; m2_j < m2->C; m2_j++) {
                     if ((m2->row_id[m2_i] == output_matrix->row_id[i]) &&
                         (m2->col_id[m2_j] == output_matrix->col_id[j])) {
                         (*output_matrix)[j][i] |= (*m2)[m2_j][m2_i];
                     }
-                }*/
+                }
             }
         }
     }
 
-    std::cout << "clusters " << tt << "\n" << std::flush;
-    tt++;
+    //std::cout << "clusters " << tt << "\n" << std::flush;
+    //tt++;
     return output_matrix;
 }
 
@@ -229,13 +232,13 @@ Solution merge(std::vector<BabNode*>* input_clusters) {
     float cohesion_max  = 0.0;
     float cohesion_curr = 0.0;
 
-    int mm = 0;
-    std::cout << "merge 2\n" << std::flush;
+    //int mm = 0;
+    //std::cout << "merge 2\n" << std::flush;
     while (!pair_is_empty(merge_pair)) {
         Matrix* m_current = nullptr;
         Matrix m_max(0,0);
 
-        std::cout << "merge " << mm << "\n" << std::flush;
+        //std::cout << "merge " << mm << "\n" << std::flush;
 
         merge_pair    = std::make_pair(-1,-1);
         cohesion_curr = 0.0;
@@ -249,14 +252,14 @@ Solution merge(std::vector<BabNode*>* input_clusters) {
                     merge_pair = std::make_pair(i,j);
                 }
 
-                std::cout << "c " << i << " " << j << "\n" << std::flush;
+                //std::cout << "c " << i << " " << j << "\n" << std::flush;
 
             }
         }
 
-        std::cout << "merge " << mm << "\n" << std::flush;
+        //std::cout << "merge " << mm << "\n" << std::flush;
 
-        mm++;
+        //mm++;
         if (pair_is_empty(merge_pair)) {
             break;
         }
@@ -276,11 +279,75 @@ Solution merge(std::vector<BabNode*>* input_clusters) {
             std::cout << "no: " << i << "\n" << output_clusters[i] << "\n";
         }*/
 
-        std::cout << "merge " << mm << "\n" << std::flush;
+        //std::cout << "merge " << mm << "\n" << std::flush;
 
         delete m_current;
     }
     return Solution(output_clusters);
+}
+
+Solution merge(std::vector<Matrix*>* input_clusters) {
+    std::pair<int,int> merge_pair = std::make_pair(0,0);
+    float cohesion_max  = 0.0;
+    float cohesion_curr = 0.0;
+    std::vector<Matrix> clusters;
+    for (auto m : *input_clusters) {
+        clusters.push_back(Matrix(*m));
+    }
+
+
+    //int mm = 0;
+    //std::cout << "merge 2\n" << std::flush;
+    while (!pair_is_empty(merge_pair)) {
+        Matrix* m_current = nullptr;
+        Matrix m_max(0,0);
+
+        //std::cout << "merge " << mm << "\n" << std::flush;
+
+        merge_pair    = std::make_pair(-1,-1);
+        cohesion_curr = 0.0;
+        for (size_t i = 0; i < clusters.size(); i++) {
+            for (size_t j = i + 1; j < clusters.size(); j++) {
+                m_current = merge_clusters(&clusters[i], &clusters[j]);
+                cohesion_curr = m_current->cohesion();
+                if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold)) {
+                    cohesion_max = cohesion_curr;
+                    m_max        = *m_current;
+                    merge_pair = std::make_pair(i,j);
+                }
+
+                //std::cout << "c " << i << " " << j << "\n" << std::flush;
+
+            }
+        }
+
+        //std::cout << "merge " << mm << "\n" << std::flush;
+
+        //mm++;
+        if (pair_is_empty(merge_pair)) {
+            break;
+        }
+        /*std::cout << merge_pair.first << " " << merge_pair.second << "\nm_max:\n" << m_max << "\n";
+        std::cout << "one\n";
+        for (int i = 0; i < output_clusters.size(); i++) {
+            std::cout << "no: " << i << "\n" << output_clusters[i] << "\n";
+        }
+        std::cout << "two\n";
+        */clusters.erase(clusters.begin() + std::max(merge_pair.first, merge_pair.second));
+        /*for (int i = 0; i < output_clusters.size(); i++) {
+            std::cout << "no: " << i << "\n" << output_clusters[i] << "\n";
+        }*/
+        clusters.erase(clusters.begin() + std::min(merge_pair.first, merge_pair.second));
+        clusters.push_back(m_max);
+        /*for (int i = 0; i < output_clusters.size(); i++) {
+            std::cout << "no: " << i << "\n" << output_clusters[i] << "\n";
+        }*/
+
+        //std::cout << "merge " << mm << "\n" << std::flush;
+
+        delete m_current;
+    }
+    return Solution(clusters);
 }
 
 bool is_feasible(const std::vector<Matrix*>* clusters) {
@@ -355,7 +422,7 @@ Matrix* duplicate(Matrix* m, int attribute) {
 bool vois_measures_cmp(const std::pair<int,int> pair_1, const std::pair<int,int> pair_2) {
     return pair_1.second > pair_2.second;
 }
-/*
+
 Solution Bab11(const Matrix* m) {
     if (m->cohesion() >= BabNode::threshold) {
        return Solution(std::vector<Matrix>(1, *m)); 
@@ -363,7 +430,7 @@ Solution Bab11(const Matrix* m) {
 
     float z_up = std::numeric_limits<float>::max();
     std::stack<BabNode*>* stack_of_node = new std::stack<BabNode*>();
-    stack_of_node->push(new BabNode(m));
+    stack_of_node->push(new BabNode(m, 0.0, nullptr));
     BabNode* current_node               = nullptr;
     std::vector<Matrix*>* node_clusters = nullptr;
     std::vector<Matrix*>* incumbent_sol = nullptr;
@@ -401,5 +468,6 @@ Solution Bab11(const Matrix* m) {
             }
         }
     }
+    return Solution(merge(incumbent_sol));
 }
-*/
+
