@@ -1,4 +1,4 @@
-#include "tst_bab11.h"
+﻿#include "tst_bab11.h"
 
 #include <gtest/gtest.h>
 
@@ -26,6 +26,13 @@ void compare_matrices(Matrix* m1, Matrix* m2) {
     }
     for (int i = 0 ; i < m1->R * m1->C; i++) {
         ASSERT_EQ(m1->elements[i], m2->elements[i]);
+    }
+}
+
+void compare_solutions(Solution s1, Solution s2) {
+    ASSERT_EQ(s1.clusters.size(), s2.clusters.size());
+    for (size_t i = 0; i < s1.clusters.size(); i++) {
+        compare_matrices(&s1.clusters[i], &s2.clusters[i]);
     }
 }
 
@@ -82,20 +89,20 @@ void read_and_run_select_minor_test(string test_dir) {
     delete output_matrix;
 }
 
-TEST(select_minor, 1) {
-    read_and_run_select_minor_test("../test_1");
+TEST(select_minor, 1_1) {
+    read_and_run_select_minor_test("../test_1_1");
 }
 
-TEST(select_minor, 2) {
-    read_and_run_select_minor_test("../test_2");
+TEST(select_minor, 1_2) {
+    read_and_run_select_minor_test("../test_1_2");
 }
 
-TEST(select_minor, 3) {
-    read_and_run_select_minor_test("../test_3");
+TEST(select_minor, 1_3) {
+    read_and_run_select_minor_test("../test_1_3");
 }
 
-TEST(select_minor, 4) {
-    read_and_run_select_minor_test("../test_4");
+TEST(select_minor, 1_4) {
+    read_and_run_select_minor_test("../test_1_4");
 }
 
 /* input_data format:
@@ -163,12 +170,12 @@ void read_and_run_binary_split_test(string test_dir) {
     delete splitted_matrices;
 }
 
-TEST(binary_split, 5) {
-    read_and_run_binary_split_test("../test_5");
+TEST(binary_split, 2_1) {
+    read_and_run_binary_split_test("../test_2_1");
 }
 
-TEST(binary_split, 6) {
-    read_and_run_binary_split_test("../test_6");
+TEST(binary_split, 2_2) {
+    read_and_run_binary_split_test("../test_2_2");
 }
 
 /* input_data format:
@@ -219,12 +226,12 @@ void read_and_run_cluster_identification_test(string test_dir) {
     delete output_clusters;
 }
 
-TEST(cluster_identification, 7) {
-    read_and_run_cluster_identification_test("../test_7");
+TEST(cluster_identification, 3_1) {
+    read_and_run_cluster_identification_test("../test_3_1");
 }
 
-TEST(cluster_identification, 8) {
-    read_and_run_cluster_identification_test("../test_8");
+TEST(cluster_identification, 3_2) {
+    read_and_run_cluster_identification_test("../test_3_2");
 }
 
 /* input_data format:
@@ -292,23 +299,31 @@ void read_and_run_merge_clusters_test(string test_dir) {
     delete merged;
 }
 
-TEST(merge_clusters, 9) {
-    read_and_run_merge_clusters_test("../test_9");
+TEST(merge_clusters, 4_1) {
+    read_and_run_merge_clusters_test("../test_4_1");
 }
 
-TEST(merge_clusters, 10) {
-    read_and_run_merge_clusters_test("../test_10");
+TEST(merge_clusters, 4_2) {
+    read_and_run_merge_clusters_test("../test_4_2");
 }
 
-TEST(merge_clusters, 11) {
-    read_and_run_merge_clusters_test("../test_11");
+TEST(merge_clusters, 4_3) {
+    read_and_run_merge_clusters_test("../test_4_3");
+}
+
+TEST(merge_clusters, 4_4) {
+    read_and_run_merge_clusters_test("../test_4_4");
 }
 
 /*
-TEST(merge_clusters, 12) {
-    read_and_run_merge_clusters_test("../test_12");
+TEST(merge_clusters, 4_5) {
+    read_and_run_merge_clusters_test("../test_4_5");
 }
 */
+
+TEST(merge_clusters, 4_6) {
+    read_and_run_merge_clusters_test("../test_4_6");
+}
 
 /* input_data format:
  * rows cols
@@ -332,7 +347,6 @@ void read_and_run_duplicate_test(string test_dir) {
     ifstream in(test_dir);
     int input_matrix_R = 0;
     int input_matrix_C = 0;
-
     in >> input_matrix_R >> input_matrix_C;
     Matrix input_matrix(input_matrix_R, input_matrix_C);
     in >> input_matrix;
@@ -352,31 +366,141 @@ void read_and_run_duplicate_test(string test_dir) {
     in >> attribute;
     in >> correct_matrix_R >> correct_matrix_C;
     Matrix correct_matrix(correct_matrix_R, correct_matrix_C);
-    in >> input_matrix;
+    in >> correct_matrix;
 
     for (int i = 0; i < correct_matrix_R; i++) {
-        in >> input_matrix.row_id[i];
+        in >> correct_matrix.row_id[i];
     }
 
     for (int i = 0; i < correct_matrix_C; i++) {
-        in >> input_matrix.col_id[i];
+        in >> correct_matrix.col_id[i];
     }
-
     Matrix* duplicated = duplicate(&input_matrix, attribute);
     compare_matrices(&correct_matrix, duplicated);
     delete duplicated;
 }
 
-TEST(duplicate, 13) {
-    read_and_run_duplicate_test("../test_13");
+TEST(duplicate, 5_1) {
+    read_and_run_duplicate_test("../test_5_1");
 }
 
-TEST(duplicate, 14) {
-    read_and_run_duplicate_test("../test_14");
+TEST(duplicate, 5_2) {
+    read_and_run_duplicate_test("../test_5_2");
 }
 
-TEST(duplicate, 15) {
-    read_and_run_duplicate_test("../test_15");
+/* input_data format:
+ * number_of_clusters {
+ *  matrix_i_rows matrix_i_cols
+ *  matrix_i
+ *
+ *  matrix_i_row_id
+ *
+ *  matrix_i_col_id
+ *
+ *  node_i_lower_bound
+ *
+ *  number_of_duplicated_id
+ *  matrix_i_duplicated_id
+ * }
+ *
+ * number_of_solution_clusters {
+ *  matrix_i_rows matrix_i_cols
+ *  matrix_i
+ *
+ *  matrix_i_row_id
+ *
+ *  matrix_i_col_id
+ * }
+ */
+
+void read_and_run_merge_test(string test_dir) {
+    ifstream in(test_dir);
+    std::vector<BabNode*> clusters(0);
+    int number_of_clusters             = 0;
+    int current_matrix_r               = 0;
+    int current_matrix_c               = 0;
+    int number_of_duplicated           = 0;
+    float current_node_low             = 0.;
+    std::set<int>* current_duplicated  = new set<int>;
+    size_t number_of_solution_clusters = 0;
+    int correct_solution_matrix_r      = 0;
+    int correct_solution_matrix_c      = 0;
+
+    in >> number_of_clusters;
+    for (int i = 0; i < number_of_clusters; i++) {
+        in >> current_matrix_r >> current_matrix_c;
+        Matrix* current_matrix = nullptr;
+        current_matrix         = new Matrix(current_matrix_r, current_matrix_c);
+        in >> *current_matrix;
+        for (int j = 0; j < current_matrix_r; j++) {
+            in >> current_matrix->row_id[j];
+        }
+        for (int j = 0; j < current_matrix_c; j++) {
+            in >> current_matrix->col_id[j];
+        }
+        in >> current_node_low;
+        in >> number_of_duplicated;
+        for (int j = 0; j < number_of_duplicated; j++) {
+            int current_duplicated_element = 0;
+            in >> current_duplicated_element;
+            current_duplicated->insert(current_duplicated_element);
+        }
+        clusters.push_back(new BabNode(current_matrix, current_node_low, current_duplicated));
+        delete current_matrix;
+    }
+    std::cout << "read 1\n" << flush;
+    in >> number_of_solution_clusters;
+    std::vector<Matrix> correct_solution_clusters;
+    for (size_t i = 0; i < number_of_solution_clusters; i++) {
+        in >> correct_solution_matrix_r >> correct_solution_matrix_c;
+        correct_solution_clusters.push_back(Matrix(correct_solution_matrix_r, correct_solution_matrix_c));
+        in >> correct_solution_clusters[i];
+        for (int j = 0; j < correct_solution_matrix_r; j++) {
+            in >> correct_solution_clusters[i].row_id[j];
+        }
+        for (int j = 0; j < correct_solution_matrix_c; j++) {
+            in >> correct_solution_clusters[i].col_id[j];
+        }
+    }
+    std::cout << "read 2\n" << flush;
+    /*
+    for (auto t : merge(&clusters).clusters) {
+        cout << t << "\n";
+    }
+    */
+    compare_solutions(Solution(correct_solution_clusters), merge(&clusters));
+    for (auto c : clusters) {
+        delete c;
+    }
+    delete current_duplicated;
+}
+
+TEST(merge, 6_1) {
+    read_and_run_merge_test("../test_6_1");
+}
+
+TEST(merge, 6_2) {
+    read_and_run_merge_test("../test_6_2");
+}
+
+TEST(merge, 6_3) {
+    read_and_run_merge_test("../test_6_3");
+}
+
+TEST(merge, 6_4) {
+    read_and_run_merge_test("../test_6_4");
+}
+
+TEST(merge, 6_5) {
+    read_and_run_merge_test("../test_6_5");
+}
+
+TEST(merge, 6_6) {
+    read_and_run_merge_test("../test_6_6");
+}
+
+TEST(merge, 6_7) {
+    read_and_run_merge_test("../test_6_7");
 }
 
 int main(int argc, char *argv[])

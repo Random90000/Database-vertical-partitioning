@@ -13,6 +13,8 @@
 struct BabNode {
     BabNode(Matrix* m, float z_low, std::set<int>* duplicated);
     BabNode(const Matrix* m, const float z_low, const std::set<int>* duplicated);
+    ~BabNode();
+
     void     calculate_void_measures();
     Solution Bab11(const Matrix* m);
 
@@ -25,7 +27,5 @@ struct BabNode {
 
     bool isBranching();
 };
-
-Matrix* merge_clusters(const Matrix* m1, const Matrix* m2);
 
 #endif //SOURCE_BAB11_H
