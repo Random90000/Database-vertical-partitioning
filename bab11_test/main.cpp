@@ -399,8 +399,6 @@ TEST(duplicate, 5_2) {
  *
  *  node_i_lower_bound
  *
- *  number_of_duplicated_id
- *  matrix_i_duplicated_id
  * }
  *
  * number_of_solution_clusters {
@@ -415,11 +413,12 @@ TEST(duplicate, 5_2) {
 
 void read_and_run_merge_test(string test_dir) {
     ifstream in(test_dir);
+
+    std::cout << "run_test_1\n";
     std::vector<BabNode*> clusters(0);
     int number_of_clusters             = 0;
     int current_matrix_r               = 0;
     int current_matrix_c               = 0;
-    int number_of_duplicated           = 0;
     float current_node_low             = 0.;
     std::set<int>* current_duplicated  = new set<int>;
     size_t number_of_solution_clusters = 0;
@@ -439,13 +438,7 @@ void read_and_run_merge_test(string test_dir) {
             in >> current_matrix->col_id[j];
         }
         in >> current_node_low;
-        in >> number_of_duplicated;
-        for (int j = 0; j < number_of_duplicated; j++) {
-            int current_duplicated_element = 0;
-            in >> current_duplicated_element;
-            current_duplicated->insert(current_duplicated_element);
-        }
-        clusters.push_back(new BabNode(current_matrix, current_node_low, current_duplicated));
+        clusters.push_back(new BabNode(current_matrix, current_node_low));
         delete current_matrix;
     }
     std::cout << "read 1\n" << flush;
@@ -498,11 +491,42 @@ TEST(merge, 6_5) {
 TEST(merge, 6_6) {
     read_and_run_merge_test("../test_6_6");
 }
+
 /*
 TEST(merge, 6_7) {
     read_and_run_merge_test("../test_6_7");
 }
 */
+
+void read_and_run_bab11_test(string test_dir) {
+    ifstream in(test_dir);
+    int input_matrix_R = 0;
+    int input_matrix_C = 0;
+
+    in >> input_matrix_R >> input_matrix_C;
+    Matrix* m = new Matrix(input_matrix_R, input_matrix_C);
+    in >> *m;
+    for (int i = 0; i < input_matrix_R; i++) {
+        in >> m->row_id[i];
+    }
+    for (int i = 0; i < input_matrix_C; i++) {
+        in >> m->col_id[i];
+    }
+    std::cout << *m << "\n\nclusters:\n";
+    Solution sol = Bab11(m);
+    for (auto i : sol.clusters){
+        std::cout << i << "\n";
+    }
+}
+
+TEST(bab11, 7_1) {
+    read_and_run_bab11_test("../test_7_1");
+}
+
+TEST(bab11, 7_2) {
+    read_and_run_bab11_test("../test_7_2");
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

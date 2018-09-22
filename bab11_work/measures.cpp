@@ -1,5 +1,7 @@
 #include "measures.hpp"
 
+#define DEBUG
+
 using namespace std;
 
 // returns columns with the highest measure

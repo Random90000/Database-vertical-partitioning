@@ -1,29 +1,62 @@
 
 #include "bab11.hpp"
 #include <iostream>
+#include <fstream>
 
-float BabNode::threshold = 0.0;
+float BabNode::threshold = 0.7;
 
-BabNode::BabNode(Matrix* m, float z_low, std::set<int>* duplicated)
-    :matrix(new Matrix(*m)), z_low(z_low), duplicated(new std::set<int>(*duplicated)) {}
-
-BabNode::BabNode(const Matrix* m, const float z_low, const std::set<int>* duplicated)
-    :matrix(new Matrix(*m)), z_low(z_low), duplicated(new std::set<int>(*duplicated)) {}
+BabNode::BabNode(Matrix* m, float z_low)
+    :matrix(new Matrix(*m)), z_low(z_low), voids(new std::vector<std::pair<int,int>>(0)){}
 
 BabNode::~BabNode() {
     delete this->matrix;
-    delete this->duplicated;
+}
+
+std::vector<int> voidMeasures(Matrix m) {
+    std::vector<int> V(m.C);
+    std::vector<bool> R(m.R);
+    std::vector<bool> C(m.C);
+
+    for (int c = 0; c < m.C; ++c) {
+        R.assign(m.R, false);
+        C.assign(m.C, false);
+        Matrix::type *column = m[c];
+        for (int i = 0; i < m.R; ++i) {
+            if (column[i]) {
+                for (int j = 0; j < m.C; ++j) {
+                    if (m[j][i])
+                        C[j] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < m.R; ++i) {
+            if (m[c][i])
+                for (int j = 0; j < m.C; ++j)
+                    if (C[j] && m[j][i])
+                        R[i] = true;
+        }
+
+        V[c] = 0;
+        for (int i = 0; i < m.R; ++i) {
+            if (!R[i]) continue;
+            for (int j = 0; j < m.C; ++j)
+                if (C[j] && !m[j][i])
+                    V[c]++;
+        }
+    }
+    return V;
 }
 
 void BabNode::calculate_void_measures() {
-    std::vector<int> void_measures = voidMeasure(*this->matrix);
-
-    if (this->voids != nullptr) {
-        delete [] this->voids;
+    std::vector<int> void_measures = voidMeasures(*this->matrix);
+    if (this->voids == nullptr)
+    {
+        this->voids = new std::vector<std::pair<int,int>>(0);
     }
-    this->voids = new std::vector<std::pair<int,int>>(static_cast<ulong>(this->matrix->C));
-
-    for (int i = 0; i < this->matrix->C; i++) {
+    this->voids->clear();
+    for (int i = 0; i < this->matrix->C; i++)
+    {
         this->voids->push_back(std::make_pair(i, void_measures[static_cast<ulong>(i)]));
     }
 }
@@ -218,7 +251,6 @@ bool pair_is_empty(std::pair<int,int> p) {
 Solution merge(std::vector<BabNode*>* input_clusters) {
     std::vector<Matrix> output_clusters;
     //make list of matrices from list of BabNode pointers
-    std::cout << "merge 1\n" << std::flush;
     for (size_t i = 0; i < input_clusters->size(); i++) {
         if ((*input_clusters)[i] != nullptr) {
             output_clusters.push_back((*(*input_clusters)[i]->matrix));
@@ -370,49 +402,49 @@ bool is_feasible(const std::vector<Matrix*>* clusters) {
 }
 
 Matrix* duplicate(Matrix* m, int attribute) {
-    //find index of attribute in col_id
-    int attribute_id = -1;
-    for (int i = 0; i < m->C; i++) {
-        if (m->col_id[i] == attribute) {
-            attribute_id = i;
-        }
-    }
-    if (attribute_id == -1) {
+    if ((attribute < 0) || (m->C <= attribute))
+    {
+        std::cout << "duplicate: attribute_id not found\n";
         return nullptr;
     }
     //count number of "1" in attribute column
     int count = 0;
-    for (int i = 0; i < m->R; i++) {
-        if ((*m)[attribute_id][i] != 0) {
+    for (int i = 0; i < m->R; i++)
+    {
+        if ((*m)[attribute][i] != 0)
+        {
             count++;
         }
     }
+
     if (count < 2) {
-        return nullptr;
+        return m;
     }
     //number of new columns
     count--;
     //filling in not duplicated parts and assigning rows/cols id
     Matrix* duplicate_m = new Matrix(m->R, m->C + count);
-    for (int i = 0; i < m->R; i++) {
-        for (int j = 0; j < attribute_id; j++) {
+    for (int i = 0; i < m->R; i++)
+    {
+        for (int j = 0; j < attribute; j++) {
             (*duplicate_m)[j][i]   = (*m)[j][i];
             duplicate_m->col_id[j] = m->col_id[j];
         }
-        for (int j = attribute_id; j < attribute_id + count + 1; j++) {
+        for (int j = attribute; j < attribute + count + 1; j++) {
             (*duplicate_m)[j][i]   = 0;
-            duplicate_m->col_id[j] = attribute;
+            duplicate_m->col_id[j] = m->col_id[attribute];
         }
-        for (int j = attribute_id + count + 1; j < m->C + count; j++) {
+        for (int j = attribute + count + 1; j < m->C + count; j++) {
             (*duplicate_m)[j][i]   = (*m)[j - count][i];
             duplicate_m->col_id[j] = m->col_id[j - count];
         }
         duplicate_m->row_id[i] = m->row_id[i];
     }
     //filling in duplicated parts
-    for (int i = 0, unit_i = 0; unit_i < count + 1; i++) {
-        if ((*m)[attribute_id][i] == 1) {
-            (*duplicate_m)[attribute_id + unit_i][i] = 1;
+    for (int i = 0, unit_i = 0; unit_i < count + 1; i++)
+    {
+        if ((*m)[attribute][i] == 1) {
+            (*duplicate_m)[attribute + unit_i][i] = 1;
             unit_i++;
         }
     }
@@ -423,43 +455,93 @@ bool vois_measures_cmp(const std::pair<int,int> pair_1, const std::pair<int,int>
     return pair_1.second > pair_2.second;
 }
 
-Solution Bab11(const Matrix* m) {
-    if (m->cohesion() >= BabNode::threshold) {
-       return Solution(std::vector<Matrix>(1, *m)); 
+bool is_duplicatable(Matrix* m, int attribute) {
+    int count = 0;
+    for (int i = 0; i < m->R; i++)
+    {
+        if ((*m)[attribute][i] == 1)
+        {
+
+            count++;
+        }
     }
+    if (count < 2)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+Solution Bab11(Matrix* m) {
+    if (m->cohesion() >= BabNode::threshold) {
+       return Solution(std::vector<Matrix>(1, *m));
+    }
+    std::ofstream out("out");
 
     float z_up = std::numeric_limits<float>::max();
     std::stack<BabNode*>* stack_of_node = new std::stack<BabNode*>();
-    stack_of_node->push(new BabNode(m, 0.0, nullptr));
+    stack_of_node->push(new BabNode(m, 0.0));
     BabNode* current_node               = nullptr;
     std::vector<Matrix*>* node_clusters = nullptr;
     std::vector<Matrix*>* incumbent_sol = nullptr;
-    std::vector<BabNode*>* list_of_curr_nodes = new std::vector<BabNode*>(0); 
-    
+    std::vector<BabNode*>* list_of_curr_nodes = new std::vector<BabNode*>(0);
     while(!stack_of_node->empty()) {
-        current_node  = stack_of_node->top();
-        std::vector<bool> duplicated_attributes(false, current_node->matrix->C);        
+        current_node = stack_of_node->top();
         stack_of_node->pop();
+
+        out
+        << "current_node:\n" << *current_node->matrix
+        << "\nz_up: " << z_up << " z_low " << current_node->z_low <<  "\nCI:\n";
+
         node_clusters = cluster_identification(current_node->matrix);
-        if ((is_feasible(node_clusters)) && (current_node->z_low < z_up)) {
+
+        for (auto c : *node_clusters)
+        {
+            out << *c << "\n";
+        }
+
+        out << "END CI\n" << "is_feasible: " << is_feasible(node_clusters) << "\n";
+
+        if ((is_feasible(node_clusters)) && (current_node->z_low < z_up))
+        {
+
+            out << "found\n";
+
             incumbent_sol = node_clusters;
             z_up          = current_node->z_low;
+
+            out << "z_up: " << z_up << "\n";
         }
-        else {
+        else
+        {
             if (current_node->z_low >= z_up) {
+
+                out << "delete node\n";
+
                 delete current_node;
                 continue;
             }
             list_of_curr_nodes->clear();
             current_node->calculate_void_measures();
-            std::sort(current_node->voids->begin(), current_node->voids->end());
+
+            std::sort(current_node->voids->begin(), current_node->voids->end(), vois_measures_cmp);
             for (int j = 0; j < current_node->matrix->C; j++) {
-                int column = (*current_node->voids)[static_cast<ulong>(j)].first;
-                if (!current_node->matrix->zeroColumn(column)) {
-                    BabNode* new_node = new BabNode(duplicate(current_node->matrix, column),
-                                                    current_node->z_low + 1,
-                                                    current_node->duplicated);
-                    new_node->duplicated->insert(column);
+                int id = (*current_node->voids)[j].first;
+
+                out << "z_low: " << current_node->z_low << " j: " << j << "/" << current_node->matrix->C << " id: " << id << "\n";
+
+                if (is_duplicatable(current_node->matrix, id)) {
+
+                    out << "duplicating:\n\n";
+
+                    BabNode* new_node = new BabNode(duplicate(current_node->matrix, id),
+                                                    current_node->z_low + 1);
+
+                    out << *new_node->matrix << "\n";
+
                     list_of_curr_nodes->push_back(new_node);
                 }
             }
@@ -468,6 +550,10 @@ Solution Bab11(const Matrix* m) {
             }
         }
     }
-    return Solution(merge(incumbent_sol));
+    out << "sol:\n";
+    for (auto sol : merge(incumbent_sol).clusters)
+    {
+        out << sol << "\n";
+    }
+    return merge(incumbent_sol);
 }
-

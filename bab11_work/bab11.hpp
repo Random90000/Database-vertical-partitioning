@@ -6,13 +6,12 @@
 #define SOURCE_BAB11_H
 
 #include <vector>
-#include <set>
+#include <map>
 
 #include "bab.hpp"
 
 struct BabNode {
-    BabNode(Matrix* m, float z_low = 0.0, std::set<int>* duplicated = new std::set<int>);
-    BabNode(const Matrix* m, const float z_low = 0.0, const std::set<int>* duplicated = new std::set<int>);
+    BabNode(Matrix* m, float z_low = 0.0);
    ~BabNode();
 
     void     calculate_void_measures();
@@ -21,11 +20,14 @@ struct BabNode {
     Matrix*                           matrix;
     static float                      threshold;
     float                             z_low;
-    std::set<int>*                    duplicated;
-    std::vector<std::pair<int, int>>* voids;//<column, void_measure>
+    std::vector<std::pair<int,int>>*  voids;//<column, void_measure>
     int branchingId = -1;
 
     bool isBranching();
 };
+
+Matrix* duplicate(Matrix* m, int attribute);
+
+std::vector<Matrix*>* cluster_identification(const Matrix* m);
 
 #endif //SOURCE_BAB11_H
