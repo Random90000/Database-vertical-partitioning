@@ -20,10 +20,8 @@ struct BabNode {
     Matrix*                           matrix;
     static float                      threshold;
     float                             z_low;
-    std::vector<std::pair<int,int>>*  voids;//<column, void_measure>
-    int branchingId = -1;
-
-    bool isBranching();
+    std::vector<std::pair<size_t,int>>*  voids;//<column, void_measure>
+    std::set<int>                 duplicated;
 };
 
 Matrix* duplicate(Matrix* m, int attribute);

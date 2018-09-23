@@ -491,7 +491,6 @@ TEST(merge, 6_5) {
 TEST(merge, 6_6) {
     read_and_run_merge_test("../test_6_6");
 }
-
 /*
 TEST(merge, 6_7) {
     read_and_run_merge_test("../test_6_7");
@@ -518,15 +517,19 @@ void read_and_run_bab11_test(string test_dir) {
         std::cout << i << "\n";
     }
 }
-
+/*
 TEST(bab11, 7_1) {
     read_and_run_bab11_test("../test_7_1");
 }
-
+*/
 TEST(bab11, 7_2) {
     read_and_run_bab11_test("../test_7_2");
 }
-
+/*
+TEST(bab11, 7_3) {
+    read_and_run_bab11_test("../test_7_3");
+}
+*/
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
