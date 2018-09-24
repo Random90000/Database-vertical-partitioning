@@ -62,11 +62,11 @@ void BabNode::calculate_void_measures() {
 }
 
 bool is_duplicatable(BabNode* node, float z_up, std::set<std::set<int>>& branches, size_t id) {
-    if (node->z_low + 1 >= z_up)
+    if (node->z_low  >= z_up)
     {
         return false;
     }
-    std::cout << "duplicates:\n";
+    /*std::cout << "duplicates:\n";
     for (auto i : branches)
     {
         for (auto k : i)
@@ -74,7 +74,7 @@ bool is_duplicatable(BabNode* node, float z_up, std::set<std::set<int>>& branche
             std::cout << k + 1<< " ";
         }
          std::cout << "\n";
-    }
+    }*/
     int attribute = node->matrix->col_id[id];
     if (node->duplicated.find(attribute) != node->duplicated.end())
     {
@@ -103,14 +103,6 @@ bool is_duplicatable(BabNode* node, float z_up, std::set<std::set<int>>& branche
         }
         else
         {
-
-            std::cout << "inserting:\n";
-            for (auto i : node->duplicated)
-            {
-                std::cout << i + 1 << " ";
-            }
-            std::cout << "\n";
-
             branches.insert(node->duplicated);
             node->duplicated.erase(attribute);
             return true;
@@ -530,16 +522,14 @@ Solution Bab11(Matrix* m) {
         << "current_node:\n" << *current_node->matrix
         << "\nz_up: " << z_up << " z_low " << current_node->z_low <<  "\nCI:\n";
 
-        std::cout << "start\n";
         node_clusters = cluster_identification(current_node->matrix);
-        std::cout << "fin\n";
 
-        for (auto c : *node_clusters)
+       /* for (auto c : *node_clusters)
         {
             out << *c << "\n";
         }
 
-        out << "END CI\n";
+        out << "END CI\n";*/
         out << "is_feasible: " << is_feasible(node_clusters) << "\n";
 
         if ((is_feasible(node_clusters)) && (current_node->z_low < z_up))
@@ -575,24 +565,24 @@ Solution Bab11(Matrix* m) {
             for (size_t j = 0; static_cast<int>(j) < current_node->matrix->C; j++) {
                 size_t id = (*current_node->voids)[j].first;
 
-                out << "z_low: " << current_node->z_low << " j: " << j << "/" << current_node->matrix->C << " id: " << id << "\n";
+                //out << "z_low: " << current_node->z_low << " j: " << j << "/" << current_node->matrix->C << " id: " << id << "\n";
 
                 if (is_duplicatable(current_node, z_up, branches, id))
                 {
 
-                    out << "duplicating:\n\n";
+                    //out << "duplicating:\n\n";
 
                     BabNode* new_node = new BabNode(duplicate(current_node->matrix, static_cast<int>(id)),
                                                     current_node->z_low + 1);
                     new_node->duplicated = current_node->duplicated;
                     new_node->duplicated.insert(current_node->matrix->col_id[id]);
                     //out << *new_node->matrix << "\n";
-                    out << "new_node duplicated: ";
+                    /*out << "new_node duplicated: ";
                     for (auto p : new_node->duplicated)
                     {
                         out << p << " ";
                     }
-                    out << "\n";
+                    out << "\n";*/
                     list_of_curr_nodes->push_back(new_node);
                 }
             }

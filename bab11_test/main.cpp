@@ -525,11 +525,19 @@ TEST(bab11, 7_1) {
 TEST(bab11, 7_2) {
     read_and_run_bab11_test("../test_7_2");
 }
-/*
+
 TEST(bab11, 7_3) {
     read_and_run_bab11_test("../test_7_3");
 }
-*/
+
+TEST(bab11, 7_4) {
+    read_and_run_bab11_test("../test_7_4");
+}
+
+TEST(bab11, 7_5) {
+    read_and_run_bab11_test("../test_7_5");
+}
+
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);
