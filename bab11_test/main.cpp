@@ -35,21 +35,21 @@ void compare_solutions(Solution s1, Solution s2) {
         compare_matrices(&s1.clusters[i], &s2.clusters[i]);
     }
 }
-
-/* input_data format:
- * rows cols
- * input_matrix
- *
- * mr
- *
- * mc
- *
- * rows cols
- * correct_matrix
- *
- * correct_matrix_row_id
- * correct_matrix_col_id
- */
+/*
+// input_data format:
+// rows cols
+// input_matrix
+//
+// mr
+//
+// mc
+//
+// rows cols
+// correct_matrix
+//
+// correct_matrix_row_id
+// correct_matrix_col_id
+//
 
 void read_and_run_select_minor_test(string test_dir) {
     ifstream in(test_dir);
@@ -105,24 +105,24 @@ TEST(select_minor, 1_4) {
     read_and_run_select_minor_test("../test_1_4");
 }
 
-/* input_data format:
- * rows cols
- * input_matrix
- *
- * rows cols
- * fst_correct_matrix
- *
- * fst_mr
- *
- * fst_mc
- *
- * rows cols
- * snd_correct_matrix
- *
- * snd_mr
- *
- * snd_mc
- */
+// input_data format:
+// rows cols
+// input_matrix
+//
+// rows cols
+// fst_correct_matrix
+//
+// fst_mr
+//
+// fst_mc
+//
+// rows cols
+// snd_correct_matrix
+//
+// snd_mr
+//
+// snd_mc
+//
 
 void read_and_run_binary_split_test(string test_dir) {
     ifstream in(test_dir);
@@ -178,17 +178,17 @@ TEST(binary_split, 2_2) {
     read_and_run_binary_split_test("../test_2_2");
 }
 
-/* input_data format:
- * rows cols
- * input_matrix
- *
- * vector_size
- * matrix_clusterized_vector {
- *  matrix_num_i
- *  matrix_num_i_mr
- *  matrix_num_i_mc
- * }
- */
+// input_data format:
+// rows cols
+// input_matrix
+//
+// vector_size
+// matrix_clusterized_vector {
+//  matrix_num_i
+//  matrix_num_i_mr
+//  matrix_num_i_mc
+// }
+//
 
 void read_and_run_cluster_identification_test(string test_dir) {
     ifstream in(test_dir);
@@ -234,30 +234,30 @@ TEST(cluster_identification, 3_2) {
     read_and_run_cluster_identification_test("../test_3_2");
 }
 
-/* input_data format:
- * m1_rows m1_cols
- * matrix_m1
- *
- * m1_row_id
- *
- * m1_col_id
- *
- *
- * m2_rows m2_cols
- * matrix_m2
- *
- * m2_row_id
- *
- * m2_col_id
- *
- *
- * output_matrix_rows output_matrix_cols
- * output_matrix
- *
- * output_matrix_row_id
- *
- * output_matrix_col_id
- */
+// input_data format:
+// m1_rows m1_cols
+// matrix_m1
+//
+// m1_row_id
+//
+// m1_col_id
+//
+//
+// m2_rows m2_cols
+// matrix_m2
+//
+// m2_row_id
+//
+// m2_col_id
+//
+//
+// output_matrix_rows output_matrix_cols
+// output_matrix
+//
+// output_matrix_row_id
+//
+// output_matrix_col_id
+//
 
 void read_and_run_merge_clusters_test(string test_dir) {
     ifstream in(test_dir);
@@ -315,33 +315,33 @@ TEST(merge_clusters, 4_4) {
     read_and_run_merge_clusters_test("../test_4_4");
 }
 
-/*
-TEST(merge_clusters, 4_5) {
-    read_and_run_merge_clusters_test("../test_4_5");
-}
-*/
+//
+//TEST(merge_clusters, 4_5) {
+//    read_and_run_merge_clusters_test("../test_4_5");
+//}
+//
 
 TEST(merge_clusters, 4_6) {
     read_and_run_merge_clusters_test("../test_4_6");
 }
 
-/* input_data format:
- * rows cols
- * input_matrix
- *
- * input_matrix_row_id
- *
- * input_matrix_col_id
- *
- * attribute
- *
- * rows cols
- * correct_matrix
- *
- * correct_matrix_row_id
- *
- * correct_matrix_col_id
- */
+// input_data format:
+// rows cols
+// input_matrix
+//
+// input_matrix_row_id
+//
+// input_matrix_col_id
+//
+// attribute
+//
+// rows cols
+// correct_matrix
+//
+// correct_matrix_row_id
+//
+// correct_matrix_col_id
+//
 
 void read_and_run_duplicate_test(string test_dir) {
     ifstream in(test_dir);
@@ -388,33 +388,32 @@ TEST(duplicate, 5_2) {
     read_and_run_duplicate_test("../test_5_2");
 }
 
-/* input_data format:
- * number_of_clusters {
- *  matrix_i_rows matrix_i_cols
- *  matrix_i
- *
- *  matrix_i_row_id
- *
- *  matrix_i_col_id
- *
- *  node_i_lower_bound
- *
- * }
- *
- * number_of_solution_clusters {
- *  matrix_i_rows matrix_i_cols
- *  matrix_i
- *
- *  matrix_i_row_id
- *
- *  matrix_i_col_id
- * }
- */
+// input_data format:
+// number_of_clusters {
+//  matrix_i_rows matrix_i_cols
+//  matrix_i
+//
+//  matrix_i_row_id
+//
+//  matrix_i_col_id
+//
+//  node_i_lower_bound
+//
+// }
+//
+// number_of_solution_clusters {
+//  matrix_i_rows matrix_i_cols
+//  matrix_i
+//
+//  matrix_i_row_id
+//
+//  matrix_i_col_id
+// }
+//
 
 void read_and_run_merge_test(string test_dir) {
     ifstream in(test_dir);
 
-    std::cout << "run_test_1\n";
     std::vector<BabNode*> clusters(0);
     int number_of_clusters             = 0;
     int current_matrix_r               = 0;
@@ -441,7 +440,6 @@ void read_and_run_merge_test(string test_dir) {
         clusters.push_back(new BabNode(current_matrix, current_node_low));
         delete current_matrix;
     }
-    std::cout << "read 1\n" << flush;
     in >> number_of_solution_clusters;
     std::vector<Matrix> correct_solution_clusters;
     for (size_t i = 0; i < number_of_solution_clusters; i++) {
@@ -455,12 +453,7 @@ void read_and_run_merge_test(string test_dir) {
             in >> correct_solution_clusters[i].col_id[j];
         }
     }
-    std::cout << "read 2\n" << flush;
-    /*
-    for (auto t : merge(&clusters).clusters) {
-        cout << t << "\n";
-    }
-    */
+
     compare_solutions(Solution(correct_solution_clusters), merge(&clusters));
     for (auto c : clusters) {
         delete c;
@@ -487,16 +480,12 @@ TEST(merge, 6_4) {
 TEST(merge, 6_5) {
     read_and_run_merge_test("../test_6_5");
 }
-
-TEST(merge, 6_6) {
-    read_and_run_merge_test("../test_6_6");
-}
-/*
-TEST(merge, 6_7) {
-    read_and_run_merge_test("../test_6_7");
-}
+//
+//TEST(merge, 6_6) {
+//    read_and_run_merge_test("../test_6_6");
+//}
+//
 */
-
 void read_and_run_bab11_test(string test_dir) {
     ifstream in(test_dir);
     int input_matrix_R = 0;
@@ -516,16 +505,18 @@ void read_and_run_bab11_test(string test_dir) {
     for (auto i : sol.clusters){
         std::cout << i << "\n";
     }
+    delete m;
 }
-/*
-TEST(bab11, 7_1) {
-    read_and_run_bab11_test("../test_7_1");
-}
-*/
+//
+//TEST(bab11, 7_1) {
+//    read_and_run_bab11_test("../test_7_1");
+//}
+//
+
 TEST(bab11, 7_2) {
     read_and_run_bab11_test("../test_7_2");
 }
-
+/*
 TEST(bab11, 7_3) {
     read_and_run_bab11_test("../test_7_3");
 }
@@ -533,11 +524,12 @@ TEST(bab11, 7_3) {
 TEST(bab11, 7_4) {
     read_and_run_bab11_test("../test_7_4");
 }
-
-TEST(bab11, 7_5) {
-    read_and_run_bab11_test("../test_7_5");
-}
-
+//
+//TEST(bab11, 7_5) {
+//    read_and_run_bab11_test("../test_7_5");
+//}
+//
+*/
 int main(int argc, char *argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

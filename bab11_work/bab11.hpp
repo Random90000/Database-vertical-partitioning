@@ -11,7 +11,7 @@
 #include "bab.hpp"
 
 struct BabNode {
-    BabNode(Matrix* m, float z_low = 0.0);
+    BabNode(const Matrix* m, float z_low = 0.0);
    ~BabNode();
 
     void     calculate_void_measures();
