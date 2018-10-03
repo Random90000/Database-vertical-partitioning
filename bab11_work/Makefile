@@ -54,11 +54,13 @@ SOURCES       = main.cpp \
 		measures.cpp \
 		matrix.cpp \
 		bab11.cpp \
+		bab.cpp \
 		bab.cpp 
 OBJECTS       = main.o \
 		measures.o \
 		matrix.o \
 		bab11.o \
+		bab.o \
 		bab.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -114,6 +116,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -130,10 +133,12 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		bab11_work.pro measures.hpp \
 		matrix.hpp \
 		bab11.hpp \
+		bab.hpp \
 		bab.hpp main.cpp \
 		measures.cpp \
 		matrix.cpp \
 		bab11.cpp \
+		bab.cpp \
 		bab.cpp
 QMAKE_TARGET  = bab11_work
 DESTDIR       = 
@@ -200,6 +205,7 @@ Makefile: bab11_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.c
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
@@ -269,6 +275,7 @@ Makefile: bab11_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.c
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
@@ -326,7 +333,10 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp 
+main.o: main.cpp bab11.hpp \
+		bab.hpp \
+		matrix.hpp \
+		measures.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 measures.o: measures.cpp measures.hpp \
@@ -341,6 +351,11 @@ bab11.o: bab11.cpp bab11.hpp \
 		matrix.hpp \
 		measures.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bab11.o bab11.cpp
+
+bab.o: bab.cpp bab.hpp \
+		matrix.hpp \
+		measures.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bab.o bab.cpp
 
 bab.o: bab.cpp bab.hpp \
 		matrix.hpp \

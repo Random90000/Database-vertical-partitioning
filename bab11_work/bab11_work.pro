@@ -8,10 +8,12 @@ SOURCES += \
     measures.cpp \
     matrix.cpp \
     bab11.cpp \
+    bab.cpp \
     bab.cpp
 
 HEADERS += \
     measures.hpp \
     matrix.hpp \
     bab11.hpp \
+    bab.hpp \
     bab.hpp

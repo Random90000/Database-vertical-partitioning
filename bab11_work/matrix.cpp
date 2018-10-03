@@ -7,6 +7,7 @@
 using namespace std;
 
 Matrix::Matrix(int rows, int cols){
+
     R = rows;
     C = cols;
 
@@ -15,23 +16,32 @@ Matrix::Matrix(int rows, int cols){
     elements = new type[R * C];
     for(int i = 0; i < R; ++i) row_id[i] = i;
     for(int i = 0; i < C; ++i) col_id[i] = i;
+
+    std::cout << "Matrix: constructor\n" << this << "\n" << *this << "\n";
+
 };
 
 Matrix::Matrix(Matrix&& other) noexcept {
     memcpy(this, &other, sizeof(Matrix));
     memset(&other, 0, sizeof(Matrix));
+
+    std::cout << "Matrix: move\n" << this << "\n" << *this << "\n";
+
 }
 
 Matrix& Matrix::operator=(Matrix&& other) noexcept {
+
     this->~Matrix();
     memcpy(this, &other, sizeof(Matrix));
     memset(&other, 0, sizeof(Matrix));
+
+    std::cout << "Matrix: move=\n" << this << "\n" << *this << "\n";
+
     return *this;
 }
 
 Matrix::Matrix(const Matrix& other) noexcept {
     R = other.R; C = other.C;
-
     row_id = new int[R];
     col_id = new int[C];
     elements = new type[R*C];
@@ -39,6 +49,9 @@ Matrix::Matrix(const Matrix& other) noexcept {
     memcpy(row_id, other.row_id, sizeof(int) * R);
     memcpy(col_id, other.col_id, sizeof(int) * C);
     memcpy(elements, other.elements, sizeof(type) * R * C);
+
+    std::cout << "Matrix: copy\n" << this << "\n" << *this << "\n";
+
 }
 
 Matrix& Matrix::operator=(const Matrix& other) noexcept {
@@ -52,6 +65,9 @@ Matrix& Matrix::operator=(const Matrix& other) noexcept {
     memcpy(row_id, other.row_id, sizeof(int) * R);
     memcpy(col_id, other.col_id, sizeof(int) * C);
     memcpy(elements, other.elements, sizeof(type) * R * C);
+
+    std::cout << "Matrix: copy=\n" << this << "\n" << *this << "\n";
+
     return *this;
 }
 
