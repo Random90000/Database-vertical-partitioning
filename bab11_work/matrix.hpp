@@ -22,9 +22,9 @@ struct Matrix {
 
     ~Matrix(){
 
-        std::cout << "Matrix: destructor " << this->R << " "
-                  << " " << this->C << "\n" << this << "\n"
-                  << *this << "\n";
+        //std::cout << "Matrix: destructor " << this->R << " "
+        //          << " " << this->C << "\n" << this << "\n"
+        //          << *this << "\n";
 
         delete [] elements; 
         delete [] row_id;

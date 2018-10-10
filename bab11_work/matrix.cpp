@@ -17,7 +17,7 @@ Matrix::Matrix(int rows, int cols){
     for(int i = 0; i < R; ++i) row_id[i] = i;
     for(int i = 0; i < C; ++i) col_id[i] = i;
 
-    std::cout << "Matrix: constructor\n" << this << "\n" << *this << "\n";
+    //std::cout << "Matrix: constructor\n" << this << "\n" << *this << "\n";
 
 };
 
@@ -25,7 +25,7 @@ Matrix::Matrix(Matrix&& other) noexcept {
     memcpy(this, &other, sizeof(Matrix));
     memset(&other, 0, sizeof(Matrix));
 
-    std::cout << "Matrix: move\n" << this << "\n" << *this << "\n";
+    //std::cout << "Matrix: move\n" << this << "\n" << *this << "\n";
 
 }
 
@@ -35,7 +35,7 @@ Matrix& Matrix::operator=(Matrix&& other) noexcept {
     memcpy(this, &other, sizeof(Matrix));
     memset(&other, 0, sizeof(Matrix));
 
-    std::cout << "Matrix: move=\n" << this << "\n" << *this << "\n";
+    //std::cout << "Matrix: move=\n" << this << "\n" << *this << "\n";
 
     return *this;
 }
@@ -50,7 +50,7 @@ Matrix::Matrix(const Matrix& other) noexcept {
     memcpy(col_id, other.col_id, sizeof(int) * C);
     memcpy(elements, other.elements, sizeof(type) * R * C);
 
-    std::cout << "Matrix: copy\n" << this << "\n" << *this << "\n";
+    //std::cout << "Matrix: copy\n" << this << "\n" << *this << "\n";
 
 }
 
@@ -66,7 +66,7 @@ Matrix& Matrix::operator=(const Matrix& other) noexcept {
     memcpy(col_id, other.col_id, sizeof(int) * C);
     memcpy(elements, other.elements, sizeof(type) * R * C);
 
-    std::cout << "Matrix: copy=\n" << this << "\n" << *this << "\n";
+    //std::cout << "Matrix: copy=\n" << this << "\n" << *this << "\n";
 
     return *this;
 }
