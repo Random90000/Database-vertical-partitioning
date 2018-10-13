@@ -10,17 +10,17 @@
 float BabNode::threshold = 0.7;
 
 BabNode::BabNode()
-    :matrix(Matrix(0,0)){}
+    :matrix(Matrix(0,0)), level(0){}
 
-BabNode::BabNode(const Matrix m, float z_low)
-    :matrix(m), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)){}
+BabNode::BabNode(const Matrix m, float z_low, int level)
+    :matrix(m), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)), level(level){}
 
 BabNode::BabNode(BabNode&& other)
     :matrix(std::move(other.matrix)), z_low(std::move(other.z_low)),
-     voids(std::move(other.voids)), duplicated(std::move(other.duplicated)){}
+     voids(std::move(other.voids)), duplicated(std::move(other.duplicated)), level(other.level){}
 
 BabNode::BabNode(const BabNode& other)
-    :matrix(other.matrix), z_low(other.z_low), voids(other.voids), duplicated(other.duplicated){}
+    :matrix(other.matrix), z_low(other.z_low), voids(other.voids), duplicated(other.duplicated), level(other.level){}
 
 BabNode::~BabNode(){}
 
@@ -29,6 +29,7 @@ BabNode& BabNode::operator=(BabNode&& other){
     this->z_low      = std::move(other.z_low);
     this->voids      = std::move(other.voids);
     this->duplicated = std::move(other.duplicated);
+    this->level = other.level;
     return *this;
 }
 
@@ -270,11 +271,20 @@ std::ostream& operator<<(std::ostream& out, std::map<int,std::pair<int,int>> m)
     return out;
 }
 
+std::ostream& operator<<(std::ostream& out, std::vector<Matrix> v)
+{
+    std::cout << "clusters:\n";
+    for (auto t : v)
+    {
+        std::cout << t << "\n";
+    }
+    return out;
+}
+
 //From Fig. 12. Algorithm for merging submatrices, line 6
 Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
     std::map<int,std::pair<std::vector<int>, std::vector<int>>> columns;
     std::map<int,std::pair<int,int>> rows;
-
     for (int i = 0; i < m1.C; i++)
     {
         columns[m1.col_id[i]].first.push_back(i);
@@ -283,7 +293,7 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
     {
         columns[m2.col_id[i]].second.push_back(i);
     }
-    std::cout << "columns:\n" << columns << "\n";
+    //std::cout << "columns:\n" << columns << "\n";
     for (int i = 0; i < m1.R; i++)
     {
         if (rows.find(m1.row_id[i]) == rows.end())
@@ -300,8 +310,8 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
         }
         rows[m2.row_id[i]].second = i;
     }
-    std::cout << "rows:\n" << rows << "\n";
-    Matrix output_matrix(static_cast<int>(columns.size()), static_cast<int>(rows.size()));
+    //std::cout << "rows:\n" << rows << "\n";
+    Matrix output_matrix(static_cast<int>(rows.size()), static_cast<int>(columns.size()));
     int i = 0;
     for (auto row_it : rows)
     {
@@ -321,8 +331,6 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
         auto col_it = columns.begin();
         for (int c = 0; c < output_matrix.C; c++)
         {
-
-            std::cout << "!!!!\n";
             output_matrix[c][r] = 0;
             if (row_it->second.first != -1)
             {
@@ -347,7 +355,6 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
         }
         row_it++;
     }
-    std::cout << output_matrix << "\n";
     return output_matrix;
 }
 
@@ -364,7 +371,6 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         clusters.push_back(Matrix(m));
     }
 
-    std::cout << "!\n";
     while (!pair_is_empty(merge_pair))
     {
         Matrix m_max(0,0);
@@ -375,10 +381,7 @@ Solution merge(std::vector<Matrix>& input_clusters) {
             for (size_t j = i + 1; j < clusters.size(); j++)
             {
 
-                std::cout << "!!\n";
                 Matrix m_current = merge_clusters(clusters[i], clusters[j]);
-
-                std::cout << "!!!\n";
                 cohesion_curr = m_current.cohesion();
                 if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold))
                 {
@@ -397,7 +400,6 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         clusters.erase(clusters.begin() + std::min(merge_pair.first, merge_pair.second));
         clusters.push_back(m_max);
     }
-
     return Solution(clusters);
 }
 
@@ -479,8 +481,17 @@ Matrix duplicate(Matrix& m, int attribute) {
     return duplicate_m;
 }
 
-bool vois_measures_cmp(const std::pair<int,int> pair_1, const std::pair<int,int> pair_2) {
-    return pair_1.second > pair_2.second;
+int void_measures_sum(const BabNode node){
+    int sum = 0;
+    for (auto i : node.voids)
+    {
+        sum += i.second;
+    }
+    return sum;
+}
+
+bool void_measures_cmp(const BabNode node_1, const BabNode node_2) {
+    return void_measures_sum(node_1) > void_measures_sum(node_2);
 }
 
 Solution Bab11(const Matrix& m) {
@@ -497,8 +508,25 @@ Solution Bab11(const Matrix& m) {
     std::vector<BabNode> list_of_curr_nodes;
     while(!stack_of_node.empty()) {
         BabNode current_node = std::move(stack_of_node.top());
+
+        out << "level: " << current_node.level << " stack: " << stack_of_node.size() << " z_low: " << current_node.z_low << " z_up: " << z_up << "\n"
+            << current_node.matrix << "\n" ;
+
         stack_of_node.pop();
         std::vector<Matrix> node_clusters = current_node.matrix.clusters();
+
+        out << "clusters: " << node_clusters.size() << "\n";
+        if (node_clusters.size() > 4)
+        {
+            std::cout << "clusters:\n";
+            for (auto l : node_clusters)
+            {
+                std::cout << l << "\n";
+            }
+            std::cout << "\n";
+        }
+
+        list_of_curr_nodes.clear();
         if ((is_feasible(node_clusters)) && (current_node.z_low < z_up))
         {
             incumbent_sol = std::move(node_clusters);
@@ -510,7 +538,6 @@ Solution Bab11(const Matrix& m) {
             {
                 continue;
             }
-            list_of_curr_nodes.clear();
             current_node.calculate_void_measures();
             for (size_t j = 0; static_cast<int>(j) < current_node.matrix.C; j++)
             {
@@ -518,15 +545,19 @@ Solution Bab11(const Matrix& m) {
                 if (current_node.is_duplicatable(z_up, branches, id))
                 {
                     Matrix duplicated = duplicate(current_node.matrix, static_cast<int>(id));
-                    BabNode new_node(duplicated, current_node.z_low + 1);
+                    BabNode new_node(duplicated, current_node.z_low + 1, current_node.level + 1);
+                    //std::cout << "new node: " << new_node.level << "\n";
                     new_node.duplicated = current_node.duplicated;
                     new_node.duplicated.insert(current_node.matrix.col_id[id]);
+                    new_node.calculate_void_measures();
                     list_of_curr_nodes.push_back(std::move(new_node));
                 }
             }
-            std::sort(current_node.voids.begin(), current_node.voids.end(), vois_measures_cmp);
+            std::sort(list_of_curr_nodes.rbegin(), list_of_curr_nodes.rend(), void_measures_cmp);
+            out  << "nodes count: " << list_of_curr_nodes.size() << " brances: " << branches.size() << "\n";
             for (int i = 0; static_cast<ulong>(i) < list_of_curr_nodes.size(); i++)
             {
+                //std::cout << list_of_curr_nodes[static_cast<ulong>(i)].matrix << "\n";
                 stack_of_node.push(std::move(list_of_curr_nodes[static_cast<ulong>(i)]));
             }
         }
