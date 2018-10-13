@@ -32,10 +32,10 @@ void compare_matrices(const Matrix& m1, const Matrix& m2) {
     }
 }
 
-void compare_solutions(Solution s1, Solution s2) {
-    ASSERT_EQ(s1.clusters.size(), s2.clusters.size());
-    for (size_t i = 0; i < s1.clusters.size(); i++) {
-        compare_matrices(s1.clusters[i], s2.clusters[i]);
+void compare_matrix_vectors(const std::vector<Matrix> s1, const std::vector<Matrix> s2) {
+    ASSERT_EQ(s1.size(), s2.size());
+    for (size_t i = 0; i < s1.size(); i++) {
+        compare_matrices(s1[i], s2[i]);
     }
 }
 
@@ -223,7 +223,7 @@ void read_and_run_binary_split_test(string test_dir) {
     compare_matrices(fst_correct_matrix, splitted_matrices.first);
     compare_matrices(snd_correct_matrix, splitted_matrices.second);
 }
-/*
+
 TEST(binary_split, 3_1) {
     read_and_run_binary_split_test("../test_3_1");
 }
@@ -231,7 +231,7 @@ TEST(binary_split, 3_1) {
 TEST(binary_split, 3_2) {
     read_and_run_binary_split_test("../test_3_2");
 }
-*/
+
 void read_and_run_merge_clusters_test(string test_dir) {
     ifstream in(test_dir);
     int matrix_R = 0;
@@ -270,7 +270,7 @@ void read_and_run_merge_clusters_test(string test_dir) {
     Matrix merged = merge_clusters(m1, m2);
     compare_matrices(output_matrix, merged);
 }
-/*
+
 TEST(merge_clusters, 4_1) {
     read_and_run_merge_clusters_test("../test_4_1");
 }
@@ -295,7 +295,7 @@ TEST(merge_clusters, 4_4) {
 TEST(merge_clusters, 4_6) {
     read_and_run_merge_clusters_test("../test_4_6");
 }
-*/
+
 // input_data format:
 // rows cols
 // input_matrix
@@ -349,7 +349,7 @@ void read_and_run_duplicate_test(string test_dir) {
     Matrix duplicated = duplicate(input_matrix, attribute);
     compare_matrices(correct_matrix, duplicated);
 }
-/*
+
 TEST(duplicate, 5_1) {
     read_and_run_duplicate_test("../test_5_1");
 }
@@ -357,7 +357,7 @@ TEST(duplicate, 5_1) {
 TEST(duplicate, 5_2) {
     read_and_run_duplicate_test("../test_5_2");
 }
-*/
+
 // input_data format:
 // number_of_clusters {
 //  matrix_i_rows matrix_i_cols
@@ -384,11 +384,10 @@ TEST(duplicate, 5_2) {
 void read_and_run_merge_test(string test_dir) {
     ifstream in(test_dir);
 
-    std::vector<BabNode> clusters(0);
+    std::vector<Matrix> clusters;
     int number_of_clusters             = 0;
     int current_matrix_r               = 0;
     int current_matrix_c               = 0;
-    float current_node_low             = 0.;
     size_t number_of_solution_clusters = 0;
     int correct_solution_matrix_r      = 0;
     int correct_solution_matrix_c      = 0;
@@ -404,8 +403,7 @@ void read_and_run_merge_test(string test_dir) {
         for (int j = 0; j < current_matrix_c; j++) {
             in >> current_matrix.col_id[j];
         }
-        in >> current_node_low;
-        clusters.push_back(BabNode(current_matrix, current_node_low));
+        clusters.push_back(current_matrix);
     }
     in >> number_of_solution_clusters;
     std::vector<Matrix> correct_solution_clusters;
@@ -420,10 +418,9 @@ void read_and_run_merge_test(string test_dir) {
             in >> correct_solution_clusters[i].col_id[j];
         }
     }
-
-    compare_solutions(Solution(correct_solution_clusters), merge(clusters));
+    compare_matrix_vectors(correct_solution_clusters, merge(clusters).clusters);
 }
-/*
+
 TEST(merge, 6_1) {
     read_and_run_merge_test("../test_6_1");
 }
@@ -448,7 +445,7 @@ TEST(merge, 6_5) {
 //    read_and_run_merge_test("../test_6_6");
 //}
 //
-*/
+
 void read_and_run_bab11_test(string test_dir) {
     ifstream in(test_dir);
     int input_matrix_R = 0;
@@ -470,15 +467,15 @@ void read_and_run_bab11_test(string test_dir) {
         std::cout << i << "\n";
     }
 }
-/*
-//TEST(bab11, 7_1) {
-//    read_and_run_bab11_test("../test_7_1");
-//}
+
+TEST(bab11, 7_1) {
+    read_and_run_bab11_test("../test_7_1");
+}
 
 TEST(bab11, 7_2) {
     read_and_run_bab11_test("../test_7_2");
 }
-
+/*
 TEST(bab11, 7_3) {
     read_and_run_bab11_test("../test_7_3");
 }
@@ -486,11 +483,11 @@ TEST(bab11, 7_3) {
 TEST(bab11, 7_4) {
     read_and_run_bab11_test("../test_7_4");
 }
-
+*/
 //TEST(bab11, 7_5) {
 //    read_and_run_bab11_test("../test_7_5");
 //}
-*/
+
 Matrix binstring_to_matrix(BinString str, int R, int C)
 {
     Matrix m(R,C);
@@ -508,19 +505,19 @@ void brut_tests(size_t R, size_t C, std::string out_dir)
 {
     std::ofstream  out(out_dir);
     BinString str(string(R*C, '0'));
-    for (unsigned long long i = 0; str.get_size() == R*C; i++)
+    for (unsigned long long i = 0; str.get_size() == R*C; i+=4)
     {
         Matrix m     = binstring_to_matrix(str, static_cast<int>(R), static_cast<int>(C));
         Solution sol = Bab11(m);
         if (sol.clusters.size() > 1)
         {
-            out << i << " sol\n" << str.get_binary() << "\nclusters:\n\n";
-            for (auto j : sol.clusters)
+            out << i << " sol\n" << str.get_binary() << "\n";//clusters:\n\n";
+            /*for (auto j : sol.clusters)
             {
                 out << j << "\n";
-            }
+            }*/
         }
-        std::vector<Matrix> c = m.clusters();
+        /*std::vector<Matrix> c = m.clusters();
         if (c.size() > 1)
         {
             out << i << " clusters\n" << str.get_binary() << "\nclusters:\n\n";
@@ -528,15 +525,15 @@ void brut_tests(size_t R, size_t C, std::string out_dir)
             {
                 out << j << "\n";
             }
-        }
-        str.inc();
+        }*/
+        str.inc();str.inc();str.inc();str.inc();
     }
     out.close();
 }
 /*
 TEST(bab11, 7_6)
 {
-    brut_tests(8,8,"test_7_6_out");
+    brut_tests(10,10,"test_7_6_out");
 }
 */
 int main(int argc, char *argv[])
