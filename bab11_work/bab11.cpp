@@ -3,8 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <unordered_map>
 
-//#define DEBUG
+#define DEBUG
 
 float BabNode::threshold = 0.7;
 
@@ -18,6 +19,11 @@ BabNode::BabNode(BabNode&& other)
     :matrix(std::move(other.matrix)), z_low(std::move(other.z_low)),
      voids(std::move(other.voids)), duplicated(std::move(other.duplicated)){}
 
+BabNode::BabNode(const BabNode& other)
+    :matrix(other.matrix), z_low(other.z_low), voids(other.voids), duplicated(other.duplicated){}
+
+BabNode::~BabNode(){}
+
 BabNode& BabNode::operator=(BabNode&& other){
     this->matrix     = std::move(other.matrix);
     this->z_low      = std::move(other.z_low);
@@ -26,10 +32,6 @@ BabNode& BabNode::operator=(BabNode&& other){
     return *this;
 }
 
-/*
-BabNode::BabNode(Matrix&& m, float z_low)
-    :matrix(m), z_low(z_low), voids(){}
-*/
 std::vector<int> voidMeasures(Matrix m) {
     size_t C = static_cast<size_t>(m.C);
     size_t R = static_cast<size_t>(m.R);
@@ -160,15 +162,15 @@ Matrix select_minor(const Matrix& m, const std::vector<bool>& mr, const std::vec
             rCount++;
         }
     }
-    Matrix minor = Matrix(rCount, cCount);
+    Matrix selecting_minor(rCount, cCount);
     int minor_i = 0;
     int minor_j = 0;
     for (size_t m_i = 0; static_cast<int>(m_i) < m.R; m_i++) {
         for (size_t m_j = 0; static_cast<int>(m_j) < m.C; m_j++) {
             if (mr[m_i] && mc[m_j]) {
-                minor.row_id[minor_i] = m.row_id[m_i];
-                minor.col_id[minor_j] = m.col_id[m_j];
-                minor[minor_j][minor_i] = m[static_cast<int>(m_j)][m_i];
+                selecting_minor.row_id[minor_i] = m.row_id[m_i];
+                selecting_minor.col_id[minor_j] = m.col_id[m_j];
+                selecting_minor[minor_j][minor_i] = m[static_cast<int>(m_j)][m_i];
                 minor_j++;
             }
         }
@@ -177,7 +179,7 @@ Matrix select_minor(const Matrix& m, const std::vector<bool>& mr, const std::vec
             minor_j = 0;
         }
     }
-    return minor;
+    return selecting_minor;
 }
 
 Matrix select_adjunct_minor(const Matrix& m, const std::vector<bool>& mr, const std::vector<bool>& mc) {
@@ -195,7 +197,7 @@ Matrix select_adjunct_minor(const Matrix& m, const std::vector<bool>& mr, const 
     return select_minor(m, orthogonal_mr, orthogonal_mc);
 }
 
-std::pair<Matrix&&, Matrix&&> binary_split(const Matrix& m) {
+std::pair<Matrix, Matrix> binary_split(const Matrix& m) {
     std::vector<bool> mr(static_cast<ulong>(m.R), false);
     std::vector<bool> mc(static_cast<ulong>(m.C), false);
 
@@ -232,142 +234,125 @@ std::pair<Matrix&&, Matrix&&> binary_split(const Matrix& m) {
     }
     if (rCount == m.R)
     {
-        std::cerr << "binat=ry_split: nothing to split\n";
-        return std::pair<Matrix&&, Matrix&&> (Matrix(m), Matrix(0,0));
+        std::cerr << "binary_split: nothing to split\n";
+        return std::pair<Matrix, Matrix> (Matrix(m), Matrix(0,0));
     }
     else
     {
-        return std::pair<Matrix&&, Matrix&&> (select_minor(m,mr,mc), select_adjunct_minor(m,mr,mc));
+        return std::pair<Matrix, Matrix> (select_minor(m,mr,mc), select_adjunct_minor(m,mr,mc));
     }
 }
-/*(
-std::vector<Matrix>&& cluster_identification(Matrix& m) {
-    Matrix mp                               = Matrix(m);
-    std::vector<Matrix> list_of_submatrices = std::vector<Matrix>(0);
 
-    while ((mp.R != 0) && (mp.C != 0))
+std::ostream& operator<<(std::ostream& out, std::map<int,std::pair<std::vector<int>, std::vector<int>>> m){
+    for (auto i : m)
     {
-        std::pair<Matrix, Matrix> submatrices = binary_split(mp);
-        if ((submatrices.second.R == 0) && (submatrices.second.C == 0) && (submatrices.first.cohesion() >= BabNode::threshold))
+        out << i.first << " [";
+        for (auto j : i.second.first)
         {
-            list_of_submatrices.push_back(submatrices.first);
-            mp = submatrices->second;
+            out << j << " ";
         }
-        else if (mp->cohesion() >= BabNode::threshold) {
-            list_of_submatrices->push_back(mp);
-            mp = nullptr;
+        out << "] [";
+        for (auto j : i.second.second)
+        {
+            out << j << " ";
         }
-        else {
-            list_of_submatrices->push_back(mp);
-            return list_of_submatrices;
-        }
+        out << "]\n";
     }
-    return std::move(list_of_submatrices);
+    return out;
 }
-*/
+
+std::ostream& operator<<(std::ostream& out, std::map<int,std::pair<int,int>> m)
+{
+    for (auto i : m)
+    {
+        out << " " << i.first << " <" << i.second.first << " " << i.second.second << ">";
+    }
+    return out;
+}
+
 //From Fig. 12. Algorithm for merging submatrices, line 6
-Matrix&& merge_clusters(const Matrix& m1, const Matrix& m2) {
-    std::set<int> rows;
-    std::set<int> columns;
+Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
+    std::map<int,std::pair<std::vector<int>, std::vector<int>>> columns;
+    std::map<int,std::pair<int,int>> rows;
 
-    for (int i = 0; i < m1.C; i++) {
-        columns.emplace(m1.col_id[i]);
+    for (int i = 0; i < m1.C; i++)
+    {
+        columns[m1.col_id[i]].first.push_back(i);
     }
-    for (int i = 0; i < m2.C; i++) {
-        columns.emplace(m2.col_id[i]);
+    for (int i = 0; i < m2.C; i++)
+    {
+        columns[m2.col_id[i]].second.push_back(i);
     }
-    for (int i = 0; i < m1.R; i++) {
-        rows.emplace(m1.row_id[i]);
+    std::cout << "columns:\n" << columns << "\n";
+    for (int i = 0; i < m1.R; i++)
+    {
+        if (rows.find(m1.row_id[i]) == rows.end())
+        {
+            rows[m1.row_id[i]] = std::make_pair(-1,-1);
+        }
+        rows[m1.row_id[i]].first = i;
     }
-    for (int i = 0; i < m2.R; i++) {
-        rows.emplace(m2.row_id[i]);
+    for (int i = 0; i < m2.R; i++)
+    {
+        if (rows.find(m2.row_id[i]) == rows.end())
+        {
+            rows[m2.row_id[i]] = std::make_pair(-1,-1);
+        }
+        rows[m2.row_id[i]].second = i;
+    }
+    std::cout << "rows:\n" << rows << "\n";
+    Matrix output_matrix(static_cast<int>(columns.size()), static_cast<int>(rows.size()));
+    int i = 0;
+    for (auto row_it : rows)
+    {
+        output_matrix.row_id[i] = row_it.first;
+        i++;
+    }
+    i = 0;
+    for (auto col_it : columns)
+    {
+        output_matrix.col_id[i] = col_it.first;
+        i++;
     }
 
-    Matrix output_matrix = Matrix(static_cast<int>(rows.size()), static_cast<int>(columns.size()));
-    int row_it            = 0;
-    int column_it         = 0;
-    for (auto element : rows) {
-        output_matrix.row_id[row_it] = element;
+    auto row_it = rows.begin();
+    for (int r = 0; r < output_matrix.R; r++)
+    {
+        auto col_it = columns.begin();
+        for (int c = 0; c < output_matrix.C; c++)
+        {
+
+            std::cout << "!!!!\n";
+            output_matrix[c][r] = 0;
+            if (row_it->second.first != -1)
+            {
+                for (auto col : col_it->second.first)
+                {
+                    output_matrix[c][r] |= m1[col][row_it->second.first];
+                }
+            }
+            if (output_matrix[c][r] == 1)
+            {
+                col_it++;
+                continue;
+            }
+            if (row_it->second.second != -1)
+            {
+                for (auto col : col_it->second.second)
+                {
+                    output_matrix[c][r] |= m2[col][row_it->second.second];
+                }
+            }
+            col_it++;
+        }
         row_it++;
     }
-    for (auto element : columns) {
-        output_matrix.col_id[column_it] = element;
-        column_it++;
-    }
-
-    for (int i = 0; i < output_matrix.R; i++) {
-        for (int j = 0; j < output_matrix.C; j++) {
-            output_matrix[j][i] = 0;
-            for (int m1_i = 0; m1_i < m1.R; m1_i++) {
-                for (int m1_j = 0; m1_j < m1.C; m1_j++) {
-                    if ((m1.row_id[m1_i] == output_matrix.row_id[i]) &&
-                        (m1.col_id[m1_j] == output_matrix.col_id[j])) {
-                        output_matrix[j][i] |= m1[m1_j][m1_i];
-                    }
-                }
-            }
-
-            for (int m2_i = 0; m2_i < m2.R; m2_i++) {
-                for (int m2_j = 0; m2_j < m2.C; m2_j++) {
-                    if ((m2.row_id[m2_i] == output_matrix.row_id[i]) &&
-                        (m2.col_id[m2_j] == output_matrix.col_id[j])) {
-                        output_matrix[j][i] |= m2[m2_j][m2_i];
-                    }
-                }
-            }
-        }
-    }
-
-    return std::move(output_matrix);
+    std::cout << output_matrix << "\n";
+    return output_matrix;
 }
 
 bool pair_is_empty(std::pair<int,int> p) {
     return (p.first == -1) && (p.second == -1);
-}
-
-Solution merge(std::vector<BabNode>& input_clusters) {
-    std::vector<Matrix> output_clusters;
-    //make list of matrices from list of BabNode pointers
-    for (size_t i = 0; i < input_clusters.size(); i++)
-    {
-        output_clusters.push_back(input_clusters[i].matrix);
-    }
-
-    std::pair<int,int> merge_pair = std::make_pair(0,0);
-    float cohesion_max  = 0.0;
-    float cohesion_curr = 0.0;
-
-    while (!pair_is_empty(merge_pair))
-    {
-        Matrix m_max(0,0);
-        merge_pair    = std::make_pair(-1,-1);
-        cohesion_curr = 0.0;
-        for (size_t i = 0; i < output_clusters.size(); i++)
-        {
-            for (size_t j = i + 1; j < output_clusters.size(); j++)
-            {
-                Matrix m_current = merge_clusters(output_clusters[i], output_clusters[j]);
-                cohesion_curr = m_current.cohesion();
-                if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold))
-                {
-                    cohesion_max = cohesion_curr;
-                    m_max        = m_current;
-                    merge_pair   = std::make_pair(i,j);
-                }
-            }
-        }
-
-        if (pair_is_empty(merge_pair))
-        {
-            break;
-        }
-
-        output_clusters.erase(output_clusters.begin() + std::max(merge_pair.first, merge_pair.second));
-        output_clusters.erase(output_clusters.begin() + std::min(merge_pair.first, merge_pair.second));
-        output_clusters.push_back(m_max);
-    }
-
-    return Solution(output_clusters);
 }
 
 Solution merge(std::vector<Matrix>& input_clusters) {
@@ -379,6 +364,7 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         clusters.push_back(Matrix(m));
     }
 
+    std::cout << "!\n";
     while (!pair_is_empty(merge_pair))
     {
         Matrix m_max(0,0);
@@ -388,7 +374,11 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         {
             for (size_t j = i + 1; j < clusters.size(); j++)
             {
+
+                std::cout << "!!\n";
                 Matrix m_current = merge_clusters(clusters[i], clusters[j]);
+
+                std::cout << "!!!\n";
                 cohesion_curr = m_current.cohesion();
                 if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold))
                 {
@@ -407,6 +397,7 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         clusters.erase(clusters.begin() + std::min(merge_pair.first, merge_pair.second));
         clusters.push_back(m_max);
     }
+
     return Solution(clusters);
 }
 
@@ -434,11 +425,11 @@ bool is_feasible(const std::vector<Matrix>& clusters) {
     return true;
 }
 
-Matrix&& duplicate(Matrix& m, int attribute) {
+Matrix duplicate(Matrix& m, int attribute) {
     if ((attribute < 0) || (m.C <= attribute))
     {
         std::cout << "duplicate: attribute_id not found\n";
-        return std::move(Matrix(m));
+        return m;
     }
     //count number of "1" in attribute column
     int count = 0;
@@ -451,12 +442,12 @@ Matrix&& duplicate(Matrix& m, int attribute) {
     }
 
     if (count < 2) {
-        return std::move(Matrix(m));
+        return m;
     }
     //number of new columns
     count--;
     //filling in not duplicated parts and assigning rows/cols id
-    Matrix duplicate_m = Matrix(m.R, m.C + count);
+    Matrix duplicate_m(m.R, m.C + count);
     for (int i = 0; i < m.R; i++)
     {
         for (int j = 0; j < attribute; j++)
@@ -485,14 +476,14 @@ Matrix&& duplicate(Matrix& m, int attribute) {
             unit_i++;
         }
     }
-    return std::move(duplicate_m);
+    return duplicate_m;
 }
 
 bool vois_measures_cmp(const std::pair<int,int> pair_1, const std::pair<int,int> pair_2) {
     return pair_1.second > pair_2.second;
 }
 
-Solution Bab11(Matrix m) {
+Solution Bab11(const Matrix& m) {
     if (m.cohesion() >= BabNode::threshold) {
        return Solution(std::vector<Matrix>(1, m));
     }
@@ -503,95 +494,47 @@ Solution Bab11(Matrix m) {
     std::stack<BabNode> stack_of_node;
     stack_of_node.push(BabNode(m, 0.0));
     std::vector<Matrix> incumbent_sol;
-    std::vector<BabNode> list_of_curr_nodes(0);
+    std::vector<BabNode> list_of_curr_nodes;
     while(!stack_of_node.empty()) {
         BabNode current_node = std::move(stack_of_node.top());
         stack_of_node.pop();
-        #ifdef DEBUG
-        out
-        << "current_node:\n" << current_node.matrix
-        << "\nz_up: " << z_up << " z_low " << current_node.z_low <<  "\nCI:\n";
-        #endif
         std::vector<Matrix> node_clusters = current_node.matrix.clusters();
-        #ifdef DEBUG
-        for (auto c : node_clusters)
-        {
-            out << c << "\n";
-        }
-        out << "END CI\n";
-        out << "is_feasible: " << is_feasible(node_clusters) << "\n";
-        #endif
         if ((is_feasible(node_clusters)) && (current_node.z_low < z_up))
         {
-            #ifdef DEBUG
-            out << "found\n";
-            #endif
             incumbent_sol = std::move(node_clusters);
             z_up          = current_node.z_low;
-
-            std::cout << "z_up: " << z_up << "incumbent:\n";
-            for (auto mm : merge(incumbent_sol).clusters)
-            {
-                std::cout << mm << "\n";
-            }
-            out << "z_up: " << z_up << "\n";
         }
         else
         {
-            if (current_node.z_low >= z_up) {
-                #ifdef DEBUG
-                out << "delete node\n";
-                #endif
+            if (current_node.z_low >= z_up)
+            {
                 continue;
             }
             list_of_curr_nodes.clear();
             current_node.calculate_void_measures();
-            std::sort(current_node.voids.begin(), current_node.voids.end(), vois_measures_cmp);
             for (size_t j = 0; static_cast<int>(j) < current_node.matrix.C; j++)
             {
                 size_t id = current_node.voids[j].first;
-                #ifdef DEBUG
-                out << "z_low: " << current_node.z_low << " j: " << j << "/" << current_node.matrix.C << " id: " << id << "\n";
-                #endif
                 if (current_node.is_duplicatable(z_up, branches, id))
                 {
-                    #ifdef DEBUG
-                    out << "duplicating:\n\n";
-                    #endif
                     Matrix duplicated = duplicate(current_node.matrix, static_cast<int>(id));
                     BabNode new_node(duplicated, current_node.z_low + 1);
                     new_node.duplicated = current_node.duplicated;
                     new_node.duplicated.insert(current_node.matrix.col_id[id]);
-                    #ifdef DEBUG
-                    out << new_node.matrix << "\n";
-                    out << "new_node duplicated: ";
-                    for (auto p : new_node.duplicated)
-                    {
-                        out << p << " ";
-                    }
-                    out << "\n";
-                    #endif
                     list_of_curr_nodes.push_back(std::move(new_node));
                 }
             }
-            for (int i = 0; static_cast<ulong>(i) < list_of_curr_nodes.size(); i++) {
+            std::sort(current_node.voids.begin(), current_node.voids.end(), vois_measures_cmp);
+            for (int i = 0; static_cast<ulong>(i) < list_of_curr_nodes.size(); i++)
+            {
                 stack_of_node.push(std::move(list_of_curr_nodes[static_cast<ulong>(i)]));
             }
         }
     }
-    #ifdef DEBUG
-    out << "sol:\n";
-    #endif
     if (incumbent_sol.size() == 0)
     {
         std::cout << "no clusters\n";
         return Solution();
     }
-    #ifdef DEBUG
-    for (auto sol : merge(incumbent_sol).clusters)
-    {
-        out << sol << "\n";
-    }
-    #endif
     return merge(incumbent_sol);
 }

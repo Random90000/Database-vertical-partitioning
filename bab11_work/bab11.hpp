@@ -14,12 +14,12 @@ struct BabNode {
     BabNode();
     BabNode(const Matrix m, float z_low = 0.0);
     BabNode(BabNode&& other);
+    BabNode(const BabNode& other);
     //BabNode(Matrix&& m, float z_low = 0.0);
-    //~BabNode();
+    ~BabNode();
 
     void     calculate_void_measures();
     bool     is_duplicatable(float z_up, std::set<std::set<int>>& branches, size_t id);
-    Solution Bab11(const Matrix m);
     BabNode& operator=(BabNode&& other);
 
     Matrix                             matrix;
@@ -28,6 +28,8 @@ struct BabNode {
     std::vector<std::pair<size_t,int>> voids;//<column, void_measure>
     std::set<int>                      duplicated;
 };
+
+Solution Bab11(const Matrix& m);
 
 //Matrix* duplicate(Matrix* m, int attribute);
 

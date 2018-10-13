@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_QML_DEBUG
 CFLAGS        = -pipe -g -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -pg -no-pie -std=gnu++11 -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -37,7 +37,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = bab11_work1.0.0
 DISTDIR = /home/alexandr/Projects/vertical_partitioning_work/bab11_work/.tmp/bab11_work1.0.0
 LINK          = g++
-LFLAGS        = 
+LFLAGS        = -pg -no-pie
 LIBS          = $(SUBLIBS)  
 AR            = ar cqs
 RANLIB        = 
@@ -53,15 +53,11 @@ OBJECTS_DIR   = ./
 SOURCES       = main.cpp \
 		measures.cpp \
 		matrix.cpp \
-		bab11.cpp \
-		bab.cpp \
-		bab.cpp 
+		bab11.cpp 
 OBJECTS       = main.o \
 		measures.o \
 		matrix.o \
-		bab11.o \
-		bab.o \
-		bab.o
+		bab11.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -132,14 +128,10 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		bab11_work.pro measures.hpp \
 		matrix.hpp \
-		bab11.hpp \
-		bab.hpp \
-		bab.hpp main.cpp \
+		bab11.hpp main.cpp \
 		measures.cpp \
 		matrix.cpp \
-		bab11.cpp \
-		bab.cpp \
-		bab.cpp
+		bab11.cpp
 QMAKE_TARGET  = bab11_work
 DESTDIR       = 
 TARGET        = bab11_work
@@ -351,16 +343,6 @@ bab11.o: bab11.cpp bab11.hpp \
 		matrix.hpp \
 		measures.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bab11.o bab11.cpp
-
-bab.o: bab.cpp bab.hpp \
-		matrix.hpp \
-		measures.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bab.o bab.cpp
-
-bab.o: bab.cpp bab.hpp \
-		matrix.hpp \
-		measures.hpp
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bab.o bab.cpp
 
 ####### Install
 
