@@ -424,7 +424,7 @@ void read_and_run_merge_test(string test_dir) {
 TEST(merge, 6_1) {
     read_and_run_merge_test("../test_6_1");
 }
-/*
+
 TEST(merge, 6_2) {
     read_and_run_merge_test("../test_6_2");
 }
@@ -440,7 +440,7 @@ TEST(merge, 6_4) {
 TEST(merge, 6_5) {
     read_and_run_merge_test("../test_6_5");
 }
-*/
+
 //TEST(merge, 6_6) {
 //    read_and_run_merge_test("../test_6_6");
 //}

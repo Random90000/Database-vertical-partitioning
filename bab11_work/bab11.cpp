@@ -2,10 +2,8 @@
 #include "bab11.hpp"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <unordered_map>
 
-#define DEBUG
+//#define DEBUG
 
 float BabNode::threshold = 0.7;
 
@@ -244,43 +242,6 @@ std::pair<Matrix, Matrix> binary_split(const Matrix& m) {
     }
 }
 
-std::ostream& operator<<(std::ostream& out, std::map<int,std::pair<std::vector<int>, std::vector<int>>> m){
-    for (auto i : m)
-    {
-        out << i.first << " [";
-        for (auto j : i.second.first)
-        {
-            out << j << " ";
-        }
-        out << "] [";
-        for (auto j : i.second.second)
-        {
-            out << j << " ";
-        }
-        out << "]\n";
-    }
-    return out;
-}
-
-std::ostream& operator<<(std::ostream& out, std::map<int,std::pair<int,int>> m)
-{
-    for (auto i : m)
-    {
-        out << " " << i.first << " <" << i.second.first << " " << i.second.second << ">";
-    }
-    return out;
-}
-
-std::ostream& operator<<(std::ostream& out, std::vector<Matrix> v)
-{
-    std::cout << "clusters:\n";
-    for (auto t : v)
-    {
-        std::cout << t << "\n";
-    }
-    return out;
-}
-
 //From Fig. 12. Algorithm for merging submatrices, line 6
 Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
     std::map<int,std::pair<std::vector<int>, std::vector<int>>> columns;
@@ -498,7 +459,10 @@ Solution Bab11(const Matrix& m) {
     if (m.cohesion() >= BabNode::threshold) {
        return Solution(std::vector<Matrix>(1, m));
     }
+
+    #ifdef DEBUG
     std::ofstream out("out");
+    #endif
 
     std::set<std::set<int>> branches;
     float z_up = std::numeric_limits<float>::max();
@@ -509,25 +473,28 @@ Solution Bab11(const Matrix& m) {
     while(!stack_of_node.empty()) {
         BabNode current_node = std::move(stack_of_node.top());
 
-        out << "level: " << current_node.level << " stack: " << stack_of_node.size() << " z_low: " << current_node.z_low << " z_up: " << z_up << "\n"
-            << current_node.matrix << "\n" ;
+        #ifdef DEBUG
+        out << "level: " << current_node.level << " stack: " << stack_of_node.size() << " z_low: "
+            << current_node.z_low << " z_up: " << z_up << "\n" << current_node.matrix << "\n" ;
+        #endif
 
         stack_of_node.pop();
         std::vector<Matrix> node_clusters = current_node.matrix.clusters();
 
+        #ifdef DEBUG
         out << "clusters: " << node_clusters.size() << "\n";
         if (node_clusters.size() > 4)
         {
-            std::cout << "clusters:\n";
             for (auto l : node_clusters)
             {
-                std::cout << l << "\n";
+                out << l.cohesion() << " ";
             }
-            std::cout << "\n";
+            out << "\n";
         }
+        #endif
 
         list_of_curr_nodes.clear();
-        if ((is_feasible(node_clusters)) && (current_node.z_low < z_up))
+        if (is_feasible(node_clusters) && (current_node.z_low < z_up))
         {
             incumbent_sol = std::move(node_clusters);
             z_up          = current_node.z_low;
@@ -546,26 +513,35 @@ Solution Bab11(const Matrix& m) {
                 {
                     Matrix duplicated = duplicate(current_node.matrix, static_cast<int>(id));
                     BabNode new_node(duplicated, current_node.z_low + 1, current_node.level + 1);
-                    //std::cout << "new node: " << new_node.level << "\n";
                     new_node.duplicated = current_node.duplicated;
                     new_node.duplicated.insert(current_node.matrix.col_id[id]);
+
+                    #ifdef DEBUG
+                    out << "duplicated: ";
+                    for (auto y : new_node.duplicated)
+                    {
+                        out << y << " ";
+                    }
+                    out << "\n";
+                    #endif
+
                     new_node.calculate_void_measures();
                     list_of_curr_nodes.push_back(std::move(new_node));
                 }
             }
             std::sort(list_of_curr_nodes.rbegin(), list_of_curr_nodes.rend(), void_measures_cmp);
+            #ifdef DEBUG
             out  << "nodes count: " << list_of_curr_nodes.size() << " brances: " << branches.size() << "\n";
+            #endif
             for (int i = 0; static_cast<ulong>(i) < list_of_curr_nodes.size(); i++)
             {
-                //std::cout << list_of_curr_nodes[static_cast<ulong>(i)].matrix << "\n";
                 stack_of_node.push(std::move(list_of_curr_nodes[static_cast<ulong>(i)]));
             }
         }
     }
     if (incumbent_sol.size() == 0)
     {
-        std::cout << "no clusters\n";
-        return Solution();
+        return Solution({m});
     }
     return merge(incumbent_sol);
 }
