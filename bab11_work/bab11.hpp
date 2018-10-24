@@ -1,7 +1,3 @@
-//
-// Created by opot on 10.12.17.
-//
-
 #ifndef SOURCE_BAB11_H
 #define SOURCE_BAB11_H
 
@@ -15,7 +11,6 @@ struct BabNode {
     BabNode(const Matrix m, float z_low = 0.0, int level = 0);
     BabNode(BabNode&& other);
     BabNode(const BabNode& other);
-    //BabNode(Matrix&& m, float z_low = 0.0);
     ~BabNode();
 
     void     calculate_void_measures();
@@ -31,9 +26,5 @@ struct BabNode {
 };
 
 Solution Bab11(const Matrix& m);
-
-//Matrix* duplicate(Matrix* m, int attribute);
-
-//std::vector<Matrix*>* cluster_identification(const Matrix* m);
 
 #endif //SOURCE_BAB11_H

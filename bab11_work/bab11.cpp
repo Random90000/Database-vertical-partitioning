@@ -1,9 +1,4 @@
-
 #include "bab11.hpp"
-#include <iostream>
-#include <fstream>
-
-//#define DEBUG
 
 float BabNode::threshold = 0.7;
 
@@ -14,8 +9,8 @@ BabNode::BabNode(const Matrix m, float z_low, int level)
     :matrix(m), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)), level(level){}
 
 BabNode::BabNode(BabNode&& other)
-    :matrix(std::move(other.matrix)), z_low(std::move(other.z_low)),
-     voids(std::move(other.voids)), duplicated(std::move(other.duplicated)), level(other.level){}
+    :matrix(other.matrix), z_low(other.z_low),
+     voids(other.voids), duplicated(other.duplicated), level(other.level){}
 
 BabNode::BabNode(const BabNode& other)
     :matrix(other.matrix), z_low(other.z_low), voids(other.voids), duplicated(other.duplicated), level(other.level){}
@@ -23,11 +18,11 @@ BabNode::BabNode(const BabNode& other)
 BabNode::~BabNode(){}
 
 BabNode& BabNode::operator=(BabNode&& other){
-    this->matrix     = std::move(other.matrix);
-    this->z_low      = std::move(other.z_low);
-    this->voids      = std::move(other.voids);
-    this->duplicated = std::move(other.duplicated);
-    this->level = other.level;
+    this->matrix     = other.matrix;
+    this->z_low      = other.z_low;
+    this->voids      = other.voids;
+    this->duplicated = other.duplicated;
+    this->level      = other.level;
     return *this;
 }
 
@@ -98,6 +93,7 @@ void BabNode::calculate_void_measures() {
     }
 }
 
+//branches - sets of already duplicated attributes in matrix from Bab11 function; id - verifiable attribute from matrix
 bool BabNode::is_duplicatable(float z_up, std::set<std::set<int>>& branches, size_t id) {
     if (this->z_low  >= z_up)
     {
@@ -254,7 +250,6 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
     {
         columns[m2.col_id[i]].second.push_back(i);
     }
-    //std::cout << "columns:\n" << columns << "\n";
     for (int i = 0; i < m1.R; i++)
     {
         if (rows.find(m1.row_id[i]) == rows.end())
@@ -271,7 +266,6 @@ Matrix merge_clusters(const Matrix& m1, const Matrix& m2) {
         }
         rows[m2.row_id[i]].second = i;
     }
-    //std::cout << "rows:\n" << rows << "\n";
     Matrix output_matrix(static_cast<int>(rows.size()), static_cast<int>(columns.size()));
     int i = 0;
     for (auto row_it : rows)
@@ -328,7 +322,8 @@ Solution merge(std::vector<Matrix>& input_clusters) {
     float cohesion_max  = 0.0;
     float cohesion_curr = 0.0;
     std::vector<Matrix> clusters;
-    for (auto m : input_clusters) {
+    for (auto m : input_clusters)
+    {
         clusters.push_back(Matrix(m));
     }
 
@@ -391,7 +386,7 @@ bool is_feasible(const std::vector<Matrix>& clusters) {
 Matrix duplicate(Matrix& m, int attribute) {
     if ((attribute < 0) || (m.C <= attribute))
     {
-        std::cout << "duplicate: attribute_id not found\n";
+        std::cerr << "duplicate: attribute_id not found\n";
         return m;
     }
     //count number of "1" in attribute column
@@ -456,43 +451,21 @@ bool void_measures_cmp(const BabNode node_1, const BabNode node_2) {
 }
 
 Solution Bab11(const Matrix& m) {
-    if (m.cohesion() >= BabNode::threshold) {
+    if (m.cohesion() >= BabNode::threshold)
+    {
        return Solution(std::vector<Matrix>(1, m));
     }
-
-    #ifdef DEBUG
-    std::ofstream out("out");
-    #endif
-
     std::set<std::set<int>> branches;
     float z_up = std::numeric_limits<float>::max();
     std::stack<BabNode> stack_of_node;
     stack_of_node.push(BabNode(m, 0.0));
     std::vector<Matrix> incumbent_sol;
     std::vector<BabNode> list_of_curr_nodes;
-    while(!stack_of_node.empty()) {
+    while(!stack_of_node.empty())
+    {
         BabNode current_node = std::move(stack_of_node.top());
-
-        #ifdef DEBUG
-        out << "level: " << current_node.level << " stack: " << stack_of_node.size() << " z_low: "
-            << current_node.z_low << " z_up: " << z_up << "\n" << current_node.matrix << "\n" ;
-        #endif
-
         stack_of_node.pop();
         std::vector<Matrix> node_clusters = current_node.matrix.clusters();
-
-        #ifdef DEBUG
-        out << "clusters: " << node_clusters.size() << "\n";
-        if (node_clusters.size() > 4)
-        {
-            for (auto l : node_clusters)
-            {
-                out << l.cohesion() << " ";
-            }
-            out << "\n";
-        }
-        #endif
-
         list_of_curr_nodes.clear();
         if (is_feasible(node_clusters) && (current_node.z_low < z_up))
         {
@@ -515,24 +488,11 @@ Solution Bab11(const Matrix& m) {
                     BabNode new_node(duplicated, current_node.z_low + 1, current_node.level + 1);
                     new_node.duplicated = current_node.duplicated;
                     new_node.duplicated.insert(current_node.matrix.col_id[id]);
-
-                    #ifdef DEBUG
-                    out << "duplicated: ";
-                    for (auto y : new_node.duplicated)
-                    {
-                        out << y << " ";
-                    }
-                    out << "\n";
-                    #endif
-
                     new_node.calculate_void_measures();
                     list_of_curr_nodes.push_back(std::move(new_node));
                 }
             }
             std::sort(list_of_curr_nodes.rbegin(), list_of_curr_nodes.rend(), void_measures_cmp);
-            #ifdef DEBUG
-            out  << "nodes count: " << list_of_curr_nodes.size() << " brances: " << branches.size() << "\n";
-            #endif
             for (int i = 0; static_cast<ulong>(i) < list_of_curr_nodes.size(); i++)
             {
                 stack_of_node.push(std::move(list_of_curr_nodes[static_cast<ulong>(i)]));
