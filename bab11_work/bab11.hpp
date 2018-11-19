@@ -8,12 +8,14 @@
 
 struct BabNode {
     BabNode();
+    BabNode(const Matrix m, std::set<int> duplicated, float z_low = 0.0, int level = 0);
     BabNode(const Matrix m, float z_low = 0.0, int level = 0);
     BabNode(BabNode&& other);
     BabNode(const BabNode& other);
     ~BabNode();
 
     void     calculate_void_measures();
+    void     sort_void_measures();
     bool     is_duplicatable(float z_up, std::set<std::set<int>>& branches, size_t id);
     BabNode& operator=(BabNode&& other);
 
@@ -26,5 +28,7 @@ struct BabNode {
 };
 
 Solution Bab11(const Matrix& m);
+
+Matrix compression(const Matrix& m);
 
 #endif //SOURCE_BAB11_H

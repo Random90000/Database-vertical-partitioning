@@ -19,12 +19,12 @@ int main()
     {
         in >> m.col_id[i];
     }*/
-    std::cout << m << "\n";
-
-    Solution sol = Bab11(m);
+    voidMeasure(m);
+    std::cout << m;
+    /*Solution sol = Bab11(m);
     for (auto k : sol.clusters)
     {
         std::cout << k << "\n";
-    }
+    }*/
     return 0;
 }

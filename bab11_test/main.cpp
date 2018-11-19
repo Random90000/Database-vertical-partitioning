@@ -56,6 +56,11 @@ void compare_matrix_vectors(const std::vector<Matrix> s1, const std::vector<Matr
 
 void read_and_run_select_minor_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int input_matrix_R    = 0;
     int input_matrix_C    = 0;
     int correct_matrix_R  = 0;
@@ -92,19 +97,19 @@ void read_and_run_select_minor_test(string test_dir) {
 }
 
 TEST(select_minor, 1_1) {
-    read_and_run_select_minor_test("../test_1_1");
+    read_and_run_select_minor_test("../bab11_test/test_1_1");
 }
 
 TEST(select_minor, 1_2) {
-    read_and_run_select_minor_test("../test_1_2");
+    read_and_run_select_minor_test("../bab11_test/test_1_2");
 }
 
 TEST(select_minor, 1_3) {
-    read_and_run_select_minor_test("../test_1_3");
+    read_and_run_select_minor_test("../bab11_test/test_1_3");
 }
 
 TEST(select_minor, 1_4) {
-    read_and_run_select_minor_test("../test_1_4");
+    read_and_run_select_minor_test("../bab11_test/test_1_4");
 }
 
 // input_data format:
@@ -124,6 +129,11 @@ TEST(select_minor, 1_4) {
 
 void read_and_run_select_adjunct_minor_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int input_matrix_R    = 0;
     int input_matrix_C    = 0;
     int correct_matrix_R  = 0;
@@ -159,7 +169,7 @@ void read_and_run_select_adjunct_minor_test(string test_dir) {
 }
 
 TEST(select_adjunct_minor, 2_1){
-    read_and_run_select_adjunct_minor_test("../test_2_1");
+    read_and_run_select_adjunct_minor_test("../bab11_test/test_2_1");
 }
 
 // input_data format:
@@ -183,6 +193,11 @@ TEST(select_adjunct_minor, 2_1){
 
 void read_and_run_binary_split_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int input_matrix_R       = 0;
     int input_matrix_C       = 0;
     int fst_correct_matrix_R = 0;
@@ -225,15 +240,20 @@ void read_and_run_binary_split_test(string test_dir) {
 }
 
 TEST(binary_split, 3_1) {
-    read_and_run_binary_split_test("../test_3_1");
+    read_and_run_binary_split_test("../bab11_test/test_3_1");
 }
 
 TEST(binary_split, 3_2) {
-    read_and_run_binary_split_test("../test_3_2");
+    read_and_run_binary_split_test("../bab11_test/test_3_2");
 }
 
 void read_and_run_merge_clusters_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int matrix_R = 0;
     int matrix_C = 0;
 
@@ -272,19 +292,19 @@ void read_and_run_merge_clusters_test(string test_dir) {
 }
 
 TEST(merge_clusters, 4_1) {
-    read_and_run_merge_clusters_test("../test_4_1");
+    read_and_run_merge_clusters_test("../bab11_test/test_4_1");
 }
 
 TEST(merge_clusters, 4_2) {
-    read_and_run_merge_clusters_test("../test_4_2");
+    read_and_run_merge_clusters_test("../bab11_test/test_4_2");
 }
 
 TEST(merge_clusters, 4_3) {
-    read_and_run_merge_clusters_test("../test_4_3");
+    read_and_run_merge_clusters_test("../bab11_test/test_4_3");
 }
 
 TEST(merge_clusters, 4_4) {
-    read_and_run_merge_clusters_test("../test_4_4");
+    read_and_run_merge_clusters_test("../bab11_test/test_4_4");
 }
 
 //
@@ -293,7 +313,7 @@ TEST(merge_clusters, 4_4) {
 //}
 
 TEST(merge_clusters, 4_6) {
-    read_and_run_merge_clusters_test("../test_4_6");
+    read_and_run_merge_clusters_test("../bab11_test/test_4_6");
 }
 
 // input_data format:
@@ -316,6 +336,11 @@ TEST(merge_clusters, 4_6) {
 
 void read_and_run_duplicate_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int input_matrix_R = 0;
     int input_matrix_C = 0;
     in >> input_matrix_R >> input_matrix_C;
@@ -351,11 +376,11 @@ void read_and_run_duplicate_test(string test_dir) {
 }
 
 TEST(duplicate, 5_1) {
-    read_and_run_duplicate_test("../test_5_1");
+    read_and_run_duplicate_test("../bab11_test/test_5_1");
 }
 
 TEST(duplicate, 5_2) {
-    read_and_run_duplicate_test("../test_5_2");
+    read_and_run_duplicate_test("../bab11_test/test_5_2");
 }
 
 // input_data format:
@@ -383,6 +408,10 @@ TEST(duplicate, 5_2) {
 
 void read_and_run_merge_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
 
     std::vector<Matrix> clusters;
     int number_of_clusters             = 0;
@@ -422,23 +451,23 @@ void read_and_run_merge_test(string test_dir) {
 }
 
 TEST(merge, 6_1) {
-    read_and_run_merge_test("../test_6_1");
+    read_and_run_merge_test("../bab11_test/test_6_1");
 }
 
 TEST(merge, 6_2) {
-    read_and_run_merge_test("../test_6_2");
+    read_and_run_merge_test("../bab11_test/test_6_2");
 }
 
 TEST(merge, 6_3) {
-    read_and_run_merge_test("../test_6_3");
+    read_and_run_merge_test("../bab11_test/test_6_3");
 }
 
 TEST(merge, 6_4) {
-    read_and_run_merge_test("../test_6_4");
+    read_and_run_merge_test("../bab11_test/test_6_4");
 }
 
 TEST(merge, 6_5) {
-    read_and_run_merge_test("../test_6_5");
+    read_and_run_merge_test("../bab11_test/test_6_5");
 }
 
 //TEST(merge, 6_6) {
@@ -448,6 +477,11 @@ TEST(merge, 6_5) {
 
 void read_and_run_bab11_test(string test_dir) {
     ifstream in(test_dir);
+    if (!in.is_open())
+    {
+        std::cerr << "\ninstream is not opened\n";
+    }
+
     int input_matrix_R = 0;
     int input_matrix_C = 0;
 
@@ -464,16 +498,16 @@ void read_and_run_bab11_test(string test_dir) {
     //Solution sol= BAB<Strategy09>(*m,true, BabNode::threshold);
     Solution sol = Bab11(m);
     for (auto i : sol.clusters){
-        std::cout << i << "\n";
+        std::cout << "cohesion: " << i.cohesion() << "\n" << i << "\n";
     }
 }
 
 TEST(bab11, 7_1) {
-    read_and_run_bab11_test("../test_7_1");
+    read_and_run_bab11_test("../bab11_test/test_7_1");
 }
 
 TEST(bab11, 7_2) {
-    read_and_run_bab11_test("../test_7_2");
+    read_and_run_bab11_test("../bab11_test/test_7_2");
 }
 /*
 TEST(bab11, 7_3) {
