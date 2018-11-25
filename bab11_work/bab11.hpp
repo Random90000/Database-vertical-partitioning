@@ -31,4 +31,6 @@ Solution Bab11(const Matrix& m);
 
 Matrix compression(const Matrix& m);
 
+Solution merge(std::vector<Matrix> input_clusters);
+
 #endif //SOURCE_BAB11_H

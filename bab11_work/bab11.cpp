@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-float BabNode::threshold = 0.7;
+float BabNode::threshold = 0.6;
 
 BabNode::BabNode()
     :matrix(Matrix(0,0)), level(0){}
@@ -91,24 +91,13 @@ std::vector<int> voidMeasures(Matrix m){
 }
 
 void BabNode::calculate_void_measures(){
-    std::vector<int> void_measures = voidMeasures(this->matrix); //voidMeasure(this->matrix);
+    std::vector<int> void_measures = voidMeasures(this->matrix);
     this->voids.clear();
-    for (int i = 0; i < this->matrix.C; i++)
-    {
-        this->voids.push_back(std::make_pair(i, void_measures[static_cast<ulong>(i)]));
-    }
+    std::for_each(void_measures.begin(), void_measures.end(), [&,i{0}](auto vm) mutable {voids.push_back({i,vm}); i++;});
 }
 
 void BabNode::sort_void_measures(){
     std::sort(this->voids.begin(),this->voids.end(),[&](const auto p1, const auto p2){return p1.second < p2.second;});
-/*
-    std::cout << this->matrix << "\n";
-    for (auto i : this->voids)
-    {
-        std::cout << " (" << this->matrix.col_id[i.first] + 1 << ", " << i.second << ") ";
-    }
-    std::cout << "\n\n";
-*/
 }
 
 //branches - sets of already duplicated attributes in matrix from Bab11 function; id - verifiable attribute from matrix
@@ -160,20 +149,9 @@ Matrix select_minor(const Matrix& m, const std::vector<bool>& mr, const std::vec
     {
         return Matrix(0,0);
     }
-    for (auto i : mc)
-    {
-        if (i)
-        {
-            cCount++;
-        }
-    }
-    for (auto i : mr)
-    {
-        if (i)
-        {
-            rCount++;
-        }
-    }
+    std::for_each(mc.begin(), mc.end(), [&](auto i){if (i) cCount++;});
+    std::for_each(mr.begin(), mr.end(), [&](auto i){if (i) rCount++;});
+
     Matrix selecting_minor(rCount, cCount);
     int minor_i = 0;
     int minor_j = 0;
@@ -198,14 +176,9 @@ Matrix select_adjunct_minor(const Matrix& m, const std::vector<bool>& mr, const 
     std::vector<bool> orthogonal_mr(0);
     std::vector<bool> orthogonal_mc(0);
 
-    for (auto i : mr)
-    {
-        orthogonal_mr.push_back(!i);
-    }
-    for (auto i : mc)
-    {
-        orthogonal_mc.push_back(!i);
-    }
+    std::for_each(mc.begin(), mc.end(), [&](auto i){orthogonal_mc.push_back(!i);});
+    std::for_each(mr.begin(), mr.end(), [&](auto i){orthogonal_mr.push_back(!i);});
+
     return select_minor(m, orthogonal_mr, orthogonal_mc);
 }
 
@@ -220,7 +193,7 @@ Matrix compression(const Matrix& m){
     {
         compressed.row_id[i] = m.row_id[i];
     }
-    for_each(attributes.begin(), attributes.end(), [&,i{0}](auto it) mutable {compressed.col_id[i] = it.first; i++;});
+    std::for_each(attributes.begin(), attributes.end(), [&,i{0}](auto it) mutable {compressed.col_id[i] = it.first; i++;});
     for (int i = 0; i < m.R; i++)
     {
         for (int j = 0; j < attributes.size(); j++)
@@ -243,10 +216,7 @@ std::pair<Matrix, Matrix> binary_split(const Matrix& m) {
 
     mr[0] = true;
     int rCount = 1;
-    for (int i = 0; i < m.C; i++)
-    {
-        mc[static_cast<ulong>(i)] = m[i][0];
-    }
+    std::for_each(mc.begin(), mc.end(), [&,i{0}](auto val) mutable {val = m[i][0]; i++;});
     bool need_scan = true;
     while (need_scan)
     {
@@ -259,10 +229,7 @@ std::pair<Matrix, Matrix> binary_split(const Matrix& m) {
                 {
                     if (mc[static_cast<ulong>(j)] && m[j][r])
                     {
-                        for (int i = 0; i < m.C; i++)
-                        {
-                            mc[static_cast<ulong>(i)] = mc[static_cast<ulong>(i)] || m[i][r];
-                        }
+                        std::for_each(mc.begin(),mc.end(),[&,i{0}](auto val) mutable {val = val || m[i][r]; i++;});
                         mr[static_cast<ulong>(r)] = true;
                         need_scan                 = true;
                         rCount++;
@@ -386,15 +353,11 @@ bool pair_is_empty(std::pair<int,int> p) {
     return (p.first == -1) && (p.second == -1);
 }
 
-Solution merge(std::vector<Matrix>& input_clusters) {
+Solution merge(std::vector<Matrix> input_clusters) {
     std::pair<int,int> merge_pair = std::make_pair(0,0);
-    float cohesion_max  = 0.0;
-    float cohesion_curr = 0.0;
-    std::vector<Matrix> clusters;
-    for (auto m : input_clusters)
-    {
-        clusters.push_back(Matrix(m));
-    }
+    double cohesion_max  = 0.0;
+    double cohesion_curr = 0.0;
+    std::vector<Matrix> clusters(input_clusters);
 
     while (!pair_is_empty(merge_pair))
     {
@@ -408,11 +371,16 @@ Solution merge(std::vector<Matrix>& input_clusters) {
 
                 Matrix m_current = merge_clusters(clusters[i], clusters[j]);
                 cohesion_curr = m_current.cohesion();
+
+                std::cout << "try curr " << cohesion_curr << " max " << cohesion_max << "\n" << clusters[i] << "\n" << clusters[j] << "\n";
+
                 if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold))
                 {
                     cohesion_max = cohesion_curr;
                     m_max        = m_current;
                     merge_pair   = std::make_pair(i,j);
+
+                    std::cout << "curr max\n" << m_max << "\n";
                 }
             }
         }
@@ -424,6 +392,8 @@ Solution merge(std::vector<Matrix>& input_clusters) {
         clusters.erase(clusters.begin() + std::max(merge_pair.first, merge_pair.second));
         clusters.erase(clusters.begin() + std::min(merge_pair.first, merge_pair.second));
         clusters.push_back(m_max);
+
+        std::cout << "max\n" << m_max << "\n" << "merge_pair " << merge_pair.first << " " << merge_pair.second << " " << pair_is_empty(merge_pair) <<"\n";
     }
     return Solution(clusters);
 }
@@ -507,9 +477,6 @@ Matrix duplicate(Matrix& m, int attribute) {
 }
 
 Solution Bab11(const Matrix& m) {
-
-    std::ofstream out("out");
-
     if (m.cohesion() >= BabNode::threshold)
     {
        return Solution(std::vector<Matrix>(1, m));
@@ -520,6 +487,9 @@ Solution Bab11(const Matrix& m) {
     stack_of_node.push(BabNode(m, 0.0));
     std::vector<Matrix> incumbent_sol;
     std::vector<BabNode> list_of_curr_nodes;
+
+    int nodes_count = 0;
+
     while(!stack_of_node.empty())
     {
         BabNode current_node = std::move(stack_of_node.top());
@@ -527,25 +497,17 @@ Solution Bab11(const Matrix& m) {
         std::vector<Matrix> node_clusters = cluster_identification(current_node.matrix);
         list_of_curr_nodes.clear();
 
-        //std::cout << "! 2\n";
-
-        out << "level:" << current_node.level << "\n" << current_node.matrix << "\nclusters:\n";
-        /*for (auto i : node_clusters)
-        {
-            out << i << "\n";
-        }*/
-
         if (is_feasible(node_clusters) && (current_node.z_low < z_up))
         {
             incumbent_sol = std::move(node_clusters);
             z_up          = current_node.z_low;
 
+            std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
             std::cout << "solution:\n";
             for (auto i : incumbent_sol)
             {
-                std::cout << i << "\n";
+                std::cout << "cohesion: " << i.cohesion() << "\n" << i << "\n";
             }
-            //out << "SOL FOUND z_up: " << z_up << " branches: " << branches.size() << "\n" << current_node.matrix << "\n";
         }
         else
         {
@@ -553,6 +515,7 @@ Solution Bab11(const Matrix& m) {
             {
                 continue;
             }
+            nodes_count++;
             current_node.calculate_void_measures();
             current_node.sort_void_measures();
             std::for_each(current_node.voids.begin(),current_node.voids.end(),
@@ -575,9 +538,15 @@ Solution Bab11(const Matrix& m) {
             }
         }
     }
+    std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
     if (incumbent_sol.size() == 0)
     {
         return Solution({m});
+    }
+    std::cout << "result solution:\n";
+    for (auto i : incumbent_sol)
+    {
+        std::cout << i << "\n";
     }
     return merge(incumbent_sol);
 }
