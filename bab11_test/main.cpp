@@ -535,7 +535,7 @@ Matrix binstring_to_matrix(BinString str, int R, int C)
     return m;
 }
 
-void brut_tests(size_t R, size_t C, std::string out_dir)
+void broot_tests(size_t R, size_t C, std::string out_dir)
 {
     std::ofstream  out(out_dir);
     BinString str(string(R*C, '0'));
@@ -567,7 +567,7 @@ void brut_tests(size_t R, size_t C, std::string out_dir)
 /*
 TEST(bab11, 7_6)
 {
-    brut_tests(10,10,"test_7_6_out");
+    broot_tests(10,10,"test_7_6_out");
 }
 */
 int main(int argc, char *argv[])

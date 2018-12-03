@@ -26,15 +26,10 @@ int main()
         }
         clusters.push_back(m);
     }
-    std::cout << "input\n";
-    for (auto k : clusters)
-    {
-        std::cout << k << "\n";
-    }
-    std::cout << "output\n";
+    std::cout << "input_2\n";
     for (auto k : merge(clusters).clusters)
     {
-        //std::cout << k << "\n";
+        std::cout << k << "\n";
     }
     /*Solution sol = Bab11(m);
     for (auto k : sol.clusters)

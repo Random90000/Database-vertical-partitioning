@@ -6,29 +6,24 @@
 float BabNode::threshold = 0.6;
 
 BabNode::BabNode()
-    :matrix(Matrix(0,0)), level(0){}
+    :matrix(Matrix(0,0)){}
 
-BabNode::BabNode(const Matrix m, std::set<int> duplicated, float z_low, int level)
-    :matrix(m), duplicated(duplicated), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)), level(level){}
-
-BabNode::BabNode(const Matrix m, float z_low, int level)
-    :matrix(m), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)), level(level){}
+BabNode::BabNode(const Matrix m, float z_low, size_t max_duplicated_id)
+    :matrix(m), max_duplicated_id(max_duplicated_id), z_low(z_low), voids(std::vector<std::pair<size_t,int>>(0)){}
 
 BabNode::BabNode(BabNode&& other)
-    :matrix(other.matrix), z_low(other.z_low),
-     voids(other.voids), duplicated(other.duplicated), level(other.level){}
+    :matrix(std::move(other.matrix)), max_duplicated_id(other.max_duplicated_id), z_low(other.z_low), voids(std::move(other.voids)){}
 
 BabNode::BabNode(const BabNode& other)
-    :matrix(other.matrix), z_low(other.z_low), voids(other.voids), duplicated(other.duplicated), level(other.level){}
+    :matrix(other.matrix), max_duplicated_id(other.max_duplicated_id), z_low(other.z_low), voids(other.voids){}
 
 BabNode::~BabNode(){}
 
 BabNode& BabNode::operator=(BabNode&& other){
-    this->matrix     = other.matrix;
-    this->z_low      = other.z_low;
-    this->voids      = other.voids;
-    this->duplicated = other.duplicated;
-    this->level      = other.level;
+    this->matrix            = std::move(other.matrix);
+    this->z_low             = other.z_low;
+    this->voids             = std::move(other.voids);
+    this->max_duplicated_id = other.max_duplicated_id;
     return *this;
 }
 
@@ -101,44 +96,29 @@ void BabNode::sort_void_measures(){
 }
 
 //branches - sets of already duplicated attributes in matrix from Bab11 function; id - verifiable attribute from matrix
-bool BabNode::is_duplicatable(float z_up, std::set<std::set<int>>& branches, size_t id) {
-    if (this->z_low  >= z_up)
+
+bool BabNode::is_duplicatable(float z_up, size_t id) {
+
+    //std::cout << "try: " << this->z_low << " " << id << "\n" << this->matrix << "\n";
+
+    if ((this->z_low  >= z_up) || (id < this->max_duplicated_id))
     {
         return false;
     }
-    int attribute = this->matrix.col_id[id];
-    if (this->duplicated.find(attribute) != this->duplicated.end())
+    int count = 0;
+    for (int i = 0; i < this->matrix.R; i++)
+    {
+        if (this->matrix[static_cast<int>(id)][i] == 1)
+        {
+            count++;
+        }
+    }
+    if (count < 2)
     {
         return false;
     }
-    this->duplicated.insert(attribute);
-    if (branches.find(this->duplicated) != branches.end())
-    {
-        this->duplicated.erase(attribute);
-        return false;
-    }
-    else
-    {
-        int count = 0;
-        for (int i = 0; i < this->matrix.R; i++)
-        {
-            if (this->matrix[static_cast<int>(id)][i] == 1)
-            {
-                count++;
-            }
-        }
-        if (count < 2)
-        {
-            this->duplicated.erase(attribute);
-            return false;
-        }
-        else
-        {
-            branches.insert(this->duplicated);
-            this->duplicated.erase(attribute);
-            return true;
-        }
-    }
+    //std::cout << "ok\n";
+    return true;
 }
 
 Matrix select_minor(const Matrix& m, const std::vector<bool>& mr, const std::vector<bool>& mc) {
@@ -188,7 +168,7 @@ Matrix compression(const Matrix& m){
     {
         attributes[m.col_id[i]].insert(i);
     }
-    Matrix compressed(m.R, attributes.size());
+    Matrix compressed(m.R, static_cast<int>(attributes.size()));
     for (int i = 0; i < m.R; i++)
     {
         compressed.row_id[i] = m.row_id[i];
@@ -196,7 +176,7 @@ Matrix compression(const Matrix& m){
     std::for_each(attributes.begin(), attributes.end(), [&,i{0}](auto it) mutable {compressed.col_id[i] = it.first; i++;});
     for (int i = 0; i < m.R; i++)
     {
-        for (int j = 0; j < attributes.size(); j++)
+        for (int j = 0; j < static_cast<int>(attributes.size()); j++)
         {
             compressed[j][i] = 0;
             auto set_it = attributes[compressed.col_id[j]];
@@ -355,32 +335,32 @@ bool pair_is_empty(std::pair<int,int> p) {
 
 Solution merge(std::vector<Matrix> input_clusters) {
     std::pair<int,int> merge_pair = std::make_pair(0,0);
-    double cohesion_max  = 0.0;
-    double cohesion_curr = 0.0;
+    float cohesion_max  = BabNode::threshold;
+    float cohesion_curr = 0.0;
     std::vector<Matrix> clusters(input_clusters);
 
     while (!pair_is_empty(merge_pair))
     {
         Matrix m_max(0,0);
-        merge_pair    = std::make_pair(-1,-1);
-        cohesion_curr = 0.0;
+        merge_pair   = std::make_pair(-1,-1);
+        cohesion_max = BabNode::threshold;
         for (size_t i = 0; i < clusters.size(); i++)
         {
             for (size_t j = i + 1; j < clusters.size(); j++)
             {
 
                 Matrix m_current = merge_clusters(clusters[i], clusters[j]);
-                cohesion_curr = m_current.cohesion();
+                cohesion_curr    = m_current.cohesion();
 
-                std::cout << "try curr " << cohesion_curr << " max " << cohesion_max << "\n" << clusters[i] << "\n" << clusters[j] << "\n";
+                //std::cout << "try curr " << cohesion_curr << " max " << cohesion_max << "\n" << clusters[i] << "\n" << clusters[j] << "\n";
 
-                if ((cohesion_curr >= cohesion_max) && (cohesion_curr >= BabNode::threshold))
+                if (cohesion_curr >= cohesion_max)
                 {
                     cohesion_max = cohesion_curr;
                     m_max        = m_current;
                     merge_pair   = std::make_pair(i,j);
 
-                    std::cout << "curr max\n" << m_max << "\n";
+                    //std::cout << "curr max\n" << m_max << "\n";
                 }
             }
         }
@@ -477,6 +457,9 @@ Matrix duplicate(Matrix& m, int attribute) {
 }
 
 Solution Bab11(const Matrix& m) {
+
+    std::ofstream out("out");
+
     if (m.cohesion() >= BabNode::threshold)
     {
        return Solution(std::vector<Matrix>(1, m));
@@ -488,6 +471,8 @@ Solution Bab11(const Matrix& m) {
     std::vector<Matrix> incumbent_sol;
     std::vector<BabNode> list_of_curr_nodes;
 
+    int max_z = 0;
+
     int nodes_count = 0;
 
     while(!stack_of_node.empty())
@@ -497,16 +482,27 @@ Solution Bab11(const Matrix& m) {
         std::vector<Matrix> node_clusters = cluster_identification(current_node.matrix);
         list_of_curr_nodes.clear();
 
+        if (current_node.z_low > max_z)
+        {
+            std::cout << "max: " << current_node.z_low << "\n";
+            max_z = current_node.z_low;
+        }
+
+        //out << "level: " <<  current_node.z_low << " duplicated: " << current_node.max_duplicated_id <<  " matrix:\n" << current_node.matrix << "\n";
+        //for (auto k : node_clusters)
+        //{
+        //    out << k << "\n";
+        //}
+
         if (is_feasible(node_clusters) && (current_node.z_low < z_up))
         {
             incumbent_sol = std::move(node_clusters);
             z_up          = current_node.z_low;
-
-            std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
+            //std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
             std::cout << "solution:\n";
             for (auto i : incumbent_sol)
             {
-                std::cout << "cohesion: " << i.cohesion() << "\n" << i << "\n";
+                std::cout << "cohesion: " << i.cohesion() << " z_low " << current_node.z_low << "\n" << i << "\n";
             }
         }
         else
@@ -518,16 +514,23 @@ Solution Bab11(const Matrix& m) {
             nodes_count++;
             current_node.calculate_void_measures();
             current_node.sort_void_measures();
+            /*std::cout << "voids: ";
+            for (auto l : current_node.voids)
+            {
+                std::cout << l.first << "," << l.second << " ";
+            }
+            std::cout << "\n";*/
             std::for_each(current_node.voids.begin(),current_node.voids.end(),
                           [&](auto p){
                               size_t id = p.first;
-                              if (current_node.is_duplicatable(z_up, branches, id))
+                              if (current_node.is_duplicatable(z_up, id))
                               {
                                   BabNode new_node(duplicate(current_node.matrix, static_cast<int>(id)),
-                                                   current_node.duplicated,
                                                    current_node.z_low + 1,
-                                                   current_node.level + 1);
-                                  new_node.duplicated.insert(current_node.matrix.col_id[id]);
+                                                   id
+                                                   //current_node.duplicated,
+                                                   );
+                                  //new_node.duplicated.insert(current_node.matrix.col_id[id]);
                                   list_of_curr_nodes.push_back(new_node);
                               }
                             }
@@ -538,7 +541,8 @@ Solution Bab11(const Matrix& m) {
             }
         }
     }
-    std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
+    std::cout << "nodes_count " << nodes_count << "\n";
+    //std::cout << "branches size: " << branches.size() << " nodes_count: " << nodes_count << "\n";
     if (incumbent_sol.size() == 0)
     {
         return Solution({m});
