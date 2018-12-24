@@ -21,7 +21,6 @@ struct BabNode {
     Matrix                             matrix;
     static float                       threshold;
     size_t                             max_duplicated_id;
-    //std::set<int>                      duplicated;
     float                              z_low;
     std::vector<std::pair<size_t,int>> voids;//<column, void_measure>
 };
