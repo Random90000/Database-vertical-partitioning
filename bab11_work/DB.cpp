@@ -3,7 +3,6 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-#include <tuple>
 
 #include "DB.hpp"
 #include "util.hpp"
@@ -42,7 +41,7 @@ float DB::timeExecution(string query){
     if(exec){
         pqxx::work work(conn);
         float sum = 0;
-        int iterations_count = 10;
+        int iterations_count = 5;
         for (int i = 0; i < iterations_count; i++)
         {
             auto start = chrono::system_clock::now();
@@ -63,7 +62,6 @@ void DB::delete_tables(std::vector<std::string> tables){
     pqxx::work work(conn);
     for (auto t : tables)
     {
-        std::cout << "DROP TABLE " + t << "\n";
         work.exec("DROP TABLE " + t);
     }
     work.commit();

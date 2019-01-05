@@ -1,4 +1,4 @@
-CREATE TABLE "public"."apogeeStar" ( 
+CREATE TABLE "public"."apogeestar" ( 
 "apstar_id" CHARACTER VARYING( 64 ) NOT NULL,
 "target_id" CHARACTER VARYING( 64 ) NOT NULL,
 "file" CHARACTER VARYING( 2044 ) NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE "public"."aspcapStar" ( 
+CREATE TABLE "public"."aspcapstar" ( 
 "apstar_id" varchar,
 "target_id" varchar,
 "aspcap_id" varchar,
