@@ -1,4 +1,0 @@
-apogeestar.apogee_id apogeestar.ra apogeestar.dec apogeestar.glon apogeestar.glat apogeestar.vhelio_avg apogeestar.vscatter : SELECT apogeestar.apogee_id, apogeestar.ra, apogeestar.dec, apogeestar.glon, apogeestar.glat, apogeestar.vhelio_avg, apogeestar.vscatter FROM apogeestar;
-apogeestar.glat apogeestar.vscatter apogeestar.apogee_id apogeestar.rv_teff : SELECT apogeestar.glat, apogeestar.vscatter, apogeestar.apogee_id, apogeestar.rv_teff FROM apogeestar; 
-apogeestar.ra apogeestar.dec apogeestar.glon apogeestar.verr apogeestar.snr : SELECT apogeestar.ra, apogeestar.dec, apogeestar.glon, apogeestar.verr, apogeestar.snr FROM apogeestar;
-apogeestar.verr apogeestar.snr apogeestar.apogee_id apogeestar.ra apogeestar.dec : SELECT apogeestar.verr, apogeestar.snr, apogeestar.apogee_id, apogeestar.ra, apogeestar.dec FROM apogeestar;
