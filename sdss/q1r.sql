@@ -1,0 +1,1 @@
+select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1and (star_test_0.l between 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6;

@@ -1,0 +1,1 @@
+SELECT star_test_1.objid FROM star_test_1 WHERE ((star_test_1.u - star_test_1.g) < 0.4 ) and (star_test_1.g - star_test_1.r) < 0.7 and (star_test_1.r - star_test_1.i) > 0.4 and (star_test_1.i - star_test_1.z) > 0.4;

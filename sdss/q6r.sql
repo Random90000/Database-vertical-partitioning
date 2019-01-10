@@ -1,0 +1,1 @@
+SELECT star_test_2.ra FROM star_test_2 WHERE star_test_2.modelmag_r > 0 and star_test_2.modelmag_r < 21 and star_test_2.ra < 205.446972452536 and star_test_2.ra > 203.2108728477 and star_test_2.dec > 9.860958219299748 and star_test_2.dec < 11.62881354954442 order by star_test_2.modelmag_r limit 999;

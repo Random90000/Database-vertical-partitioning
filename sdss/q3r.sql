@@ -1,0 +1,1 @@
+select count(*) from star_test_2 where star_test_2.ra between 129 and 131 and star_test_2.dec between 19 and 21 and -log(0.25*exp(-star_test_2.modelmag_u)+0.5*exp(-star_test_2.modelmag_g)+0.25*exp(-star_test_2.modelmag_r)) < 13.0;

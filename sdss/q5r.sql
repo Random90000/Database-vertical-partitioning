@@ -1,0 +1,1 @@
+SELECT star_test_3.ra, star_test_3.dec, star_test_3.psfmag_g, star_test_3.psfmag_g -star_test_3.psfmag_r, star_test_3.skyivar_g, star_test_3.skyivar_i from star_test_3 where star_test_3.ra between 140 and 141 and star_test_3.dec between 20 and 21 and star_test_3.psfmag_g- star_test_3.psfmag_r between 0.2 and 0.8 and star_test_3.psfmag_u < 16;

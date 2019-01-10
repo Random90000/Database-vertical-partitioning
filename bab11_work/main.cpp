@@ -150,7 +150,9 @@ int main(int argc, char* argv[]){
         // print out some info about the table
         const vector<string>& columns = table.columns();
         const vector<string>& primary = table.primary_column();
-        bool hasPrimary = primary.size();
+        bool  hasPrimary              = primary.size();
+        float not_clusterized_time    = 0;
+        float clusterized_time        = 0;
         if(hasPrimary){
             cout << "Primary columns: " << join(primary, " ") << endl;
         } else cout << "No primary column, won't be able to partition correctly" << endl;
@@ -170,7 +172,9 @@ int main(int argc, char* argv[]){
         if(EXEC_QUERIES){
             cout << "Running queries:" << endl;
             for(auto& q : queries){
-                cout << q << endl; cout << " : " << database.timeExecution(q) << endl;
+                auto t = database.timeExecution(q);
+                cout << q << endl; cout << " : " << t << endl;
+                not_clusterized_time += t;
             }
         }
 
@@ -316,10 +320,13 @@ int main(int argc, char* argv[]){
         if(EXEC_QUERIES){
             cout << "Running queries:" << endl;
             for(auto& q : new_queries){
-                cout << q << endl; cout << " : " << database.timeExecution(q) << endl;
+                auto t = database.timeExecution(q);
+                cout << q << endl; cout << " : " << t << endl;
+                clusterized_time += t;
             }
         }
         database.delete_tables(new_tables);
+        cout << "TOTAL NOT CLUSTERIZED TIME : " << not_clusterized_time << "\nTOTAL CLUSTERIZED TIME     : " << clusterized_time << "\n"; 
     } catch (pqxx::broken_connection){
         cerr << "Failed to connect to the database" << endl;
     } catch (NoSuchTable){

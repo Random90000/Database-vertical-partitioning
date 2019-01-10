@@ -60,6 +60,13 @@ float DB::timeExecution(string query){
 
 void DB::delete_tables(std::vector<std::string> tables){
     pqxx::work work(conn);
+    pqxx::result r = work.exec("SELECT table_name, pg_total_relation_size(quote_ident(table_name))"
+                               "FROM information_schema.tables WHERE table_schema = 'public' ORDER BY 2;");
+    cout << "TABLES SIZE: \n";
+    for (pqxx::result::size_type i=0; i < r.size(); ++i)
+    {
+        cout << r[i]["table_name"] << " " << r[i]["pg_total_relation_size"] << "\n";
+    }
     for (auto t : tables)
     {
         work.exec("DROP TABLE " + t);
