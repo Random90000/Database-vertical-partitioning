@@ -1,0 +1,18 @@
+                                                                                                                                                    QUERY PLAN                                                                                                                                                    
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=170332.32..170332.78 rows=4 width=12) (actual time=330.949..332.415 rows=999 loops=1)
+   ->  Gather Merge  (cost=170332.32..170332.78 rows=4 width=12) (actual time=330.948..332.360 rows=999 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Sort  (cost=169332.29..169332.30 rows=2 width=12) (actual time=324.725..324.740 rows=333 loops=3)
+               Sort Key: modelmag_r
+               Sort Method: quicksort  Memory: 40kB
+               Worker 0:  Sort Method: quicksort  Memory: 40kB
+               Worker 1:  Sort Method: quicksort  Memory: 40kB
+               ->  Parallel Seq Scan on star  (cost=0.00..169332.28 rows=2 width=12) (actual time=106.291..324.625 rows=333 loops=3)
+                     Filter: ((modelmag_r > '0'::double precision) AND (modelmag_r < '21'::double precision) AND (ra < '205.446972452536'::double precision) AND (ra > '203.2108728477'::double precision) AND ("dec" > '9.86095821929975'::double precision) AND ("dec" < '11.6288135495444'::double precision))
+                     Rows Removed by Filter: 163867
+ Planning Time: 0.284 ms
+ Execution Time: 332.544 ms
+(14 строк)
+

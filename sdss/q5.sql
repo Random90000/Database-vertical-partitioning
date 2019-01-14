@@ -1,1 +1,1 @@
-  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g - star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16;
+explain analyze  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g - star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16;

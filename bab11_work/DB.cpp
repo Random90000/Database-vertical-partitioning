@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <fstream>
+#include "cstdlib"
+#include <unistd.h>
 
 #include "DB.hpp"
 #include "util.hpp"
@@ -39,17 +42,27 @@ vector<string> DB::primary_column(string table){
 
 float DB::timeExecution(string query){
     if(exec){
-        pqxx::work work(conn);
         float sum = 0;
-        int iterations_count = 5;
+        int iterations_count = 10;    
         for (int i = 0; i < iterations_count; i++)
         {
+            //this->conn.pqxx::connection::~basic_connection();
+            this->conn.deactivate();
+            auto sys = system("service postgresql restart");
+            //auto sys = system("sudo -u postgres psql -c \"select pg_stat_reset();select pg_stat_statements_reset();\"");
+            std::ofstream("/proc/sys/vm/drop_caches") << 3;
+            this->conn.activate();
+            pqxx::work work(conn);
+            auto disable_parallelism = work.exec(" set max_parallel_workers_per_gather to 0;");
+            //auto drop_stat = work.exec("select pg_stat_reset();select pg_stat_statements_reset();");
             auto start = chrono::system_clock::now();
             auto res = work.exec(query);
-            sum += chrono::duration_cast<chrono::milliseconds>
+            auto t = chrono::duration_cast<chrono::milliseconds>
                        (chrono::system_clock::now() - start).count();
+            std::cout << "  " << t << "\n"; 
+            sum += t;
+            work.commit(); 
         }
-        work.abort(); // we don't want our data changed, it's just to measure time
         return sum/iterations_count;
     }
     else
@@ -58,15 +71,23 @@ float DB::timeExecution(string query){
     }
 }
 
-void DB::delete_tables(std::vector<std::string> tables){
+std::vector<long> DB::execute_memory_cost(std::vector<std::string> tables){
+    std::vector<long> tables_size;
     pqxx::work work(conn);
     pqxx::result r = work.exec("SELECT table_name, pg_total_relation_size(quote_ident(table_name))"
-                               "FROM information_schema.tables WHERE table_schema = 'public' ORDER BY 2;");
+                               "FROM information_schema.tables WHERE table_schema = 'public' ORDER BY 1;");
     cout << "TABLES SIZE: \n";
     for (pqxx::result::size_type i=0; i < r.size(); ++i)
     {
         cout << r[i]["table_name"] << " " << r[i]["pg_total_relation_size"] << "\n";
+        tables_size.push_back(std::atol(r[i]["pg_total_relation_size"].c_str()));
     }
+    work.commit();
+    return tables_size;
+}
+
+void DB::delete_tables(std::vector<std::string> tables){
+    pqxx::work work(conn);
     for (auto t : tables)
     {
         work.exec("DROP TABLE " + t);

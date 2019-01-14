@@ -1,0 +1,12 @@
+                                                                                          QUERY PLAN                                                                                          
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..169306.52 rows=5 width=56) (actual time=6459.265..8843.687 rows=362 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..168306.02 rows=2 width=56) (actual time=6380.652..8763.319 rows=121 loops=3)
+         Filter: ((ra >= '162.446533'::double precision) AND (ra <= '162.646533'::double precision) AND ("dec" >= '-0.109789'::double precision) AND ("dec" <= '0.090211'::double precision))
+         Rows Removed by Filter: 164080
+ Planning Time: 0.297 ms
+ Execution Time: 8843.728 ms
+(8 строк)
+

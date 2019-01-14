@@ -1,0 +1,9 @@
+                                                   QUERY PLAN                                                   
+----------------------------------------------------------------------------------------------------------------
+ Seq Scan on star  (cost=0.00..170358.54 rows=183789 width=44) (actual time=0.013..953.189 rows=184338 loops=1)
+   Filter: (g < '21.2'::double precision)
+   Rows Removed by Filter: 308263
+ Planning Time: 0.155 ms
+ Execution Time: 958.703 ms
+(5 строк)
+

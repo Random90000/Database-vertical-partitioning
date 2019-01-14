@@ -21,11 +21,6 @@ struct Matrix {
     Matrix& operator=(const Matrix&) noexcept;
 
     ~Matrix(){
-
-       //std::cout << "Matrix: destructor " << this->R << " "
-       //          << " " << this->C << "\n" << this << "\n"
-       //        << *this << "\n";
-
         delete [] elements; 
         delete [] row_id;
         delete [] col_id;

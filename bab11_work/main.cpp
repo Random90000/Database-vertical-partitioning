@@ -5,6 +5,7 @@
 #include <string>
 #include <unistd.h>
 #include <utility>
+#include <iomanip>
 
 #include "DB.hpp"
 #include "matrix.hpp"
@@ -151,8 +152,8 @@ int main(int argc, char* argv[]){
         const vector<string>& columns = table.columns();
         const vector<string>& primary = table.primary_column();
         bool  hasPrimary              = primary.size();
-        float not_clusterized_time    = 0;
-        float clusterized_time        = 0;
+        float not_clusterized_summary_time    = 0;
+        float clusterized_summary_time        = 0;
         if(hasPrimary){
             cout << "Primary columns: " << join(primary, " ") << endl;
         } else cout << "No primary column, won't be able to partition correctly" << endl;
@@ -169,12 +170,15 @@ int main(int argc, char* argv[]){
             file.close();
         }
         
+        std::vector<float> not_clusterized_time;
         if(EXEC_QUERIES){
             cout << "Running queries:" << endl;
             for(auto& q : queries){
+                cout << q << endl;
                 auto t = database.timeExecution(q);
-                cout << q << endl; cout << " : " << t << endl;
-                not_clusterized_time += t;
+                cout << " : " << t << endl;
+                not_clusterized_time.push_back(t);
+                not_clusterized_summary_time += t;
             }
         }
 
@@ -195,6 +199,7 @@ int main(int argc, char* argv[]){
 
         // clusterize
         vector<vector<string>> clusters;
+        std::map<int,std::pair<int,float>> clusterized_time;
         {
             Solution output;
             // run the chosen algorithm
@@ -271,6 +276,7 @@ int main(int argc, char* argv[]){
                     queries[output.clusters[i].row_id[j]].
                         used_clusters[i] = clusters[i];
                     cout << output.clusters[i].row_id[j] << ' ' << i << endl;
+                    clusterized_time[output.clusters[i].row_id[j]] = {i + 1,0.};
                 }
                 // if replicating, we are done
                 // if using a separate cluster, we go through the queries
@@ -319,14 +325,36 @@ int main(int argc, char* argv[]){
         cout << "Done" << endl;
         if(EXEC_QUERIES){
             cout << "Running queries:" << endl;
-            for(auto& q : new_queries){
+            auto it = clusterized_time.begin();
+            for(auto q : new_queries)
+            {
+                cout << q << endl;
                 auto t = database.timeExecution(q);
-                cout << q << endl; cout << " : " << t << endl;
-                clusterized_time += t;
+                cout << " : " << t << endl;
+                it->second.second = t;
+                clusterized_summary_time += t;
+                it++;
             }
         }
+        std::vector<long> tables_size = database.execute_memory_cost(new_tables);
         database.delete_tables(new_tables);
-        cout << "TOTAL NOT CLUSTERIZED TIME : " << not_clusterized_time << "\nTOTAL CLUSTERIZED TIME     : " << clusterized_time << "\n"; 
+        cout << "TOTAL NOT CLUSTERIZED:\n TIME : " << not_clusterized_summary_time << "\n MEMORY COEFFICIENT: sum(";
+        long long memory_coefficient = 0;
+        std::transform(not_clusterized_time.begin(), not_clusterized_time.end(), std::ostream_iterator<std::string> (cout," "),
+                               [&](int time){
+                                   long memory = tables_size[0];
+                                   memory_coefficient += memory/time;
+                                   return std::to_string(memory) + "/" + std::to_string(time);});
+        cout << ") = " << memory_coefficient << "\nTOTAL CLUSTERIZED:\n TIME : " << clusterized_summary_time << "\n MEMORY COEFFICIENT: sum(";
+        memory_coefficient = 0; 
+        tables_size.erase(tables_size.begin());
+        std::transform(clusterized_time.begin(), clusterized_time.end(), std::ostream_iterator<std::string> (cout," "),
+                               [&](std::pair<int,std::pair<int,float>> p){
+                                   int memory = tables_size[p.second.first-1];
+                                   int time   = p.second.second;
+                                   memory_coefficient += memory/time;
+                                   return std::to_string(memory) + "/" + std::to_string(time);});
+        cout << ") = " << memory_coefficient << "\n"; 
     } catch (pqxx::broken_connection){
         cerr << "Failed to connect to the database" << endl;
     } catch (NoSuchTable){

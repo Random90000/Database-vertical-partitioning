@@ -1,0 +1,105 @@
+PLAN                                                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..170332.38 rows=1 width=36) (actual time=322.459..323.885 rows=3 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..169332.28 rows=1 width=36) (actual time=308.106..320.189 rows=1 loops=3)
+         Filter: ((l >= '150.055'::double precision) AND (l <= '150.058'::double precision) AND (b >= '-12.087'::double precision) AND (b <= '-12.085'::double precision) AND (clean = 1) AND (type = 6))
+         Rows Removed by Filter: 164199
+ Planning Time: 0.250 ms
+ Execution Time: 323.924 ms
+(8 строк)
+
+                                                   QUERY PLAN                                                   
+----------------------------------------------------------------------------------------------------------------
+ Seq Scan on star  (cost=0.00..170358.54 rows=183789 width=44) (actual time=0.013..953.189 rows=184338 loops=1)
+   Filter: (g < '21.2'::double precision)
+   Rows Removed by Filter: 308263
+ Planning Time: 0.155 ms
+ Execution Time: 958.703 ms
+(5 строк)
+
+                                                                                                                                                                                                                 QUERY PLAN                                                                                                                                                                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Finalize Aggregate  (cost=178029.43..178029.44 rows=1 width=8) (actual time=320.132..320.132 rows=1 loops=1)
+   ->  Gather  (cost=178029.21..178029.42 rows=2 width=8) (actual time=320.027..321.567 rows=3 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Partial Aggregate  (cost=177029.21..177029.22 rows=1 width=8) (actual time=314.650..314.650 rows=1 loops=3)
+               ->  Parallel Seq Scan on star  (cost=0.00..177029.20 rows=4 width=0) (actual time=31.446..314.640 rows=48 loops=3)
+                     Filter: ((ra >= '129'::double precision) AND (ra <= '131'::double precision) AND ("dec" >= '19'::double precision) AND ("dec" <= '21'::double precision) AND ((- log(((('0.25'::double precision * exp(((- modelmag_u))::double precision)) + ('0.5'::double precision * exp(((- modelmag_g))::double precision))) + ('0.25'::double precision * exp(((- modelmag_r))::double precision))))) < '13'::double precision))
+                     Rows Removed by Filter: 164152
+ Planning Time: 0.340 ms
+ Execution Time: 321.704 ms
+(10 строк)
+
+                                                                            QUERY PLAN                                                                             
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..171632.52 rows=23265 width=40) (actual time=33.532..336.004 rows=100092 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..168306.02 rows=9694 width=40) (actual time=31.570..324.386 rows=33364 loops=3)
+         Filter: ((ra >= '140'::double precision) AND (ra <= '145'::double precision) AND ("dec" >= '20'::double precision) AND ("dec" <= '25'::double precision))
+         Rows Removed by Filter: 130836
+ Planning Time: 0.221 ms
+ Execution Time: 340.487 ms
+(8 строк)
+
+                                                                                                                                                       QUERY PLAN                                                                                                                                                        
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..171871.77 rows=1 width=32) (actual time=42.831..319.417 rows=160 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..170871.67 rows=1 width=32) (actual time=47.235..315.866 rows=53 loops=3)
+         Filter: ((ra >= '140'::double precision) AND (ra <= '141'::double precision) AND ("dec" >= '20'::double precision) AND ("dec" <= '21'::double precision) AND (psfmag_u < '16'::double precision) AND ((psfmag_g - psfmag_r) >= '0.2'::double precision) AND ((psfmag_g - psfmag_r) <= '0.8'::double precision))
+         Rows Removed by Filter: 164147
+ Planning Time: 0.170 ms
+ Execution Time: 319.456 ms
+(8 строк)
+
+                                                                                                                                                    QUERY PLAN                                                                                                                                                    
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=170332.32..170332.78 rows=4 width=12) (actual time=330.949..332.415 rows=999 loops=1)
+   ->  Gather Merge  (cost=170332.32..170332.78 rows=4 width=12) (actual time=330.948..332.360 rows=999 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         ->  Sort  (cost=169332.29..169332.30 rows=2 width=12) (actual time=324.725..324.740 rows=333 loops=3)
+               Sort Key: modelmag_r
+               Sort Method: quicksort  Memory: 40kB
+               Worker 0:  Sort Method: quicksort  Memory: 40kB
+               Worker 1:  Sort Method: quicksort  Memory: 40kB
+               ->  Parallel Seq Scan on star  (cost=0.00..169332.28 rows=2 width=12) (actual time=106.291..324.625 rows=333 loops=3)
+                     Filter: ((modelmag_r > '0'::double precision) AND (modelmag_r < '21'::double precision) AND (ra < '205.446972452536'::double precision) AND (ra > '203.2108728477'::double precision) AND ("dec" > '9.86095821929975'::double precision) AND ("dec" < '11.6288135495444'::double precision))
+                     Rows Removed by Filter: 163867
+ Planning Time: 0.284 ms
+ Execution Time: 332.544 ms
+(14 строк)
+
+                                                                                  QUERY PLAN                                                                                   
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..171966.74 rows=6082 width=8) (actual time=1.424..368.821 rows=111875 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..170358.54 rows=2534 width=8) (actual time=16.052..357.032 rows=37292 loops=3)
+         Filter: (((u - g) < '0.4'::double precision) AND ((g - r) < '0.7'::double precision) AND ((r - i) > '0.4'::double precision) AND ((i - z) > '0.4'::double precision))
+         Rows Removed by Filter: 126909
+ Planning Time: 0.136 ms
+ Execution Time: 372.708 ms
+(8 строк)
+
+                                                                                          QUERY PLAN                                                                                          
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..169306.42 rows=4 width=56) (actual time=161.625..318.570 rows=362 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on star  (cost=0.00..168306.02 rows=2 width=56) (actual time=159.565..314.846 rows=121 loops=3)
+         Filter: ((ra >= '162.446533'::double precision) AND (ra <= '162.646533'::double precision) AND ("dec" >= '-0.109789'::double precision) AND ("dec" <= '0.090211'::double precision))
+         Rows Removed by Filter: 164080
+ Planning Time: 0.195 ms
+ Execution Time: 318.633 ms
+(8 строк)
+
+
+
+
+

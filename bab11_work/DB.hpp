@@ -1,4 +1,5 @@
 #include <pqxx/connection>
+#include <pqxx/connection_base>
 #include <pqxx/transaction>
 #include <pqxx/result>
 #include <string>
@@ -8,18 +9,26 @@
 struct NoSuchTable {};
 
 class DB {
+    
+public:
+std::string connection_string;
     pqxx::connection conn;
     bool exec;
-public:
     DB(std::string connection_string, bool exec_queries)
-        :conn(connection_string),
+        :connection_string(connection_string),
+         conn(connection_string),
          exec(exec_queries){}
+    DB(DB& other)
+        :connection_string(other.connection_string),
+         conn(other.connection_string),
+         exec(other.exec){}
     ~DB();
 
     std::vector<std::string> columns(std::string table);
     std::vector<std::string> primary_column(std::string table);
     float timeExecution(std::string query);
     void delete_tables(std::vector<std::string> tables);
+    std::vector<long> execute_memory_cost(std::vector<std::string> tables);
     friend class Table;
 };
 
