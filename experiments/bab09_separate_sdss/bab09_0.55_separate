@@ -1,0 +1,512 @@
+Primary columns: objid
+Number of other columns: 508
+Running queries:
+Matrix:
+   9 10 48 50 52 53 54 55 56 57 58 59 60 61 322 323 324 417 418 424 425 436 437 438 467 468 469 470 471
+1: 1  1  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   0   0   1   1   1   1   1   0   0   0   0   0
+2: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   1   1   1   1   1
+3: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   1   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+4: 0  0  1  0  0  0  0  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   1   1   1   1   1
+5: 0  0  1  1  1  1  1  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0
+6: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   1   1   1   0   0   0   0   0   0   0   0   0   0
+7: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   0   0   0   0   0   0   0   1   1   1   1   1
+8: 0  0  0  0  1  1  1  1  1  1  1  1  1  1   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0
+
+Intercluster:
+48: skyivar_g
+417: ra
+418: dec
+Submatrices:
+   9 10 424 425 436 437 438
+1: 1  1   1   1   1   1   1
+
+   48 417 418 467 468 469 470 471
+2:  0   1   1   1   1   1   1   1
+4:  1   1   1   1   1   1   1   1
+7:  0   0   0   1   1   1   1   1
+
+   50 52 53 54 55 56 57 58 59 60 61
+5:  1  1  1  1  0  0  0  0  0  0  0
+8:  0  1  1  1  1  1  1  1  1  1  1
+
+   322 323 324
+3:   1   1   1
+6:   0   0   1
+
+0 0
+1 1
+3 1
+6 1
+4 2
+7 2
+2 3
+5 3
+Clusters:
+type clean b l extinction_u extinction_g extinction_r 
+u g r i z 
+skyivar_i psfmag_u psfmag_g psfmag_r psfmag_i psfmag_z psfmagerr_u psfmagerr_g psfmagerr_r psfmagerr_i psfmagerr_z 
+modelmag_u modelmag_g modelmag_r 
+skyivar_g ra dec 
+Partitioning...
+SELECT objid, type, clean, b, l, extinction_u, extinction_g, extinction_r INTO star_test_0 FROM star; ALTER TABLE star_test_0 ADD PRIMARY KEY (objid);analyze star_test_0;
+SELECT objid, u, g, r, i, z INTO star_test_1 FROM star; ALTER TABLE star_test_1 ADD PRIMARY KEY (objid);analyze star_test_1;
+SELECT objid, skyivar_i, psfmag_u, psfmag_g, psfmag_r, psfmag_i, psfmag_z, psfmagerr_u, psfmagerr_g, psfmagerr_r, psfmagerr_i, psfmagerr_z INTO star_test_2 FROM star; ALTER TABLE star_test_2 ADD PRIMARY KEY (objid);analyze star_test_2;
+SELECT objid, modelmag_u, modelmag_g, modelmag_r INTO star_test_3 FROM star; ALTER TABLE star_test_3 ADD PRIMARY KEY (objid);analyze star_test_3;
+SELECT objid, skyivar_g, ra, dec INTO star_test_4 FROM star; ALTER TABLE star_test_4 ADD PRIMARY KEY (objid);analyze star_test_4;
+Done
+Rewriting queries
+Looking at:  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b from star where  star.clean = 1 and (star.l between 150.055 and 150.058) and (star.b between -12.087 and -12.085) and star.type = 6
+before:  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b 
+col : type cluster : 0
+try :  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b  star.type -> star_test_0.type
+one : star.type another : star_test_0.type
+try :  star.type -> star_test_0.type
+col : clean cluster : 0
+try :  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b  star.clean -> star_test_0.clean
+one : star.clean another : star_test_0.clean
+try :  star.clean -> star_test_0.clean
+col : b cluster : 0
+try :  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b  star.b -> star_test_0.b
+star.b -> star_test_0.b
+one : star.b another : star_test_0.b
+try :  star.b -> star_test_0.b
+col : l cluster : 0
+try :  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star_test_0.b  star.l -> star_test_0.l
+star.l -> star_test_0.l
+one : star.l another : star_test_0.l
+try :  star.l -> star_test_0.l
+col : extinction_u cluster : 0
+try :  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star_test_0.l, star_test_0.b  star.extinction_u -> star_test_0.extinction_u
+star.extinction_u -> star_test_0.extinction_u
+try :  star.extinction_u -> star_test_0.extinction_u
+col : extinction_g cluster : 0
+try :  select star.objid, star_test_0.extinction_u, star.extinction_g, star.extinction_r, star_test_0.l, star_test_0.b  star.extinction_g -> star_test_0.extinction_g
+star.extinction_g -> star_test_0.extinction_g
+try :  star.extinction_g -> star_test_0.extinction_g
+col : extinction_r cluster : 0
+try :  select star.objid, star_test_0.extinction_u, star_test_0.extinction_g, star.extinction_r, star_test_0.l, star_test_0.b  star.extinction_r -> star_test_0.extinction_r
+star.extinction_r -> star_test_0.extinction_r
+try :  star.extinction_r -> star_test_0.extinction_r
+after:  select star.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b 
+try :  select star.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b  star.objid -> star_test_0.objid
+star.objid -> star_test_0.objid
+try :  star.objid -> star_test_0.objid
+one :  star  another :  star_test_0 
+Result:  select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1 and (star_test_0.l between 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6
+Looking at:  select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z from star where star.g < 21.2
+before:  select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z 
+col : u cluster : 1
+try :  select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z  star.u -> star_test_1.u
+star.u -> star_test_1.u
+try :  star.u -> star_test_1.u
+col : g cluster : 1
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star.g, star.r, star.i, star.z  star.g -> star_test_1.g
+star.g -> star_test_1.g
+one : star.g another : star_test_1.g
+try :  star.g -> star_test_1.g
+col : r cluster : 1
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star_test_1.g, star.r, star.i, star.z  star.r -> star_test_1.r
+star.r -> star_test_1.r
+try :  star.r -> star_test_1.r
+col : i cluster : 1
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star_test_1.g, star_test_1.r, star.i, star.z  star.i -> star_test_1.i
+star.i -> star_test_1.i
+try :  star.i -> star_test_1.i
+col : z cluster : 1
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star.z  star.z -> star_test_1.z
+star.z -> star_test_1.z
+try :  star.z -> star_test_1.z
+col : skyivar_g cluster : 4
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.skyivar_g -> star_test_4.skyivar_g
+try :  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  select star.objid, star.ra, star.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.ra -> star_test_4.ra
+star.ra -> star_test_4.ra
+try :  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  select star.objid, star_test_4.ra, star.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.dec -> star_test_4.dec
+star.dec -> star_test_4.dec
+try :  star.dec -> star_test_4.dec
+after:  select star.objid, star_test_4.ra, star_test_4.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z 
+try :  select star.objid, star_test_4.ra, star_test_4.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.objid -> star_test_1.objid
+star.objid -> star_test_1.objid
+try :  star.objid -> star_test_1.objid
+one :  star  another :  star_test_1 , star_test_4 
+col prim : objid
+Result:  select star_test_1.objid, star_test_4.ra, star_test_4.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 , star_test_4 where (star_test_1.g < 21.2) and ( star_test_1.objid = star_test_4.objid ) 
+Looking at:  select count(*) from star where star.ra between 129 and 131 and star.dec between 19 and 21 and -log(0.25*exp(-star.modelmag_u)+0.5*exp(-star.modelmag_g)+0.25*exp(-star.modelmag_r)) < 13.0
+before:  select count(*) 
+col : modelmag_u cluster : 3
+try :  select count(*)  star.modelmag_u -> star_test_3.modelmag_u
+one : star.modelmag_u another : star_test_3.modelmag_u
+try :  star.modelmag_u -> star_test_3.modelmag_u
+col : modelmag_g cluster : 3
+try :  select count(*)  star.modelmag_g -> star_test_3.modelmag_g
+one : star.modelmag_g another : star_test_3.modelmag_g
+try :  star.modelmag_g -> star_test_3.modelmag_g
+col : modelmag_r cluster : 3
+try :  select count(*)  star.modelmag_r -> star_test_3.modelmag_r
+one : star.modelmag_r another : star_test_3.modelmag_r
+try :  star.modelmag_r -> star_test_3.modelmag_r
+col : skyivar_g cluster : 4
+try :  select count(*)  star.skyivar_g -> star_test_4.skyivar_g
+try :  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  select count(*)  star.ra -> star_test_4.ra
+one : star.ra another : star_test_4.ra
+try :  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  select count(*)  star.dec -> star_test_4.dec
+one : star.dec another : star_test_4.dec
+try :  star.dec -> star_test_4.dec
+after:  select count(*) 
+try :  select count(*)  star.objid -> star_test_3.objid
+try :  star.objid -> star_test_3.objid
+one :  star  another :  star_test_3 , star_test_4 
+col prim : objid
+Result:  select count(*) from star_test_3 , star_test_4 where (star_test_4.ra between 129 and 131 and star_test_4.dec between 19 and 21 and -log(0.25*exp(-star_test_3.modelmag_u)+0.5*exp(-star_test_3.modelmag_g)+0.25*exp(-star_test_3.modelmag_r)) < 13.0) and ( star_test_3.objid = star_test_4.objid ) 
+Looking at:  select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z from star where star.ra BETWEEN 140 and 145 AND star.dec BETWEEN 20 and 25
+before:  select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z 
+col : u cluster : 1
+try :  select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z  star.u -> star_test_1.u
+star.u -> star_test_1.u
+try :  star.u -> star_test_1.u
+col : g cluster : 1
+try :  select star.ra, star.dec, star.skyivar_g, star_test_1.u, star.g, star.r, star.i, star.z  star.g -> star_test_1.g
+star.g -> star_test_1.g
+try :  star.g -> star_test_1.g
+col : r cluster : 1
+try :  select star.ra, star.dec, star.skyivar_g, star_test_1.u, star_test_1.g, star.r, star.i, star.z  star.r -> star_test_1.r
+star.r -> star_test_1.r
+try :  star.r -> star_test_1.r
+col : i cluster : 1
+try :  select star.ra, star.dec, star.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star.i, star.z  star.i -> star_test_1.i
+star.i -> star_test_1.i
+try :  star.i -> star_test_1.i
+col : z cluster : 1
+try :  select star.ra, star.dec, star.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star.z  star.z -> star_test_1.z
+star.z -> star_test_1.z
+try :  star.z -> star_test_1.z
+col : skyivar_g cluster : 4
+try :  select star.ra, star.dec, star.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.skyivar_g -> star_test_4.skyivar_g
+star.skyivar_g -> star_test_4.skyivar_g
+try :  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  select star.ra, star.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.ra -> star_test_4.ra
+star.ra -> star_test_4.ra
+one : star.ra another : star_test_4.ra
+try :  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  select star_test_4.ra, star.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.dec -> star_test_4.dec
+star.dec -> star_test_4.dec
+one : star.dec another : star_test_4.dec
+try :  star.dec -> star_test_4.dec
+after:  select star_test_4.ra, star_test_4.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z 
+try :  select star_test_4.ra, star_test_4.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z  star.objid -> star_test_1.objid
+try :  star.objid -> star_test_1.objid
+one :  star  another :  star_test_1 , star_test_4 
+col prim : objid
+Result:  select star_test_4.ra, star_test_4.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 , star_test_4 where (star_test_4.ra BETWEEN 140 and 145 AND star_test_4.dec BETWEEN 20 and 25) and ( star_test_1.objid = star_test_4.objid ) 
+Looking at:  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g - star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16
+before:  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i 
+col : skyivar_i cluster : 2
+try :  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i  star.skyivar_i -> star_test_2.skyivar_i
+star.skyivar_i -> star_test_2.skyivar_i
+try :  star.skyivar_i -> star_test_2.skyivar_i
+col : psfmag_u cluster : 2
+try :  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmag_u -> star_test_2.psfmag_u
+one : star.psfmag_u another : star_test_2.psfmag_u
+try :  star.psfmag_u -> star_test_2.psfmag_u
+col : psfmag_g cluster : 2
+try :  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmag_g -> star_test_2.psfmag_g
+star.psfmag_g -> star_test_2.psfmag_g
+star.psfmag_g -> star_test_2.psfmag_g
+one : star.psfmag_g another : star_test_2.psfmag_g
+try :  star.psfmag_g -> star_test_2.psfmag_g
+col : psfmag_r cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmag_r -> star_test_2.psfmag_r
+star.psfmag_r -> star_test_2.psfmag_r
+one : star.psfmag_r another : star_test_2.psfmag_r
+try :  star.psfmag_r -> star_test_2.psfmag_r
+col : psfmag_i cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmag_i -> star_test_2.psfmag_i
+try :  star.psfmag_i -> star_test_2.psfmag_i
+col : psfmag_z cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmag_z -> star_test_2.psfmag_z
+try :  star.psfmag_z -> star_test_2.psfmag_z
+col : psfmagerr_u cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmagerr_u -> star_test_2.psfmagerr_u
+try :  star.psfmagerr_u -> star_test_2.psfmagerr_u
+col : psfmagerr_g cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmagerr_g -> star_test_2.psfmagerr_g
+try :  star.psfmagerr_g -> star_test_2.psfmagerr_g
+col : psfmagerr_r cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmagerr_r -> star_test_2.psfmagerr_r
+try :  star.psfmagerr_r -> star_test_2.psfmagerr_r
+col : psfmagerr_i cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmagerr_i -> star_test_2.psfmagerr_i
+try :  star.psfmagerr_i -> star_test_2.psfmagerr_i
+col : psfmagerr_z cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.psfmagerr_z -> star_test_2.psfmagerr_z
+try :  star.psfmagerr_z -> star_test_2.psfmagerr_z
+col : skyivar_g cluster : 4
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star.skyivar_g, star_test_2.skyivar_i  star.skyivar_g -> star_test_4.skyivar_g
+star.skyivar_g -> star_test_4.skyivar_g
+try :  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i  star.ra -> star_test_4.ra
+star.ra -> star_test_4.ra
+one : star.ra another : star_test_4.ra
+try :  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  SELECT star_test_4.ra, star.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i  star.dec -> star_test_4.dec
+star.dec -> star_test_4.dec
+one : star.dec another : star_test_4.dec
+try :  star.dec -> star_test_4.dec
+after:  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i 
+try :  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i  star.objid -> star_test_2.objid
+try :  star.objid -> star_test_2.objid
+one :  star  another :  star_test_2 , star_test_4 
+col prim : objid
+Result:  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i from star_test_2 , star_test_4 where (star_test_4.ra between 140 and 141 and star_test_4.dec between 20 and 21 and star_test_2.psfmag_g - star_test_2.psfmag_r between 0.2 and 0.8 and star_test_2.psfmag_u < 16) and ( star_test_2.objid = star_test_4.objid ) 
+Looking at:  SELECT star.ra FROM star WHERE star.modelmag_r > 0 and star.modelmag_r < 21 and star.ra < 205.446972452536 and star.ra > 203.2108728477 and star.dec > 9.860958219299748 and star.dec < 11.62881354954442 order by star.modelmag_r limit 999 
+before:  SELECT star.ra 
+col : modelmag_u cluster : 3
+try :  SELECT star.ra  star.modelmag_u -> star_test_3.modelmag_u
+try : order by star.modelmag_r limit 999  star.modelmag_u -> star_test_3.modelmag_u
+col : modelmag_g cluster : 3
+try :  SELECT star.ra  star.modelmag_g -> star_test_3.modelmag_g
+try : order by star.modelmag_r limit 999  star.modelmag_g -> star_test_3.modelmag_g
+col : modelmag_r cluster : 3
+try :  SELECT star.ra  star.modelmag_r -> star_test_3.modelmag_r
+one : star.modelmag_r another : star_test_3.modelmag_r
+one : star.modelmag_r another : star_test_3.modelmag_r
+try : order by star.modelmag_r limit 999  star.modelmag_r -> star_test_3.modelmag_r
+star.modelmag_r -> star_test_3.modelmag_r
+col : skyivar_g cluster : 4
+try :  SELECT star.ra  star.skyivar_g -> star_test_4.skyivar_g
+try : order by star_test_3.modelmag_r limit 999  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  SELECT star.ra  star.ra -> star_test_4.ra
+star.ra -> star_test_4.ra
+one : star.ra another : star_test_4.ra
+one : star.ra another : star_test_4.ra
+try : order by star_test_3.modelmag_r limit 999  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  SELECT star_test_4.ra  star.dec -> star_test_4.dec
+one : star.dec another : star_test_4.dec
+one : star.dec another : star_test_4.dec
+try : order by star_test_3.modelmag_r limit 999  star.dec -> star_test_4.dec
+after:  SELECT star_test_4.ra 
+try :  SELECT star_test_4.ra  star.objid -> star_test_3.objid
+try : order by star_test_3.modelmag_r limit 999  star.objid -> star_test_3.objid
+one :  star  another :  star_test_3 , star_test_4 
+col prim : objid
+Result:  SELECT star_test_4.ra FROM star_test_3 , star_test_4 WHERE (star_test_3.modelmag_r > 0 and star_test_3.modelmag_r < 21 and star_test_4.ra < 205.446972452536 and star_test_4.ra > 203.2108728477 and star_test_4.dec > 9.860958219299748 and star_test_4.dec < 11.62881354954442 ) and ( star_test_3.objid = star_test_4.objid ) order by star_test_3.modelmag_r limit 999 
+Looking at:  SELECT star.objid FROM star WHERE ((star.u - star.g) < 0.4 ) and (star.g - star.r) < 0.7 and (star.r - star.i) > 0.4 and (star.i - star.z) > 0.4 
+before:  SELECT star.objid 
+col : u cluster : 1
+try :  SELECT star.objid  star.u -> star_test_1.u
+one : star.u another : star_test_1.u
+try :  star.u -> star_test_1.u
+col : g cluster : 1
+try :  SELECT star.objid  star.g -> star_test_1.g
+one : star.g another : star_test_1.g
+one : star.g another : star_test_1.g
+try :  star.g -> star_test_1.g
+col : r cluster : 1
+try :  SELECT star.objid  star.r -> star_test_1.r
+one : star.r another : star_test_1.r
+one : star.r another : star_test_1.r
+try :  star.r -> star_test_1.r
+col : i cluster : 1
+try :  SELECT star.objid  star.i -> star_test_1.i
+one : star.i another : star_test_1.i
+one : star.i another : star_test_1.i
+try :  star.i -> star_test_1.i
+col : z cluster : 1
+try :  SELECT star.objid  star.z -> star_test_1.z
+one : star.z another : star_test_1.z
+try :  star.z -> star_test_1.z
+after:  SELECT star.objid 
+try :  SELECT star.objid  star.objid -> star_test_1.objid
+star.objid -> star_test_1.objid
+try :  star.objid -> star_test_1.objid
+one :  star  another :  star_test_1 
+Result:  SELECT star_test_1.objid FROM star_test_1 WHERE ((star_test_1.u - star_test_1.g) < 0.4 ) and (star_test_1.g - star_test_1.r) < 0.7 and (star_test_1.r - star_test_1.i) > 0.4 and (star_test_1.i - star_test_1.z) > 0.4 
+Looking at:  SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z FROM star WHERE (star.ra between 162.446533 and 162.646533) and (star.dec between -0.109789 and 0.090211)
+before:  SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z 
+col : skyivar_i cluster : 2
+try :  SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.skyivar_i -> star_test_2.skyivar_i
+try :  star.skyivar_i -> star_test_2.skyivar_i
+col : psfmag_u cluster : 2
+try :  SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.psfmag_u -> star_test_2.psfmag_u
+star.psfmag_u -> star_test_2.psfmag_u
+try :  star.psfmag_u -> star_test_2.psfmag_u
+col : psfmag_g cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.psfmag_g -> star_test_2.psfmag_g
+star.psfmag_g -> star_test_2.psfmag_g
+try :  star.psfmag_g -> star_test_2.psfmag_g
+col : psfmag_r cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star.psfmagerr_u, star_test_2.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.psfmag_r -> star_test_2.psfmag_r
+star.psfmag_r -> star_test_2.psfmag_r
+try :  star.psfmag_r -> star_test_2.psfmag_r
+col : psfmag_i cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star.psfmagerr_u, star_test_2.psfmag_g, star.psfmagerr_g, star_test_2.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.psfmag_i -> star_test_2.psfmag_i
+star.psfmag_i -> star_test_2.psfmag_i
+try :  star.psfmag_i -> star_test_2.psfmag_i
+col : psfmag_z cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star.psfmagerr_u, star_test_2.psfmag_g, star.psfmagerr_g, star_test_2.psfmag_r, star.psfmagerr_r, star_test_2.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z  star.psfmag_z -> star_test_2.psfmag_z
+star.psfmag_z -> star_test_2.psfmag_z
+try :  star.psfmag_z -> star_test_2.psfmag_z
+col : psfmagerr_u cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star.psfmagerr_u, star_test_2.psfmag_g, star.psfmagerr_g, star_test_2.psfmag_r, star.psfmagerr_r, star_test_2.psfmag_i, star.psfmagerr_i, star_test_2.psfmag_z, star.psfmagerr_z  star.psfmagerr_u -> star_test_2.psfmagerr_u
+star.psfmagerr_u -> star_test_2.psfmagerr_u
+try :  star.psfmagerr_u -> star_test_2.psfmagerr_u
+col : psfmagerr_g cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star.psfmagerr_g, star_test_2.psfmag_r, star.psfmagerr_r, star_test_2.psfmag_i, star.psfmagerr_i, star_test_2.psfmag_z, star.psfmagerr_z  star.psfmagerr_g -> star_test_2.psfmagerr_g
+star.psfmagerr_g -> star_test_2.psfmagerr_g
+try :  star.psfmagerr_g -> star_test_2.psfmagerr_g
+col : psfmagerr_r cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star.psfmagerr_r, star_test_2.psfmag_i, star.psfmagerr_i, star_test_2.psfmag_z, star.psfmagerr_z  star.psfmagerr_r -> star_test_2.psfmagerr_r
+star.psfmagerr_r -> star_test_2.psfmagerr_r
+try :  star.psfmagerr_r -> star_test_2.psfmagerr_r
+col : psfmagerr_i cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star.psfmagerr_i, star_test_2.psfmag_z, star.psfmagerr_z  star.psfmagerr_i -> star_test_2.psfmagerr_i
+star.psfmagerr_i -> star_test_2.psfmagerr_i
+try :  star.psfmagerr_i -> star_test_2.psfmagerr_i
+col : psfmagerr_z cluster : 2
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star.psfmagerr_z  star.psfmagerr_z -> star_test_2.psfmagerr_z
+star.psfmagerr_z -> star_test_2.psfmagerr_z
+try :  star.psfmagerr_z -> star_test_2.psfmagerr_z
+col : skyivar_g cluster : 4
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z  star.skyivar_g -> star_test_4.skyivar_g
+try :  star.skyivar_g -> star_test_4.skyivar_g
+col : ra cluster : 4
+try :  SELECT star.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z  star.ra -> star_test_4.ra
+star.ra -> star_test_4.ra
+one : star.ra another : star_test_4.ra
+try :  star.ra -> star_test_4.ra
+col : dec cluster : 4
+try :  SELECT star_test_4.ra, star.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z  star.dec -> star_test_4.dec
+star.dec -> star_test_4.dec
+one : star.dec another : star_test_4.dec
+try :  star.dec -> star_test_4.dec
+after:  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z 
+try :  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z  star.objid -> star_test_2.objid
+try :  star.objid -> star_test_2.objid
+one :  star  another :  star_test_2 , star_test_4 
+col prim : objid
+Result:  SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z FROM star_test_2 , star_test_4 WHERE ((star_test_4.ra between 162.446533 and 162.646533) and (star_test_4.dec between -0.109789 and 0.090211)) and ( star_test_2.objid = star_test_4.objid ) 
+Done
+Running queries:
+ select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1 and (star_test_0.l between 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6
+  600
+  368
+  358
+  349
+  331
+  331
+  328
+  332
+  345
+  402
+ : 374.4
+ select star_test_1.objid, star_test_4.ra, star_test_4.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 , star_test_4 where (star_test_1.g < 21.2) and ( star_test_1.objid = star_test_4.objid ) 
+  1591
+  1498
+  1302
+  1299
+  1327
+  1324
+  1313
+  1306
+  1374
+  1352
+ : 1368.6
+ select count(*) from star_test_3 , star_test_4 where (star_test_4.ra between 129 and 131 and star_test_4.dec between 19 and 21 and -log(0.25*exp(-star_test_3.modelmag_u)+0.5*exp(-star_test_3.modelmag_g)+0.25*exp(-star_test_3.modelmag_r)) < 13.0) and ( star_test_3.objid = star_test_4.objid ) 
+  365
+  404
+  377
+  368
+  373
+  358
+  355
+  381
+  369
+  389
+ : 373.9
+ select star_test_4.ra, star_test_4.dec, star_test_4.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 , star_test_4 where (star_test_4.ra BETWEEN 140 and 145 AND star_test_4.dec BETWEEN 20 and 25) and ( star_test_1.objid = star_test_4.objid ) 
+  1235
+  1109
+  1128
+  1089
+  1086
+  1100
+  1097
+  1117
+  1106
+  1138
+ : 1120.5
+ SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_g, star_test_2.psfmag_g - star_test_2.psfmag_r, star_test_4.skyivar_g, star_test_2.skyivar_i from star_test_2 , star_test_4 where (star_test_4.ra between 140 and 141 and star_test_4.dec between 20 and 21 and star_test_2.psfmag_g - star_test_2.psfmag_r between 0.2 and 0.8 and star_test_2.psfmag_u < 16) and ( star_test_2.objid = star_test_4.objid ) 
+  951
+  609
+  676
+  564
+  547
+  547
+  561
+  525
+  521
+  514
+ : 601.5
+ SELECT star_test_4.ra FROM star_test_3 , star_test_4 WHERE (star_test_3.modelmag_r > 0 and star_test_3.modelmag_r < 21 and star_test_4.ra < 205.446972452536 and star_test_4.ra > 203.2108728477 and star_test_4.dec > 9.860958219299748 and star_test_4.dec < 11.62881354954442 ) and ( star_test_3.objid = star_test_4.objid ) order by star_test_3.modelmag_r limit 999 
+  414
+  344
+  351
+  358
+  352
+  362
+  356
+  365
+  370
+  353
+ : 362.5
+ SELECT star_test_1.objid FROM star_test_1 WHERE ((star_test_1.u - star_test_1.g) < 0.4 ) and (star_test_1.g - star_test_1.r) < 0.7 and (star_test_1.r - star_test_1.i) > 0.4 and (star_test_1.i - star_test_1.z) > 0.4 
+  315
+  291
+  327
+  295
+  297
+  288
+  290
+  299
+  296
+  315
+ : 301.3
+ SELECT star_test_4.ra, star_test_4.dec, star_test_2.psfmag_u, star_test_2.psfmagerr_u, star_test_2.psfmag_g, star_test_2.psfmagerr_g, star_test_2.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z FROM star_test_2 , star_test_4 WHERE ((star_test_4.ra between 162.446533 and 162.646533) and (star_test_4.dec between -0.109789 and 0.090211)) and ( star_test_2.objid = star_test_4.objid ) 
+  372
+  361
+  358
+  360
+  372
+  384
+  360
+  365
+  354
+  346
+ : 363.2
+TABLES SIZE: 
+star 1356341248
+star_pinched 96976896
+star_test_0 48791552
+star_test_1 40755200
+star_test_2 52682752
+star_test_3 36790272
+star_test_4 40755200
+TOTAL NOT CLUSTERIZED:
+ TIME : 0
+ MEMORY COEFFICIENT: sum() = 0
+TOTAL CLUSTERIZED:
+ TIME : 4865.9
+ MEMORY COEFFICIENT: sum(96976896/374 48791552/1368 52682752/373 48791552/1120 40755200/601 52682752/362 48791552/301 40755200/363 ) = 967480

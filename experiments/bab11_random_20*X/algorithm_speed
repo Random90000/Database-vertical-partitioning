@@ -1,0 +1,45 @@
+size: 5 cohesion: 0.1 time: 0
+size: 10 cohesion: 0.1 time: 0
+size: 15 cohesion: 0.1 time: 45
+size: 20 cohesion: 0.1 time: 58
+size: 25 cohesion: 0.1 time: 5145
+size: 30 cohesion: 0.1 time: 27463
+size: 35 cohesion: 0.1 time: 602759
+size: 5 cohesion: 0.2 time: 0
+size: 10 cohesion: 0.2 time: 8
+size: 15 cohesion: 0.2 time: 863
+size: 20 cohesion: 0.2 time: 21099
+size: 25 cohesion: 0.2 time: 3729157
+size: 30 cohesion: 0.2 time: > 2 hours
+size: 5 cohesion: 0.3 time: 0
+size: 10 cohesion: 0.3 time: 48
+size: 15 cohesion: 0.3 time: 2876
+size: 20 cohesion: 0.3 time: 143425
+size: 25 cohesion: 0.3 time: 6320426
+size: 30 cohesion: 0.3 time: > 2 hours
+size: 5 cohesion: 0.4 time: 0
+size: 10 cohesion: 0.4 time: 69
+size: 15 cohesion: 0.4 time: 3982
+size: 20 cohesion: 0.4 time: 199750
+size: 25 cohesion: 0.4 time: 9476553
+size: 30 cohesion: 0.4 time: > 2 hours
+size: 5 cohesion: 0.5 time: 1
+size: 10 cohesion: 0.5 time: 92
+size: 15 cohesion: 0.5 time: 5447
+size: 20 cohesion: 0.5 time: 277855
+size: 25 cohesion: 0.5 time: > 2 hours
+size: 5 cohesion: 0.6 time: 2
+size: 10 cohesion: 0.6 time: 118
+size: 15 cohesion: 0.6 time: 7104
+size: 20 cohesion: 0.6 time: 359868
+size: 25 cohesion: 0.6 time: > 2 hours
+size: 5 cohesion: 0.7 time: 2
+size: 10 cohesion: 0.7 time: 140
+size: 15 cohesion: 0.7 time: 8699
+size: 20 cohesion: 0.7 time: 441354
+size: 25 cohesion: 0.7 time: > 2 hours
+size: 5 cohesion: 0.8 time: 2
+size: 10 cohesion: 0.8 time: 163
+size: 15 cohesion: 0.8 time: 9668
+size: 20 cohesion: 0.8 time: 503923
+size: 25 cohesion: 0.8 time: > 2 hours

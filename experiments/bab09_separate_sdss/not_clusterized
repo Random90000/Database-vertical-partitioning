@@ -1,0 +1,279 @@
+Primary columns: objid
+Number of other columns: 508
+Running queries:
+ select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b from star where  star.clean = 1 and (star.l between 150.055 and 150.058) and (star.b between -12.087 and -12.085) and star.type = 6
+  15435
+  15901
+  15355
+  15613
+  15462
+  15411
+  15278
+  15555
+  15603
+  15471
+ : 15508.4
+ select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z from star where star.g < 21.2
+  15399
+  15391
+  15237
+  15210
+  15458
+  15459
+  15470
+  15654
+  15521
+  15470
+ : 15426.9
+ select count(*) from star where star.ra between 129 and 131 and star.dec between 19 and 21 and -log(0.25*exp(-star.modelmag_u)+0.5*exp(-star.modelmag_g)+0.25*exp(-star.modelmag_r)) < 13.0
+  15865
+  15286
+  15467
+  15260
+  15411
+  15478
+  15386
+  15447
+  16140
+  15405
+ : 15514.5
+ select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z from star where star.ra BETWEEN 140 and 145 AND star.dec BETWEEN 20 and 25
+  15511
+  15520
+  15489
+  15552
+  15477
+  15680
+  15656
+  15298
+  15134
+  15137
+ : 15445.4
+ SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g -star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16
+  15383
+  15691
+  15185
+  15911
+  15543
+  15379
+  15244
+  15280
+  15274
+  15434
+ : 15432.4
+ SELECT star.ra FROM star WHERE star.modelmag_r > 0 and star.modelmag_r < 21 and star.ra < 205.446972452536 and star.ra > 203.2108728477 and star.dec > 9.860958219299748 and star.dec < 11.62881354954442 order by star.modelmag_r limit 999
+  15350
+  15470
+  15712
+  15194
+  15161
+  15378
+  15299
+  15304
+  15297
+  15379
+ : 15354.4
+ SELECT star.objid FROM star WHERE ((star.u - star.g) < 0.4 ) and (star.g - star.r) < 0.7 and (star.r - star.i) > 0.4 and (star.i - star.z) > 0.4
+  15186
+  15844
+  18858
+  18370
+  15037
+  21444
+  15230
+  15070
+  15053
+  16426
+ : 16651.8
+ SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z FROM star WHERE (star.ra between 162.446533 and 162.646533) and (star.dec between -0.109789 and 0.090211)
+  14969
+  16168
+  20863
+  15290
+  15233
+  17856
+  14963
+  14845
+  14958
+  14958
+ : 16010.3
+Matrix:
+   9 10 48 50 52 53 54 55 56 57 58 59 60 61 322 323 324 417 418 424 425 436 437 438 467 468 469 470 471
+1: 1  1  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   0   0   1   1   1   1   1   0   0   0   0   0
+2: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   1   1   1   1   1
+3: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   1   1   1   1   1   0   0   0   0   0   0   0   0   0   0
+4: 0  0  1  0  0  0  0  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   1   1   1   1   1
+5: 0  0  1  1  1  1  1  0  0  0  0  0  0  0   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0
+6: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   1   1   1   0   0   0   0   0   0   0   0   0   0
+7: 0  0  0  0  0  0  0  0  0  0  0  0  0  0   0   0   0   0   0   0   0   0   0   0   1   1   1   1   1
+8: 0  0  0  0  1  1  1  1  1  1  1  1  1  1   0   0   0   1   1   0   0   0   0   0   0   0   0   0   0
+
+Intercluster:
+Submatrices:
+   9 10 424 425 436 437 438
+1: 1  1   1   1   1   1   1
+
+   48 417 418 467 468 469 470 471
+2:  0   1   1   1   1   1   1   1
+4:  1   1   1   1   1   1   1   1
+7:  0   0   0   1   1   1   1   1
+
+   322 323 324 417 418
+3:   1   1   1   1   1
+6:   0   0   1   1   1
+
+   48 50 52 53 54 417 418
+5:  1  1  1  1  1   1   1
+
+   52 53 54 55 56 57 58 59 60 61 417 418
+8:  1  1  1  1  1  1  1  1  1  1   1   1
+
+0 0
+1 1
+3 1
+6 1
+2 2
+5 2
+4 3
+7 4
+Clusters:
+type clean b l extinction_u extinction_g extinction_r
+skyivar_g ra dec u g r i z
+modelmag_u modelmag_g modelmag_r ra dec
+skyivar_g skyivar_i psfmag_u psfmag_g psfmag_r ra dec
+psfmag_u psfmag_g psfmag_r psfmag_i psfmag_z psfmagerr_u psfmagerr_g psfmagerr_r psfmagerr_i psfmagerr_z ra dec
+Partitioning...
+SELECT objid, type, clean, b, l, extinction_u, extinction_g, extinction_r INTO star_test_0 FROM star; ALTER TABLE star_test_0 ADD PRIMARY KEY (objid);analyze star_test_0;
+SELECT objid, skyivar_g, ra, dec, u, g, r, i, z INTO star_test_1 FROM star; ALTER TABLE star_test_1 ADD PRIMARY KEY (objid);analyze star_test_1;
+SELECT objid, modelmag_u, modelmag_g, modelmag_r, ra, dec INTO star_test_2 FROM star; ALTER TABLE star_test_2 ADD PRIMARY KEY (objid);analyze star_test_2;
+SELECT objid, skyivar_g, skyivar_i, psfmag_u, psfmag_g, psfmag_r, ra, dec INTO star_test_3 FROM star; ALTER TABLE star_test_3 ADD PRIMARY KEY (objid);analyze star_test_3;
+SELECT objid, psfmag_u, psfmag_g, psfmag_r, psfmag_i, psfmag_z, psfmagerr_u, psfmagerr_g, psfmagerr_r, psfmagerr_i, psfmagerr_z, ra, dec INTO star_test_4 FROM star; ALTER TABLE star_test_4 ADD PRIMARY KEY (objid);analyze star_test_4;
+Done
+Rewriting queries
+Looking at:  select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b from star where  star.clean = 1 and (star.l between 150.055 and 150.058) and (star.b between -12.087 and -12.085) and star.type = 6
+Result:  select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1 and (star_test_0.l between 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6
+Looking at:  select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z from star where star.g < 21.2
+Result:  select star_test_1.objid, star_test_1.ra, star_test_1.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 where star_test_1.g < 21.2
+Looking at:  select count(*) from star where star.ra between 129 and 131 and star.dec between 19 and 21 and -log(0.25*exp(-star.modelmag_u)+0.5*exp(-star.modelmag_g)+0.25*exp(-star.modelmag_r)) < 13.0
+Result:  select count(*) from star_test_2 where star_test_2.ra between 129 and 131 and star_test_2.dec between 19 and 21 and -log(0.25*exp(-star_test_2.modelmag_u)+0.5*exp(-star_test_2.modelmag_g)+0.25*exp(-star_test_2.modelmag_r)) < 13.0
+Looking at:  select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z from star where star.ra BETWEEN 140 and 145 AND star.dec BETWEEN 20 and 25
+Result:  select star_test_1.ra, star_test_1.dec, star_test_1.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 where star_test_1.ra BETWEEN 140 and 145 AND star_test_1.dec BETWEEN 20 and 25
+Looking at:  SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g - star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16
+Result:  SELECT star_test_3.ra, star_test_3.dec, star_test_3.psfmag_g, star_test_3.psfmag_g - star_test_3.psfmag_r, star_test_3.skyivar_g, star_test_3.skyivar_i from star_test_3 where star_test_3.rabetween 140 and 141 and star_test_3.dec between 20 and 21 and star_test_3.psfmag_g - star_test_3.psfmag_r between 0.2 and 0.8 and star_test_3.psfmag_u < 16
+Looking at:  SELECT star.ra FROM star WHERE star.modelmag_r > 0 and star.modelmag_r < 21 and star.ra < 205.446972452536 and star.ra > 203.2108728477 and star.dec > 9.860958219299748 and star.dec < 11.62881354954442 order by star.modelmag_r limit 999
+Result:  SELECT star_test_2.ra FROM star_test_2 WHERE star_test_2.modelmag_r > 0 and star_test_2.modelmag_r < 21 and star_test_2.ra < 205.446972452536 and star_test_2.ra > 203.2108728477 and star_test_2.dec > 9.860958219299748 and star_test_2.dec < 11.62881354954442 order by star_test_2.modelmag_r limit 999
+Looking at:  SELECT star.objid FROM star WHERE ((star.u - star.g) < 0.4 ) and (star.g - star.r) < 0.7 and (star.r - star.i) > 0.4 and (star.i - star.z) > 0.4
+Result:  SELECT star_test_1.objid FROM star_test_1 WHERE ((star_test_1.u - star_test_1.g) < 0.4 ) and (star_test_1.g - star_test_1.r) < 0.7 and (star_test_1.r - star_test_1.i) > 0.4 and (star_test_1.i - star_test_1.z) > 0.4
+Looking at:  SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z FROM star WHERE (star.ra between 162.446533 and 162.646533) and (star.dec between -0.109789 and 0.090211)
+Result:  SELECT star_test_4.ra, star_test_4.dec, star_test_4.psfmag_u, star_test_4.psfmagerr_u, star_test_4.psfmag_g, star_test_4.psfmagerr_g, star_test_4.psfmag_r, star_test_4.psfmagerr_r, star_test_4.psfmag_i, star_test_4.psfmagerr_i, star_test_4.psfmag_z, star_test_4.psfmagerr_z FROM star_test_4 WHERE (star_test_4.ra between 162.446533 and 162.646533) and (star_test_4.dec between -0.109789 and 0.090211)
+Done
+Running queries:
+ select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1 and (star_test_0.lbetween 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6
+  294
+  300
+  291
+  298
+  271
+  399
+  317
+  313
+  803
+  273
+ : 355.9
+ select star_test_1.objid, star_test_1.ra, star_test_1.dec, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 where star_test_1.g < 21.2
+  1080
+  1100
+  952
+  893
+  951
+  1003
+  962
+  1249
+  893
+  966
+ : 1004.9
+ select count(*) from star_test_2 where star_test_2.ra between 129 and 131 and star_test_2.dec between 19 and 21 and -log(0.25*exp(-star_test_2.modelmag_u)+0.5*exp(-star_test_2.modelmag_g)+0.25*exp(-star_test_2.modelmag_r)) < 13.0
+  272
+  330
+  214
+  265
+  260
+  254
+  250
+  255
+  237
+  266
+ : 260.3
+ select star_test_1.ra, star_test_1.dec, star_test_1.skyivar_g, star_test_1.u, star_test_1.g, star_test_1.r, star_test_1.i, star_test_1.z from star_test_1 where star_test_1.ra BETWEEN 140 and 145 AND star_test_1.dec BETWEEN 20 and 25
+  802
+  779
+  787
+  805
+  778
+  797
+  798
+  791
+  891
+  797
+ : 802.5
+ SELECT star_test_3.ra, star_test_3.dec, star_test_3.psfmag_g, star_test_3.psfmag_g - star_test_3.psfmag_r, star_test_3.skyivar_g, star_test_3.skyivar_i from star_test_3 where star_test_3.ra between140 and 141 and star_test_3.dec between 20 and 21 and star_test_3.psfmag_g - star_test_3.psfmag_r between 0.2 and 0.8 and star_test_3.psfmag_u < 16
+  394
+  436
+  313
+  292
+  286
+  291
+  390
+  275
+  339
+  328
+ : 334.4
+ SELECT star_test_2.ra FROM star_test_2 WHERE star_test_2.modelmag_r > 0 and star_test_2.modelmag_r < 21 and star_test_2.ra < 205.446972452536 and star_test_2.ra > 203.2108728477 and star_test_2.dec> 9.860958219299748 and star_test_2.dec < 11.62881354954442 order by star_test_2.modelmag_r limit 999
+  346
+  318
+  236
+  242
+  235
+  326
+  233
+  260
+  256
+  244
+ : 269.6
+ SELECT star_test_1.objid FROM star_test_1 WHERE ((star_test_1.u - star_test_1.g) < 0.4 ) and (star_test_1.g - star_test_1.r) < 0.7 and (star_test_1.r - star_test_1.i) > 0.4 and (star_test_1.i - star_test_1.z) > 0.4
+  352
+  408
+  441
+  390
+  504
+  435
+  455
+  425
+  348
+  346
+ : 410.4
+ SELECT star_test_4.ra, star_test_4.dec, star_test_4.psfmag_u, star_test_4.psfmagerr_u, star_test_4.psfmag_g, star_test_4.psfmagerr_g, star_test_4.psfmag_r, star_test_4.psfmagerr_r, star_test_4.psfmag_i, star_test_4.psfmagerr_i, star_test_4.psfmag_z, star_test_4.psfmagerr_z FROM star_test_4 WHERE (star_test_4.ra between 162.446533 and 162.646533) and (star_test_4.dec between -0.109789 and 0.090211)
+  624
+  810
+  432
+  415
+  407
+  397
+  402
+  411
+  387
+  431
+ : 471.6
+TABLES SIZE:
+star 1356341248
+star_test_0 48791552
+star_test_1 52682752
+star_test_2 44711936
+star_test_3 48791552
+star_test_4 56934400
+TOTAL NOT CLUSTERIZED:
+ TIME : 125344
+ MEMORY COEFFICIENT: sum(1356341248/15508 1356341248/15426 1356341248/15514 1356341248/15445 1356341248/15432 1356341248/15354 1356341248/16651 1356341248/16010 ) = 693031
+TOTAL CLUSTERIZED:
+ TIME : 3909.6
+ MEMORY COEFFICIENT: sum(48791552/355 52682752/1004 44711936/260 52682752/802 48791552/334 44711936/269 52682752/410 56934400/471 ) = 989239

@@ -1,0 +1,102 @@
+Primary columns: objid
+Number of other columns: 29
+Running queries:
+ select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b from star_pinched where  star_pinched.clean = 1 and (star_pinched.l between 150.055 and 150.058) and (star_pinched.b between -12.087 and -12.085) and star_pinched.type = 6
+  944
+  946
+  974
+  912
+  910
+  898
+  949
+  928
+  900
+  932
+ : 929.3
+ select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.g < 21.2
+  1228
+  1246
+  1196
+  1192
+  1212
+  1216
+  1157
+  1202
+  1186
+  1194
+ : 1202.9
+ select count(*) from star_pinched where star_pinched.ra between 129 and 131 and star_pinched.dec between 19 and 21 and -log(0.25*exp(-star_pinched.modelmag_u)+0.5*exp(-star_pinched.modelmag_g)+0.25*exp(-star_pinched.modelmag_r)) < 13.0
+  964
+  910
+  912
+  909
+  934
+  1002
+  913
+  906
+  989
+  906
+ : 934.5
+ select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.ra BETWEEN 140 and 145 AND star_pinched.dec BETWEEN 20 and 25
+  1426
+  1324
+  1258
+  1248
+  1242
+  1261
+  1315
+  1232
+  1236
+  1346
+ : 1288.8
+ SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i from star_pinched where star_pinched.ra between 140 and 141 and star_pinched.dec between 20 and 21 and star_pinched.psfmag_g - star_pinched.psfmag_r between 0.2 and 0.8 and star_pinched.psfmag_u < 16
+  937
+  937
+  896
+  889
+  892
+  890
+  1015
+  892
+  888
+  962
+ : 919.8
+ SELECT star_pinched.ra FROM star_pinched WHERE star_pinched.modelmag_r > 0 and star_pinched.modelmag_r < 21 and star_pinched.ra < 205.446972452536 and star_pinched.ra > 203.2108728477 and star_pinched.dec > 9.860958219299748 and star_pinched.dec < 11.62881354954442 order by star_pinched.modelmag_r limit 999
+  905
+  906
+  906
+  897
+  910
+  900
+  903
+  945
+  904
+  905
+ : 908.1
+ SELECT star_pinched.objid FROM star_pinched WHERE ((star_pinched.u - star_pinched.g) < 0.4 ) and (star_pinched.g - star_pinched.r) < 0.7 and (star_pinched.r - star_pinched.i) > 0.4 and (star_pinched.i - star_pinched.z) > 0.4
+  995
+  888
+  899
+  897
+  894
+  906
+  934
+  916
+  903
+  908
+ : 914
+ SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z FROM star_pinched WHERE (star_pinched.ra between 162.446533 and 162.646533) and (star_pinched.dec between -0.109789 and 0.090211)
+  899
+  909
+  922
+  989
+  903
+  908
+  1010
+  902
+  906
+  936
+ : 928.4
+TOTAL NOT CLUSTERIZED:
+ TIME : 8025.8
+ MEMORY COEFFICIENT: sum(1356341248/929 1356341248/1202 1356341248/934 1356341248/1288 1356341248/919 1356341248/908 1356341248/914 1356341248/928 ) = 11008838

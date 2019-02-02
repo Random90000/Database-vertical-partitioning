@@ -1,0 +1,103 @@
+Primary columns: objid
+Number of other columns: 508
+Running queries:
+ select star.objid, star.extinction_u, star.extinction_g, star.extinction_r, star.l, star.b from star where  star.clean = 1 and (star.l between 150.055 and 150.058) and (star.b between -12.087 and -12.085) and star.type = 6
+  15435
+  15901
+  15355
+  15613
+  15462
+  15411
+  15278
+  15555
+  15603
+  15471
+ : 15508.4
+ select star.objid, star.ra, star.dec, star.u, star.g, star.r, star.i, star.z from star where star.g < 21.2
+  15399
+  15391
+  15237
+  15210
+  15458
+  15459
+  15470
+  15654
+  15521
+  15470
+ : 15426.9
+ select count(*) from star where star.ra between 129 and 131 and star.dec between 19 and 21 and -log(0.25*exp(-star.modelmag_u)+0.5*exp(-star.modelmag_g)+0.25*exp(-star.modelmag_r)) < 13.0
+  15865
+  15286
+  15467
+  15260
+  15411
+  15478
+  15386
+  15447
+  16140
+  15405
+ : 15514.5
+ select star.ra, star.dec, star.skyivar_g, star.u, star.g, star.r, star.i, star.z from star where star.ra BETWEEN 140 and 145 AND star.dec BETWEEN 20 and 25
+  15511
+  15520
+  15489
+  15552
+  15477
+  15680
+  15656
+  15298
+  15134
+  15137
+ : 15445.4
+ SELECT star.ra, star.dec, star.psfmag_g, star.psfmag_g - star.psfmag_r, star.skyivar_g, star.skyivar_i from star where star.ra between 140 and 141 and star.dec between 20 and 21 and star.psfmag_g -star.psfmag_r between 0.2 and 0.8 and star.psfmag_u < 16
+  15383
+  15691
+  15185
+  15911
+  15543
+  15379
+  15244
+  15280
+  15274
+  15434
+ : 15432.4
+ SELECT star.ra FROM star WHERE star.modelmag_r > 0 and star.modelmag_r < 21 and star.ra < 205.446972452536 and star.ra > 203.2108728477 and star.dec > 9.860958219299748 and star.dec < 11.62881354954442 order by star.modelmag_r limit 999
+  15350
+  15470
+  15712
+  15194
+  15161
+  15378
+  15299
+  15304
+  15297
+  15379
+ : 15354.4
+ SELECT star.objid FROM star WHERE ((star.u - star.g) < 0.4 ) and (star.g - star.r) < 0.7 and (star.r - star.i) > 0.4 and (star.i - star.z) > 0.4
+  15186
+  15844
+  18858
+  18370
+  15037
+  21444
+  15230
+  15070
+  15053
+  16426
+ : 16651.8
+ SELECT star.ra, star.dec, star.psfmag_u, star.psfmagerr_u, star.psfmag_g, star.psfmagerr_g, star.psfmag_r, star.psfmagerr_r, star.psfmag_i, star.psfmagerr_i, star.psfmag_z, star.psfmagerr_z FROM star WHERE (star.ra between 162.446533 and 162.646533) and (star.dec between -0.109789 and 0.090211)
+  14969
+  16168
+  20863
+  15290
+  15233
+  17856
+  14963
+  14845
+  14958
+  14958
+ : 16010.3
+TOTAL NOT CLUSTERIZED:
+ TIME : 125344
+ MEMORY COEFFICIENT: sum(1356341248/15508 1356341248/15426 1356341248/15514 1356341248/15445 1356341248/15432 1356341248/15354 1356341248/16651 1356341248/16010 ) = 693031
+

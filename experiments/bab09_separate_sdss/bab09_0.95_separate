@@ -1,0 +1,98 @@
+ select star_test_0.objid, star_test_0.extinction_u, star_test_0.extinction_g, star_test_0.extinction_r, star_test_0.l, star_test_0.b from star_test_0 where  star_test_0.clean = 1 and (star_test_0.l between 150.055 and 150.058) and (star_test_0.b between -12.087 and -12.085) and star_test_0.type = 6
+  467
+  462
+  559
+  491
+  492
+  446
+  588
+  453
+  571
+  446
+ : 497.5
+ select star_test_5.objid, star_test_5.ra, star_test_5.dec, star_test_4.u, star_test_4.g, star_test_4.r, star_test_4.i, star_test_4.z from star_test_5, star_test_4 where (star_test_4.g < 21.2) and (star_test_4.objid = star_test_5.objid)
+  1656
+  1450
+  1427
+  1443
+  1474
+  1444
+  1420
+  1424
+  1465
+  1450
+ : 1465.3
+ select count(*) from star_test_3 , star_test_5 where (star_test_5.ra between 129 and 131 and star_test_5.dec between 19 and 21 and -log(0.25*exp(-star_test_3.modelmag_u)+0.5*exp(-star_test_3.modelmag_g)+0.25*exp(-star_test_5.modelmag_r)) < 13.0) and ( star_test_3.objid = star_test_5.objid )
+  456
+  523
+  438
+  423
+  426
+  447
+  435
+  504
+  527
+  440
+ : 461.9
+ select star_test_5.ra, star_test_5.dec, star_test_5.skyivar_g, star_test_4.u, star_test_4.g, star_test_4.r, star_test_4.i, star_test_4.z from star_test_5,  star_test_4 where star_test_5.ra BETWEEN 140 and 145 AND star_test_5.dec BETWEEN 20 and 25 and (star_test_4.objid = star_test_5.objid)
+  1301
+  1209
+  1212
+  1208
+  1233
+  1244
+  1237
+  1205
+  1228
+  1299
+ : 1237.6
+ SELECT star_test_5.ra, star_test_5.dec, star_test_5.psfmag_g, star_test_5.psfmag_g - star_test_5.psfmag_r, star_test_5.skyivar_g, star_test_1.skyivar_i from star_test_1 , star_test_5 where (star_test_5.ra between 140 and 141 and star_test_5.dec between 20 and 21 and star_test_5.psfmag_g - star_test_5.psfmag_r between 0.2 and 0.8 and star_test_5.psfmag_u < 16) and ( star_test_1.objid = star_test_5.objid )
+  429
+  442
+  457
+  442
+  427
+  436
+  466
+  483
+  428
+  441
+ : 445.1
+ SELECT star_test_5.ra FROM star_test_5 WHERE star_test_5.modelmag_r > 0 and star_test_5.modelmag_r < 21 and star_test_5.ra < 205.446972452536 and star_test_5.ra > 203.2108728477 and star_test_5.dec > 9.860958219299748 and star_test_5.dec < 11.62881354954442 order by star_test_5.modelmag_r limit 999
+  415
+  421
+  433
+  429
+  429
+  430
+  461
+  456
+  434
+  429
+ : 433.7
+ SELECT star_test_4.objid FROM star_test_4 WHERE ((star_test_4.u - star_test_4.g) < 0.4 ) and (star_test_4.g - star_test_4.r) < 0.7 and (star_test_4.r - star_test_4.i) > 0.4 and (star_test_4.i - star_test_4.z) > 0.4
+  345
+  348
+  350
+  357
+  353
+  365
+  352
+  351
+  361
+  356
+ : 353.8
+ SELECT star_test_5.ra, star_test_5.dec, star_test_5.psfmag_u, star_test_2.psfmagerr_u, star_test_5.psfmag_g, star_test_2.psfmagerr_g, star_test_5.psfmag_r, star_test_2.psfmagerr_r, star_test_2.psfmag_i, star_test_2.psfmagerr_i, star_test_2.psfmag_z, star_test_2.psfmagerr_z FROM star_test_2 , star_test_5 WHERE ((star_test_5.ra between 162.446533 and 162.646533) and (star_test_5.dec between -0.109789 and 0.090211)) and ( star_test_2.objid = star_test_5.objid )
+  435
+  431
+  447
+  436
+  441
+  454
+  422
+  440
+  422
+  424
+ : 435.2
+TOTAL CLUSTERIZED:
+ TIME : 5330.1
