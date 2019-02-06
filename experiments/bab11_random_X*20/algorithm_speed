@@ -1,32 +1,40 @@
-size: 40 cohesion: 0.1 time: 50026
-size: 45 cohesion: 0.1 time: 49658
-size: 50 cohesion: 0.1 time: 119270
-size: 55 cohesion: 0.1 time: 165173
-size: 40 cohesion: 0.2 time: 240736
-size: 45 cohesion: 0.2 time: 291865
-size: 50 cohesion: 0.2 time: 342369
-size: 55 cohesion: 0.2 time: 405924
-size: 40 cohesion: 0.3 time: 416152
-size: 45 cohesion: 0.3 time: 501649
-size: 50 cohesion: 0.3 time: 591512
-size: 55 cohesion: 0.3 time: 704737
-size: 40 cohesion: 0.4 time: 618719
-size: 45 cohesion: 0.4 time: 750403
-size: 50 cohesion: 0.4 time: 911121
-size: 55 cohesion: 0.4 time: 1083879
-size: 40 cohesion: 0.5 time: 865352
-size: 45 cohesion: 0.5 time: 1038589
-size: 50 cohesion: 0.5 time: 1252816
-size: 55 cohesion: 0.5 time: 1475297
-size: 40 cohesion: 0.6 time: 1119197
-size: 45 cohesion: 0.6 time: 1413621
-size: 50 cohesion: 0.6 time: 1681481
-size: 55 cohesion: 0.6 time: 1934331
-size: 40 cohesion: 0.7 time: 1382458
-size: 45 cohesion: 0.7 time: 1669633
-size: 50 cohesion: 0.7 time: 2004735
-size: 55 cohesion: 0.7 time: 2450432
-size: 40 cohesion: 0.8 time: 1611681
-size: 45 cohesion: 0.8 time: 1993721
-size: 50 cohesion: 0.8 time: 2398437
-size: 55 cohesion: 0.8 time: 2841085
+size: 65 cohesion: 0.7 time: 3215990
+size: 70 cohesion: 0.7 time: 3680055
+size: 75 cohesion: 0.7 time: 4196411
+size: 80 cohesion: 0.7 time: 4704447
+size: 85 cohesion: 0.7 time: 5295111
+size: 90 cohesion: 0.7 time: 5830082
+size: 95 cohesion: 0.7 time: 6534844
+size: 100 cohesion: 0.7 time: 7370147
+
+size: 5*20 cohesion: 0.9 time: 48917
+size: 10*20 cohesion: 0.9 time: 187719
+size: 15*20 cohesion: 0.9 time: 377179
+size: 20*20 cohesion: 0.9 time: 615732
+size: 25*20 cohesion: 0.9 time: 879537
+size: 30*20 cohesion: 0.9 time: 1199140
+size: 35*20 cohesion: 0.9 time: 1550039
+size: 40*20 cohesion: 0.9 time: 1982491
+size: 45*20 cohesion: 0.9 time: 2444253
+size: 50*20 cohesion: 0.9 time: 3111799
+size: 55*20 cohesion: 0.9 time: 3702235
+size: 60*20 cohesion: 0.9 time: 4332343
+
+
+size: 85*20 cohesion: 0.2 time: 886136
+size: 90*20 cohesion: 0.2 time: 1023816
+size: 95*20 cohesion: 0.2 time: 1108437
+size: 100*20 cohesion: 0.2 time: 1107341
+
+size: 105*20 cohesion: 0.1 time: 500684
+size: 105*20 cohesion: 0.2 time: 1374046
+size: 105*20 cohesion: 0.3 time: 2681869
+size: 105*20 cohesion: 0.4 time: 4017002
+
+size: 60*20 cohesion: 0.8 time: 3631496
+size: 65 cohesion: 0.8 time: 4152341
+size: 70 cohesion: 0.8 time: 4760285
+size: 75 cohesion: 0.8 time: 5735120
+
+size: 80 cohesion: 0.8 time: 6486560
+

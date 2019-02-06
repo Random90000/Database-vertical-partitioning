@@ -1,0 +1,298 @@
+Primary columns: objid
+Number of other columns: 29
+Running queries:
+ select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b from star_pinched where  star_pinched.clean = 1 and (star_pinched.l between 150.055 and 150.058) and (star_pinched.b between -12.087 and -12.085) and star_pinched.type = 6
+  635
+  699
+  592
+  618
+  616
+  606
+  582
+  583
+  574
+  600
+ : 610.5
+ select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.g < 21.2
+  1058
+  1295
+  1032
+  1026
+  1038
+  1000
+  1007
+  1031
+  1010
+  997
+ : 1049.4
+ select count(*) from star_pinched where star_pinched.ra between 129 and 131 and star_pinched.dec between 19 and 21 and -log(0.25*exp(-star_pinched.modelmag_u)+0.5*exp(-star_pinched.modelmag_g)+0.25*exp(-star_pinched.modelmag_r)) < 13.0
+  547
+  646
+  570
+  604
+  530
+  523
+  525
+  518
+  531
+  531
+ : 552.5
+ select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.ra BETWEEN 140 and 145 AND star_pinched.dec BETWEEN 20 and 25
+  867
+  963
+  906
+  847
+  848
+  840
+  879
+  826
+  838
+  861
+ : 867.5
+ SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i from star_pinched where star_pinched.ra between 140 and 141 and star_pinched.dec between 20 and 21 and star_pinched.psfmag_g - star_pinched.psfmag_r between 0.2 and 0.8 and star_pinched.psfmag_u < 16
+  454
+  447
+  613
+  460
+  436
+  371
+  377
+  383
+  371
+  390
+ : 430.2
+ SELECT star_pinched.ra FROM star_pinched WHERE star_pinched.modelmag_r > 0 and star_pinched.modelmag_r < 21 and star_pinched.ra < 205.446972452536 and star_pinched.ra > 203.2108728477 and star_pinched.dec > 9.860958219299748 and star_pinched.dec < 11.62881354954442 order by star_pinched.modelmag_r limit 999 
+  376
+  374
+  374
+  383
+  542
+  375
+  338
+  316
+  312
+  315
+ : 370.5
+ SELECT star_pinched.objid FROM star_pinched WHERE ((star_pinched.u - star_pinched.g) < 0.4 ) and (star_pinched.g - star_pinched.r) < 0.7 and (star_pinched.r - star_pinched.i) > 0.4 and (star_pinched.i - star_pinched.z) > 0.4 
+  325
+  333
+  324
+  323
+  341
+  373
+  315
+  313
+  464
+  378
+ : 348.9
+ SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z FROM star_pinched WHERE (star_pinched.ra between 162.446533 and 162.646533) and (star_pinched.dec between -0.109789 and 0.090211)
+  306
+  292
+  290
+  297
+  290
+  285
+  317
+  284
+  289
+  281
+ : 293.1
+Matrix:
+   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29
+1: 1 1 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1  0  0  0  0  0
+2: 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  1  1  0  0  0  0  0  1  1  1  1  1
+3: 0 0 0 0 0 0 0 0 0  0  0  0  0  0  1  1  1  1  1  0  0  0  0  0  0  0  0  0  0
+4: 0 0 1 0 0 0 0 0 0  0  0  0  0  0  0  0  0  1  1  0  0  0  0  0  1  1  1  1  1
+5: 0 0 1 1 1 1 1 0 0  0  0  0  0  0  0  0  0  1  1  0  0  0  0  0  0  0  0  0  0
+6: 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  1  1  1  0  0  0  0  0  0  0  0  0  0
+7: 0 0 0 0 0 0 0 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  1  1  1  1
+8: 0 0 0 0 1 1 1 1 1  1  1  1  1  1  0  0  0  1  1  0  0  0  0  0  0  0  0  0  0
+
+Intercluster:
+Submatrices:
+   1 2 20 21 22 23 24
+1: 1 1  1  1  1  1  1
+
+   15 16 17 18 19
+3:  1  1  1  1  1
+
+   3 4 5 6 7 18 19
+5: 1 1 1 1 1  1  1
+
+   17 18 19
+6:  1  1  1
+
+   25 26 27 28 29
+7:  1  1  1  1  1
+
+   5 6 7 8 9 10 11 12 13 14 18 19
+8: 1 1 1 1 1  1  1  1  1  1  1  1
+
+   3 18 19 25 26 27 28 29
+2: 0  1  1  1  1  1  1  1
+4: 1  1  1  1  1  1  1  1
+
+0 0
+2 1
+4 2
+5 3
+6 4
+7 5
+1 6
+3 6
+Clusters:
+type clean b l extinction_u extinction_g extinction_r 
+modelmag_u modelmag_g modelmag_r ra dec 
+skyivar_g skyivar_i psfmag_u psfmag_g psfmag_r ra dec 
+modelmag_r ra dec 
+u g r i z 
+psfmag_u psfmag_g psfmag_r psfmag_i psfmag_z psfmagerr_u psfmagerr_g psfmagerr_r psfmagerr_i psfmagerr_z ra dec 
+skyivar_g ra dec u g r i z 
+Partitioning...
+SELECT objid, type, clean, b, l, extinction_u, extinction_g, extinction_r INTO star_pinched_test_0 FROM star_pinched; ALTER TABLE star_pinched_test_0 ADD PRIMARY KEY (objid);analyze star_pinched_test_0;
+SELECT objid, modelmag_u, modelmag_g, modelmag_r, ra, dec INTO star_pinched_test_1 FROM star_pinched; ALTER TABLE star_pinched_test_1 ADD PRIMARY KEY (objid);analyze star_pinched_test_1;
+SELECT objid, skyivar_g, skyivar_i, psfmag_u, psfmag_g, psfmag_r, ra, dec INTO star_pinched_test_2 FROM star_pinched; ALTER TABLE star_pinched_test_2 ADD PRIMARY KEY (objid);analyze star_pinched_test_2;
+SELECT objid, modelmag_r, ra, dec INTO star_pinched_test_3 FROM star_pinched; ALTER TABLE star_pinched_test_3 ADD PRIMARY KEY (objid);analyze star_pinched_test_3;
+SELECT objid, u, g, r, i, z INTO star_pinched_test_4 FROM star_pinched; ALTER TABLE star_pinched_test_4 ADD PRIMARY KEY (objid);analyze star_pinched_test_4;
+SELECT objid, psfmag_u, psfmag_g, psfmag_r, psfmag_i, psfmag_z, psfmagerr_u, psfmagerr_g, psfmagerr_r, psfmagerr_i, psfmagerr_z, ra, dec INTO star_pinched_test_5 FROM star_pinched; ALTER TABLE star_pinched_test_5 ADD PRIMARY KEY (objid);analyze star_pinched_test_5;
+SELECT objid, skyivar_g, ra, dec, u, g, r, i, z INTO star_pinched_test_6 FROM star_pinched; ALTER TABLE star_pinched_test_6 ADD PRIMARY KEY (objid);analyze star_pinched_test_6;
+Done
+Rewriting queries
+Looking at:  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b from star_pinched where  star_pinched.clean = 1 and (star_pinched.l between 150.055 and 150.058) and (star_pinched.b between -12.087 and -12.085) and star_pinched.type = 6
+after:  select star_pinched.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b 
+Result:  select star_pinched_test_0.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b from star_pinched_test_0 where  star_pinched_test_0.clean = 1 and (star_pinched_test_0.l between 150.055 and 150.058) and (star_pinched_test_0.b between -12.087 and -12.085) and star_pinched_test_0.type = 6
+Looking at:  select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.g < 21.2
+after:  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z 
+Result:  select star_pinched_test_6.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.g < 21.2
+Looking at:  select count(*) from star_pinched where star_pinched.ra between 129 and 131 and star_pinched.dec between 19 and 21 and -log(0.25*exp(-star_pinched.modelmag_u)+0.5*exp(-star_pinched.modelmag_g)+0.25*exp(-star_pinched.modelmag_r)) < 13.0
+after:  select count(*) 
+Result:  select count(*) from star_pinched_test_1 where star_pinched_test_1.ra between 129 and 131 and star_pinched_test_1.dec between 19 and 21 and -log(0.25*exp(-star_pinched_test_1.modelmag_u)+0.5*exp(-star_pinched_test_1.modelmag_g)+0.25*exp(-star_pinched_test_1.modelmag_r)) < 13.0
+Looking at:  select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.ra BETWEEN 140 and 145 AND star_pinched.dec BETWEEN 20 and 25
+after:  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z 
+Result:  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.ra BETWEEN 140 and 145 AND star_pinched_test_6.dec BETWEEN 20 and 25
+Looking at:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i from star_pinched where star_pinched.ra between 140 and 141 and star_pinched.dec between 20 and 21 and star_pinched.psfmag_g - star_pinched.psfmag_r between 0.2 and 0.8 and star_pinched.psfmag_u < 16
+after:  SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i 
+Result:  SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i from star_pinched_test_2 where star_pinched_test_2.ra between 140 and 141 and star_pinched_test_2.dec between 20 and 21 and star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r between 0.2 and 0.8 and star_pinched_test_2.psfmag_u < 16
+Looking at:  SELECT star_pinched.ra FROM star_pinched WHERE star_pinched.modelmag_r > 0 and star_pinched.modelmag_r < 21 and star_pinched.ra < 205.446972452536 and star_pinched.ra > 203.2108728477 and star_pinched.dec > 9.860958219299748 and star_pinched.dec < 11.62881354954442 order by star_pinched.modelmag_r limit 999 
+after:  SELECT star_pinched_test_3.ra 
+Result:  SELECT star_pinched_test_3.ra FROM star_pinched_test_3 WHERE star_pinched_test_3.modelmag_r > 0 and star_pinched_test_3.modelmag_r < 21 and star_pinched_test_3.ra < 205.446972452536 and star_pinched_test_3.ra > 203.2108728477 and star_pinched_test_3.dec > 9.860958219299748 and star_pinched_test_3.dec < 11.62881354954442 order by star_pinched_test_3.modelmag_r limit 999 
+Looking at:  SELECT star_pinched.objid FROM star_pinched WHERE ((star_pinched.u - star_pinched.g) < 0.4 ) and (star_pinched.g - star_pinched.r) < 0.7 and (star_pinched.r - star_pinched.i) > 0.4 and (star_pinched.i - star_pinched.z) > 0.4 
+after:  SELECT star_pinched.objid 
+Result:  SELECT star_pinched_test_4.objid FROM star_pinched_test_4 WHERE ((star_pinched_test_4.u - star_pinched_test_4.g) < 0.4 ) and (star_pinched_test_4.g - star_pinched_test_4.r) < 0.7 and (star_pinched_test_4.r - star_pinched_test_4.i) > 0.4 and (star_pinched_test_4.i - star_pinched_test_4.z) > 0.4 
+Looking at:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z FROM star_pinched WHERE (star_pinched.ra between 162.446533 and 162.646533) and (star_pinched.dec between -0.109789 and 0.090211)
+after:  SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z 
+Result:  SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z FROM star_pinched_test_5 WHERE (star_pinched_test_5.ra between 162.446533 and 162.646533) and (star_pinched_test_5.dec between -0.109789 and 0.090211)
+Done
+Running queries:
+ select star_pinched_test_0.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b from star_pinched_test_0 where  star_pinched_test_0.clean = 1 and (star_pinched_test_0.l between 150.055 and 150.058) and (star_pinched_test_0.b between -12.087 and -12.085) and star_pinched_test_0.type = 6
+  432
+  39
+  39
+  39
+  39
+  40
+  40
+  40
+  40
+  40
+ : 78.8
+ select star_pinched_test_6.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.g < 21.2
+  812
+  809
+  786
+  774
+  774
+  797
+  791
+  798
+  802
+  779
+ : 792.2
+ select count(*) from star_pinched_test_1 where star_pinched_test_1.ra between 129 and 131 and star_pinched_test_1.dec between 19 and 21 and -log(0.25*exp(-star_pinched_test_1.modelmag_u)+0.5*exp(-star_pinched_test_1.modelmag_g)+0.25*exp(-star_pinched_test_1.modelmag_r)) < 13.0
+  387
+  42
+  41
+  67
+  40
+  39
+  41
+  42
+  41
+  42
+ : 78.2
+ select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.ra BETWEEN 140 and 145 AND star_pinched_test_6.dec BETWEEN 20 and 25
+  506
+  537
+  533
+  510
+  511
+  506
+  505
+  505
+  531
+  509
+ : 515.3
+ SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i from star_pinched_test_2 where star_pinched_test_2.ra between 140 and 141 and star_pinched_test_2.dec between 20 and 21 and star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r between 0.2 and 0.8 and star_pinched_test_2.psfmag_u < 16
+  233
+  76
+  47
+  45
+  45
+  45
+  46
+  45
+  47
+  44
+ : 67.3
+ SELECT star_pinched_test_3.ra FROM star_pinched_test_3 WHERE star_pinched_test_3.modelmag_r > 0 and star_pinched_test_3.modelmag_r < 21 and star_pinched_test_3.ra < 205.446972452536 and star_pinched_test_3.ra > 203.2108728477 and star_pinched_test_3.dec > 9.860958219299748 and star_pinched_test_3.dec < 11.62881354954442 order by star_pinched_test_3.modelmag_r limit 999 
+  88
+  37
+  36
+  37
+  37
+  37
+  38
+  37
+  63
+  37
+ : 44.7
+ SELECT star_pinched_test_4.objid FROM star_pinched_test_4 WHERE ((star_pinched_test_4.u - star_pinched_test_4.g) < 0.4 ) and (star_pinched_test_4.g - star_pinched_test_4.r) < 0.7 and (star_pinched_test_4.r - star_pinched_test_4.i) > 0.4 and (star_pinched_test_4.i - star_pinched_test_4.z) > 0.4 
+  80
+  63
+  64
+  62
+  63
+  62
+  63
+  64
+  62
+  63
+ : 64.6
+ SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z FROM star_pinched_test_5 WHERE (star_pinched_test_5.ra between 162.446533 and 162.646533) and (star_pinched_test_5.dec between -0.109789 and 0.090211)
+  79
+  49
+  49
+  51
+  49
+  50
+  50
+  51
+  49
+  50
+ : 52.7
+TABLES SIZE: 
+star 1356341248
+star_pinched 96976896
+star_pinched_test_0 48791552
+star_pinched_test_1 44711936
+star_pinched_test_2 48791552
+star_pinched_test_3 40755200
+star_pinched_test_4 40755200
+star_pinched_test_5 56934400
+star_pinched_test_6 52682752
+TOTAL NOT CLUSTERIZED:
+ TIME : 4522.6
+ MEMORY COEFFICIENT: sum(1356341248/610 1356341248/1049 1356341248/552 1356341248/867 1356341248/430 1356341248/370 1356341248/348 1356341248/293 ) = 22884791
+TOTAL CLUSTERIZED:
+ TIME : 1693.8
+ MEMORY COEFFICIENT: sum(96976896/78 56934400/792 48791552/78 56934400/515 44711936/67 48791552/44 40755200/64 40755200/52 ) = 5248056

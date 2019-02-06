@@ -1,0 +1,20 @@
+CC=g++
+#CXXFLAGS=--std=c++11 -g -L/cstore/intelstudio/tbb/lib/intel64/gcc4.4 -ltbb_debug -O0
+#export LD_LIBRARY_PATH=/cstore/intelstudio/tbb/lib/intel64/gcc4.4:$LD_LIBRARY_PATH
+CXXFLAGS=--std=c++14 -g -ltbb -O2
+PQLIBS=-lpqxx -lpq
+
+SRC_VPART = main_run_rewritted.cpp DB.cpp queries_run_rewritted.cpp util.cpp
+OBJ_VPART = main_run_rewritted.o DB.o queries_run_rewritted.o util.o
+
+run_rewritted: $(OBJ_VPART)
+	$(CC) $(OBJ_VPART) $(CXXFLAGS) $(PQLIBS) -o $@
+
+%.o: %.cc
+	$(CC) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	@rm -f vpart
+	@rm -f *.o
+
+.PHONY: clean

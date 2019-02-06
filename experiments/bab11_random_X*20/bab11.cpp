@@ -5,7 +5,7 @@
 #include <chrono>
 #include <unistd.h>
 
-float BabNode::threshold = 0.9;
+float BabNode::threshold = 1;
 
 BabNode::BabNode()
     :matrix(Matrix(0,0)){}

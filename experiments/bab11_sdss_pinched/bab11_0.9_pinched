@@ -63,401 +63,127 @@ SELECT objid, skyivar_g, ra, dec, u, g, r, i, z INTO star_pinched_test_6 FROM st
 Done
 Rewriting queries
 Looking at:  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b from star_pinched where  star_pinched.clean = 1 and (star_pinched.l between 150.055 and 150.058) and (star_pinched.b between -12.087 and -12.085) and star_pinched.type = 6
-before:  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b 
-col : type cluster : 0
-try :  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b  star_pinched.type -> star_pinched_test_0.type
-one : star_pinched.type another : star_pinched_test_0.type
-try :  star_pinched.type -> star_pinched_test_0.type
-col : clean cluster : 0
-try :  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b  star_pinched.clean -> star_pinched_test_0.clean
-one : star_pinched.clean another : star_pinched_test_0.clean
-try :  star_pinched.clean -> star_pinched_test_0.clean
-col : b cluster : 0
-try :  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched.b  star_pinched.b -> star_pinched_test_0.b
-star_pinched.b -> star_pinched_test_0.b
-one : star_pinched.b another : star_pinched_test_0.b
-try :  star_pinched.b -> star_pinched_test_0.b
-col : l cluster : 0
-try :  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched.l, star_pinched_test_0.b  star_pinched.l -> star_pinched_test_0.l
-star_pinched.l -> star_pinched_test_0.l
-one : star_pinched.l another : star_pinched_test_0.l
-try :  star_pinched.l -> star_pinched_test_0.l
-col : extinction_u cluster : 0
-try :  select star_pinched.objid, star_pinched.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b  star_pinched.extinction_u -> star_pinched_test_0.extinction_u
-star_pinched.extinction_u -> star_pinched_test_0.extinction_u
-try :  star_pinched.extinction_u -> star_pinched_test_0.extinction_u
-col : extinction_g cluster : 0
-try :  select star_pinched.objid, star_pinched_test_0.extinction_u, star_pinched.extinction_g, star_pinched.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b  star_pinched.extinction_g -> star_pinched_test_0.extinction_g
-star_pinched.extinction_g -> star_pinched_test_0.extinction_g
-try :  star_pinched.extinction_g -> star_pinched_test_0.extinction_g
-col : extinction_r cluster : 0
-try :  select star_pinched.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b  star_pinched.extinction_r -> star_pinched_test_0.extinction_r
-star_pinched.extinction_r -> star_pinched_test_0.extinction_r
-try :  star_pinched.extinction_r -> star_pinched_test_0.extinction_r
 after:  select star_pinched.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b 
-try :  select star_pinched.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b  star_pinched.objid -> star_pinched_test_0.objid
-star_pinched.objid -> star_pinched_test_0.objid
-try :  star_pinched.objid -> star_pinched_test_0.objid
-one :  star_pinched  another :  star_pinched_test_0 
 Result:  select star_pinched_test_0.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b from star_pinched_test_0 where  star_pinched_test_0.clean = 1 and (star_pinched_test_0.l between 150.055 and 150.058) and (star_pinched_test_0.b between -12.087 and -12.085) and star_pinched_test_0.type = 6
 Looking at:  select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.g < 21.2
-before:  select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z 
-col : skyivar_g cluster : 6
-try :  select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.skyivar_g -> star_pinched_test_6.skyivar_g
-try :  star_pinched.skyivar_g -> star_pinched_test_6.skyivar_g
-col : ra cluster : 6
-try :  select star_pinched.objid, star_pinched.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.ra -> star_pinched_test_6.ra
-star_pinched.ra -> star_pinched_test_6.ra
-try :  star_pinched.ra -> star_pinched_test_6.ra
-col : dec cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.dec -> star_pinched_test_6.dec
-star_pinched.dec -> star_pinched_test_6.dec
-try :  star_pinched.dec -> star_pinched_test_6.dec
-col : u cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.u -> star_pinched_test_6.u
-star_pinched.u -> star_pinched_test_6.u
-try :  star_pinched.u -> star_pinched_test_6.u
-col : g cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.g -> star_pinched_test_6.g
-star_pinched.g -> star_pinched_test_6.g
-one : star_pinched.g another : star_pinched_test_6.g
-try :  star_pinched.g -> star_pinched_test_6.g
-col : r cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.r -> star_pinched_test_6.r
-star_pinched.r -> star_pinched_test_6.r
-try :  star_pinched.r -> star_pinched_test_6.r
-col : i cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched.i, star_pinched.z  star_pinched.i -> star_pinched_test_6.i
-star_pinched.i -> star_pinched_test_6.i
-try :  star_pinched.i -> star_pinched_test_6.i
-col : z cluster : 6
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched.z  star_pinched.z -> star_pinched_test_6.z
-star_pinched.z -> star_pinched_test_6.z
-try :  star_pinched.z -> star_pinched_test_6.z
 after:  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z 
-try :  select star_pinched.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z  star_pinched.objid -> star_pinched_test_6.objid
-star_pinched.objid -> star_pinched_test_6.objid
-try :  star_pinched.objid -> star_pinched_test_6.objid
-one :  star_pinched  another :  star_pinched_test_6 
 Result:  select star_pinched_test_6.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.g < 21.2
 Looking at:  select count(*) from star_pinched where star_pinched.ra between 129 and 131 and star_pinched.dec between 19 and 21 and -log(0.25*exp(-star_pinched.modelmag_u)+0.5*exp(-star_pinched.modelmag_g)+0.25*exp(-star_pinched.modelmag_r)) < 13.0
-before:  select count(*) 
-col : modelmag_u cluster : 1
-try :  select count(*)  star_pinched.modelmag_u -> star_pinched_test_1.modelmag_u
-one : star_pinched.modelmag_u another : star_pinched_test_1.modelmag_u
-try :  star_pinched.modelmag_u -> star_pinched_test_1.modelmag_u
-col : modelmag_g cluster : 1
-try :  select count(*)  star_pinched.modelmag_g -> star_pinched_test_1.modelmag_g
-one : star_pinched.modelmag_g another : star_pinched_test_1.modelmag_g
-try :  star_pinched.modelmag_g -> star_pinched_test_1.modelmag_g
-col : modelmag_r cluster : 1
-try :  select count(*)  star_pinched.modelmag_r -> star_pinched_test_1.modelmag_r
-one : star_pinched.modelmag_r another : star_pinched_test_1.modelmag_r
-try :  star_pinched.modelmag_r -> star_pinched_test_1.modelmag_r
-col : ra cluster : 1
-try :  select count(*)  star_pinched.ra -> star_pinched_test_1.ra
-one : star_pinched.ra another : star_pinched_test_1.ra
-try :  star_pinched.ra -> star_pinched_test_1.ra
-col : dec cluster : 1
-try :  select count(*)  star_pinched.dec -> star_pinched_test_1.dec
-one : star_pinched.dec another : star_pinched_test_1.dec
-try :  star_pinched.dec -> star_pinched_test_1.dec
 after:  select count(*) 
-try :  select count(*)  star_pinched.objid -> star_pinched_test_1.objid
-try :  star_pinched.objid -> star_pinched_test_1.objid
-one :  star_pinched  another :  star_pinched_test_1 
 Result:  select count(*) from star_pinched_test_1 where star_pinched_test_1.ra between 129 and 131 and star_pinched_test_1.dec between 19 and 21 and -log(0.25*exp(-star_pinched_test_1.modelmag_u)+0.5*exp(-star_pinched_test_1.modelmag_g)+0.25*exp(-star_pinched_test_1.modelmag_r)) < 13.0
 Looking at:  select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z from star_pinched where star_pinched.ra BETWEEN 140 and 145 AND star_pinched.dec BETWEEN 20 and 25
-before:  select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z 
-col : skyivar_g cluster : 6
-try :  select star_pinched.ra, star_pinched.dec, star_pinched.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.skyivar_g -> star_pinched_test_6.skyivar_g
-star_pinched.skyivar_g -> star_pinched_test_6.skyivar_g
-try :  star_pinched.skyivar_g -> star_pinched_test_6.skyivar_g
-col : ra cluster : 6
-try :  select star_pinched.ra, star_pinched.dec, star_pinched_test_6.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.ra -> star_pinched_test_6.ra
-star_pinched.ra -> star_pinched_test_6.ra
-one : star_pinched.ra another : star_pinched_test_6.ra
-try :  star_pinched.ra -> star_pinched_test_6.ra
-col : dec cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched.dec, star_pinched_test_6.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.dec -> star_pinched_test_6.dec
-star_pinched.dec -> star_pinched_test_6.dec
-one : star_pinched.dec another : star_pinched_test_6.dec
-try :  star_pinched.dec -> star_pinched_test_6.dec
-col : u cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.u -> star_pinched_test_6.u
-star_pinched.u -> star_pinched_test_6.u
-try :  star_pinched.u -> star_pinched_test_6.u
-col : g cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.g -> star_pinched_test_6.g
-star_pinched.g -> star_pinched_test_6.g
-try :  star_pinched.g -> star_pinched_test_6.g
-col : r cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched.r, star_pinched.i, star_pinched.z  star_pinched.r -> star_pinched_test_6.r
-star_pinched.r -> star_pinched_test_6.r
-try :  star_pinched.r -> star_pinched_test_6.r
-col : i cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched.i, star_pinched.z  star_pinched.i -> star_pinched_test_6.i
-star_pinched.i -> star_pinched_test_6.i
-try :  star_pinched.i -> star_pinched_test_6.i
-col : z cluster : 6
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched.z  star_pinched.z -> star_pinched_test_6.z
-star_pinched.z -> star_pinched_test_6.z
-try :  star_pinched.z -> star_pinched_test_6.z
 after:  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z 
-try :  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z  star_pinched.objid -> star_pinched_test_6.objid
-try :  star_pinched.objid -> star_pinched_test_6.objid
-one :  star_pinched  another :  star_pinched_test_6 
 Result:  select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.ra BETWEEN 140 and 145 AND star_pinched_test_6.dec BETWEEN 20 and 25
 Looking at:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i from star_pinched where star_pinched.ra between 140 and 141 and star_pinched.dec between 20 and 21 and star_pinched.psfmag_g - star_pinched.psfmag_r between 0.2 and 0.8 and star_pinched.psfmag_u < 16
-before:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i 
-col : skyivar_g cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched.skyivar_g, star_pinched.skyivar_i  star_pinched.skyivar_g -> star_pinched_test_2.skyivar_g
-star_pinched.skyivar_g -> star_pinched_test_2.skyivar_g
-try :  star_pinched.skyivar_g -> star_pinched_test_2.skyivar_g
-col : skyivar_i cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched.skyivar_i  star_pinched.skyivar_i -> star_pinched_test_2.skyivar_i
-star_pinched.skyivar_i -> star_pinched_test_2.skyivar_i
-try :  star_pinched.skyivar_i -> star_pinched_test_2.skyivar_i
-col : psfmag_u cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.psfmag_u -> star_pinched_test_2.psfmag_u
-one : star_pinched.psfmag_u another : star_pinched_test_2.psfmag_u
-try :  star_pinched.psfmag_u -> star_pinched_test_2.psfmag_u
-col : psfmag_g cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_g, star_pinched.psfmag_g - star_pinched.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.psfmag_g -> star_pinched_test_2.psfmag_g
-star_pinched.psfmag_g -> star_pinched_test_2.psfmag_g
-star_pinched.psfmag_g -> star_pinched_test_2.psfmag_g
-one : star_pinched.psfmag_g another : star_pinched_test_2.psfmag_g
-try :  star_pinched.psfmag_g -> star_pinched_test_2.psfmag_g
-col : psfmag_r cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.psfmag_r -> star_pinched_test_2.psfmag_r
-star_pinched.psfmag_r -> star_pinched_test_2.psfmag_r
-one : star_pinched.psfmag_r another : star_pinched_test_2.psfmag_r
-try :  star_pinched.psfmag_r -> star_pinched_test_2.psfmag_r
-col : ra cluster : 2
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.ra -> star_pinched_test_2.ra
-star_pinched.ra -> star_pinched_test_2.ra
-one : star_pinched.ra another : star_pinched_test_2.ra
-try :  star_pinched.ra -> star_pinched_test_2.ra
-col : dec cluster : 2
-try :  SELECT star_pinched_test_2.ra, star_pinched.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.dec -> star_pinched_test_2.dec
-star_pinched.dec -> star_pinched_test_2.dec
-one : star_pinched.dec another : star_pinched_test_2.dec
-try :  star_pinched.dec -> star_pinched_test_2.dec
 after:  SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i 
-try :  SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i  star_pinched.objid -> star_pinched_test_2.objid
-try :  star_pinched.objid -> star_pinched_test_2.objid
-one :  star_pinched  another :  star_pinched_test_2 
 Result:  SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i from star_pinched_test_2 where star_pinched_test_2.ra between 140 and 141 and star_pinched_test_2.dec between 20 and 21 and star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r between 0.2 and 0.8 and star_pinched_test_2.psfmag_u < 16
 Looking at:  SELECT star_pinched.ra FROM star_pinched WHERE star_pinched.modelmag_r > 0 and star_pinched.modelmag_r < 21 and star_pinched.ra < 205.446972452536 and star_pinched.ra > 203.2108728477 and star_pinched.dec > 9.860958219299748 and star_pinched.dec < 11.62881354954442 order by star_pinched.modelmag_r limit 999 
-before:  SELECT star_pinched.ra 
-col : modelmag_r cluster : 3
-try :  SELECT star_pinched.ra  star_pinched.modelmag_r -> star_pinched_test_3.modelmag_r
-one : star_pinched.modelmag_r another : star_pinched_test_3.modelmag_r
-one : star_pinched.modelmag_r another : star_pinched_test_3.modelmag_r
-try : order by star_pinched.modelmag_r limit 999  star_pinched.modelmag_r -> star_pinched_test_3.modelmag_r
-star_pinched.modelmag_r -> star_pinched_test_3.modelmag_r
-col : ra cluster : 3
-try :  SELECT star_pinched.ra  star_pinched.ra -> star_pinched_test_3.ra
-star_pinched.ra -> star_pinched_test_3.ra
-one : star_pinched.ra another : star_pinched_test_3.ra
-one : star_pinched.ra another : star_pinched_test_3.ra
-try : order by star_pinched_test_3.modelmag_r limit 999  star_pinched.ra -> star_pinched_test_3.ra
-col : dec cluster : 3
-try :  SELECT star_pinched_test_3.ra  star_pinched.dec -> star_pinched_test_3.dec
-one : star_pinched.dec another : star_pinched_test_3.dec
-one : star_pinched.dec another : star_pinched_test_3.dec
-try : order by star_pinched_test_3.modelmag_r limit 999  star_pinched.dec -> star_pinched_test_3.dec
 after:  SELECT star_pinched_test_3.ra 
-try :  SELECT star_pinched_test_3.ra  star_pinched.objid -> star_pinched_test_3.objid
-try : order by star_pinched_test_3.modelmag_r limit 999  star_pinched.objid -> star_pinched_test_3.objid
-one :  star_pinched  another :  star_pinched_test_3 
 Result:  SELECT star_pinched_test_3.ra FROM star_pinched_test_3 WHERE star_pinched_test_3.modelmag_r > 0 and star_pinched_test_3.modelmag_r < 21 and star_pinched_test_3.ra < 205.446972452536 and star_pinched_test_3.ra > 203.2108728477 and star_pinched_test_3.dec > 9.860958219299748 and star_pinched_test_3.dec < 11.62881354954442 order by star_pinched_test_3.modelmag_r limit 999 
 Looking at:  SELECT star_pinched.objid FROM star_pinched WHERE ((star_pinched.u - star_pinched.g) < 0.4 ) and (star_pinched.g - star_pinched.r) < 0.7 and (star_pinched.r - star_pinched.i) > 0.4 and (star_pinched.i - star_pinched.z) > 0.4 
-before:  SELECT star_pinched.objid 
-col : u cluster : 4
-try :  SELECT star_pinched.objid  star_pinched.u -> star_pinched_test_4.u
-one : star_pinched.u another : star_pinched_test_4.u
-try :  star_pinched.u -> star_pinched_test_4.u
-col : g cluster : 4
-try :  SELECT star_pinched.objid  star_pinched.g -> star_pinched_test_4.g
-one : star_pinched.g another : star_pinched_test_4.g
-one : star_pinched.g another : star_pinched_test_4.g
-try :  star_pinched.g -> star_pinched_test_4.g
-col : r cluster : 4
-try :  SELECT star_pinched.objid  star_pinched.r -> star_pinched_test_4.r
-one : star_pinched.r another : star_pinched_test_4.r
-one : star_pinched.r another : star_pinched_test_4.r
-try :  star_pinched.r -> star_pinched_test_4.r
-col : i cluster : 4
-try :  SELECT star_pinched.objid  star_pinched.i -> star_pinched_test_4.i
-one : star_pinched.i another : star_pinched_test_4.i
-one : star_pinched.i another : star_pinched_test_4.i
-try :  star_pinched.i -> star_pinched_test_4.i
-col : z cluster : 4
-try :  SELECT star_pinched.objid  star_pinched.z -> star_pinched_test_4.z
-one : star_pinched.z another : star_pinched_test_4.z
-try :  star_pinched.z -> star_pinched_test_4.z
 after:  SELECT star_pinched.objid 
-try :  SELECT star_pinched.objid  star_pinched.objid -> star_pinched_test_4.objid
-star_pinched.objid -> star_pinched_test_4.objid
-try :  star_pinched.objid -> star_pinched_test_4.objid
-one :  star_pinched  another :  star_pinched_test_4 
 Result:  SELECT star_pinched_test_4.objid FROM star_pinched_test_4 WHERE ((star_pinched_test_4.u - star_pinched_test_4.g) < 0.4 ) and (star_pinched_test_4.g - star_pinched_test_4.r) < 0.7 and (star_pinched_test_4.r - star_pinched_test_4.i) > 0.4 and (star_pinched_test_4.i - star_pinched_test_4.z) > 0.4 
 Looking at:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z FROM star_pinched WHERE (star_pinched.ra between 162.446533 and 162.646533) and (star_pinched.dec between -0.109789 and 0.090211)
-before:  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z 
-col : psfmag_u cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmag_u -> star_pinched_test_5.psfmag_u
-star_pinched.psfmag_u -> star_pinched_test_5.psfmag_u
-try :  star_pinched.psfmag_u -> star_pinched_test_5.psfmag_u
-col : psfmag_g cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched.psfmagerr_u, star_pinched.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmag_g -> star_pinched_test_5.psfmag_g
-star_pinched.psfmag_g -> star_pinched_test_5.psfmag_g
-try :  star_pinched.psfmag_g -> star_pinched_test_5.psfmag_g
-col : psfmag_r cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched.psfmagerr_g, star_pinched.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmag_r -> star_pinched_test_5.psfmag_r
-star_pinched.psfmag_r -> star_pinched_test_5.psfmag_r
-try :  star_pinched.psfmag_r -> star_pinched_test_5.psfmag_r
-col : psfmag_i cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched.psfmagerr_r, star_pinched.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmag_i -> star_pinched_test_5.psfmag_i
-star_pinched.psfmag_i -> star_pinched_test_5.psfmag_i
-try :  star_pinched.psfmag_i -> star_pinched_test_5.psfmag_i
-col : psfmag_z cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched.psfmagerr_i, star_pinched.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmag_z -> star_pinched_test_5.psfmag_z
-star_pinched.psfmag_z -> star_pinched_test_5.psfmag_z
-try :  star_pinched.psfmag_z -> star_pinched_test_5.psfmag_z
-col : psfmagerr_u cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmagerr_u -> star_pinched_test_5.psfmagerr_u
-star_pinched.psfmagerr_u -> star_pinched_test_5.psfmagerr_u
-try :  star_pinched.psfmagerr_u -> star_pinched_test_5.psfmagerr_u
-col : psfmagerr_g cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmagerr_g -> star_pinched_test_5.psfmagerr_g
-star_pinched.psfmagerr_g -> star_pinched_test_5.psfmagerr_g
-try :  star_pinched.psfmagerr_g -> star_pinched_test_5.psfmagerr_g
-col : psfmagerr_r cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmagerr_r -> star_pinched_test_5.psfmagerr_r
-star_pinched.psfmagerr_r -> star_pinched_test_5.psfmagerr_r
-try :  star_pinched.psfmagerr_r -> star_pinched_test_5.psfmagerr_r
-col : psfmagerr_i cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmagerr_i -> star_pinched_test_5.psfmagerr_i
-star_pinched.psfmagerr_i -> star_pinched_test_5.psfmagerr_i
-try :  star_pinched.psfmagerr_i -> star_pinched_test_5.psfmagerr_i
-col : psfmagerr_z cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched.psfmagerr_z  star_pinched.psfmagerr_z -> star_pinched_test_5.psfmagerr_z
-star_pinched.psfmagerr_z -> star_pinched_test_5.psfmagerr_z
-try :  star_pinched.psfmagerr_z -> star_pinched_test_5.psfmagerr_z
-col : ra cluster : 5
-try :  SELECT star_pinched.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z  star_pinched.ra -> star_pinched_test_5.ra
-star_pinched.ra -> star_pinched_test_5.ra
-one : star_pinched.ra another : star_pinched_test_5.ra
-try :  star_pinched.ra -> star_pinched_test_5.ra
-col : dec cluster : 5
-try :  SELECT star_pinched_test_5.ra, star_pinched.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z  star_pinched.dec -> star_pinched_test_5.dec
-star_pinched.dec -> star_pinched_test_5.dec
-one : star_pinched.dec another : star_pinched_test_5.dec
-try :  star_pinched.dec -> star_pinched_test_5.dec
 after:  SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z 
-try :  SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z  star_pinched.objid -> star_pinched_test_5.objid
-try :  star_pinched.objid -> star_pinched_test_5.objid
-one :  star_pinched  another :  star_pinched_test_5 
 Result:  SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z FROM star_pinched_test_5 WHERE (star_pinched_test_5.ra between 162.446533 and 162.646533) and (star_pinched_test_5.dec between -0.109789 and 0.090211)
 Done
 Running queries:
  select star_pinched_test_0.objid, star_pinched_test_0.extinction_u, star_pinched_test_0.extinction_g, star_pinched_test_0.extinction_r, star_pinched_test_0.l, star_pinched_test_0.b from star_pinched_test_0 where  star_pinched_test_0.clean = 1 and (star_pinched_test_0.l between 150.055 and 150.058) and (star_pinched_test_0.b between -12.087 and -12.085) and star_pinched_test_0.type = 6
-  487
-  548
-  414
-  352
-  350
-  376
-  365
-  374
-  361
+  638
+  584
+  382
   353
- : 398
+  329
+  349
+  332
+  332
+  342
+  337
+ : 397.8
  select star_pinched_test_6.objid, star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.g < 21.2
-  921
-  919
-  884
-  904
-  900
-  881
-  910
-  947
-  972
-  890
- : 912.8
+  975
+  1147
+  938
+  956
+  956
+  920
+  924
+  938
+  982
+  971
+ : 970.7
  select count(*) from star_pinched_test_1 where star_pinched_test_1.ra between 129 and 131 and star_pinched_test_1.dec between 19 and 21 and -log(0.25*exp(-star_pinched_test_1.modelmag_u)+0.5*exp(-star_pinched_test_1.modelmag_g)+0.25*exp(-star_pinched_test_1.modelmag_r)) < 13.0
-  310
-  374
-  337
-  358
-  304
-  364
+  399
   316
-  318
-  315
-  317
- : 331.3
- select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.ra BETWEEN 140 and 145 AND star_pinched_test_6.dec BETWEEN 20 and 25
-  708
-  724
-  701
-  693
-  719
-  727
-  711
-  752
-  739
-  774
- : 724.8
- SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i from star_pinched_test_2 where star_pinched_test_2.ra between 140 and 141 and star_pinched_test_2.dec between 20 and 21 and star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r between 0.2 and 0.8 and star_pinched_test_2.psfmag_u < 16
-  378
-  718
-  368
-  366
-  326
-  324
-  341
-  400
-  324
-  337
- : 388.2
- SELECT star_pinched_test_3.ra FROM star_pinched_test_3 WHERE star_pinched_test_3.modelmag_r > 0 and star_pinched_test_3.modelmag_r < 21 and star_pinched_test_3.ra < 205.446972452536 and star_pinched_test_3.ra > 203.2108728477 and star_pinched_test_3.dec > 9.860958219299748 and star_pinched_test_3.dec < 11.62881354954442 order by star_pinched_test_3.modelmag_r limit 999 
-  258
-  210
-  215
-  204
-  296
-  220
-  219
-  254
-  207
-  210
- : 229.3
- SELECT star_pinched_test_4.objid FROM star_pinched_test_4 WHERE ((star_pinched_test_4.u - star_pinched_test_4.g) < 0.4 ) and (star_pinched_test_4.g - star_pinched_test_4.r) < 0.7 and (star_pinched_test_4.r - star_pinched_test_4.i) > 0.4 and (star_pinched_test_4.i - star_pinched_test_4.z) > 0.4 
-  204
-  210
-  207
-  204
-  201
-  202
-  197
-  204
-  202
-  215
- : 204.6
- SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z FROM star_pinched_test_5 WHERE (star_pinched_test_5.ra between 162.446533 and 162.646533) and (star_pinched_test_5.dec between -0.109789 and 0.090211)
-  375
-  297
-  277
-  316
-  279
-  274
+  290
+  331
+  280
   292
-  319
-  301
-  289
- : 301.9
+  354
+  266
+  276
+  286
+ : 309
+ select star_pinched_test_6.ra, star_pinched_test_6.dec, star_pinched_test_6.skyivar_g, star_pinched_test_6.u, star_pinched_test_6.g, star_pinched_test_6.r, star_pinched_test_6.i, star_pinched_test_6.z from star_pinched_test_6 where star_pinched_test_6.ra BETWEEN 140 and 145 AND star_pinched_test_6.dec BETWEEN 20 and 25
+  928
+  873
+  887
+  886
+  863
+  883
+  875
+  886
+  883
+  891
+ : 885.5
+ SELECT star_pinched_test_2.ra, star_pinched_test_2.dec, star_pinched_test_2.psfmag_g, star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r, star_pinched_test_2.skyivar_g, star_pinched_test_2.skyivar_i from star_pinched_test_2 where star_pinched_test_2.ra between 140 and 141 and star_pinched_test_2.dec between 20 and 21 and star_pinched_test_2.psfmag_g - star_pinched_test_2.psfmag_r between 0.2 and 0.8 and star_pinched_test_2.psfmag_u < 16
+  334
+  389
+  334
+  351
+  395
+  366
+  347
+  336
+  358
+  328
+ : 353.8
+ SELECT star_pinched_test_3.ra FROM star_pinched_test_3 WHERE star_pinched_test_3.modelmag_r > 0 and star_pinched_test_3.modelmag_r < 21 and star_pinched_test_3.ra < 205.446972452536 and star_pinched_test_3.ra > 203.2108728477 and star_pinched_test_3.dec > 9.860958219299748 and star_pinched_test_3.dec < 11.62881354954442 order by star_pinched_test_3.modelmag_r limit 999 
+  304
+  260
+  260
+  271
+  257
+  267
+  261
+  266
+  257
+  246
+ : 264.9
+ SELECT star_pinched_test_4.objid FROM star_pinched_test_4 WHERE ((star_pinched_test_4.u - star_pinched_test_4.g) < 0.4 ) and (star_pinched_test_4.g - star_pinched_test_4.r) < 0.7 and (star_pinched_test_4.r - star_pinched_test_4.i) > 0.4 and (star_pinched_test_4.i - star_pinched_test_4.z) > 0.4 
+  297
+  282
+  297
+  310
+  291
+  326
+  303
+  292
+  284
+  305
+ : 298.7
+ SELECT star_pinched_test_5.ra, star_pinched_test_5.dec, star_pinched_test_5.psfmag_u, star_pinched_test_5.psfmagerr_u, star_pinched_test_5.psfmag_g, star_pinched_test_5.psfmagerr_g, star_pinched_test_5.psfmag_r, star_pinched_test_5.psfmagerr_r, star_pinched_test_5.psfmag_i, star_pinched_test_5.psfmagerr_i, star_pinched_test_5.psfmag_z, star_pinched_test_5.psfmagerr_z FROM star_pinched_test_5 WHERE (star_pinched_test_5.ra between 162.446533 and 162.646533) and (star_pinched_test_5.dec between -0.109789 and 0.090211)
+  428
+  476
+  438
+  434
+  422
+  491
+  407
+  401
+  428
+  428
+ : 435.3
 TABLES SIZE: 
 star 1356341248
 star_pinched 96976896
@@ -472,5 +198,5 @@ TOTAL NOT CLUSTERIZED:
  TIME : 0
  MEMORY COEFFICIENT: sum() = 0
 TOTAL CLUSTERIZED:
- TIME : 3490.9
- MEMORY COEFFICIENT: sum(96976896/398 56934400/912 48791552/331 56934400/724 44711936/388 48791552/229 40755200/204 40755200/301 ) = 1195610
+ TIME : 3915.7
+ MEMORY COEFFICIENT: sum(96976896/397 56934400/970 48791552/309 56934400/885 44711936/353 48791552/264 40755200/298 40755200/435 ) = 1067132
