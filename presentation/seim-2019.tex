@@ -44,9 +44,9 @@
 
 \begin{frame}{Типы фрагментирования}
 	\begin{itemize}
-	\item Горизонтальное фрагментирование\\[0.4cm]
-	\item Вертикальное фрагментирование\\[0.4cm]
-	\item Гибридное фрагментирование\\[0.4cm]
+	\item Горизонтальное\\[0.4cm]
+	\item Вертикальное\\[0.4cm]
+	\item Гибридное\\[0.4cm]
 	\end{itemize}
 \end{frame}
 
@@ -113,12 +113,12 @@ identification-based algorithms for vertical partitions”,\,$\bold{2009}$
 \begin{frame}{Матрица запросов}
 	\begin{textblock}{13}(2,-4)
 		\begin{flushleft}
-q1: SELECT a FROM T WHERE a > 10;\\
-q2: SELECT b, f FROM T;\\
-q3: SELECT a, c FROM T WHERE a = c;\\
-q4: SELECT a FROM T WHERE a < 10;\\
-q5: SELECT e FROM T;\\
-q6: SELECT d, e FROM T WHERE d + e > 0;\\
+q1: SELECT a FROM TABLE WHERE a > 10;\\
+q2: SELECT b, f FROM TABLE;\\
+q3: SELECT a, c FROM TABLE WHERE a = c;\\
+q4: SELECT a FROM TABLE WHERE a < 10;\\
+q5: SELECT e FROM TABLE;\\
+q6: SELECT d, e FROM TABLE WHERE d + e > 0;\\
 		\end{flushleft}
 	\end{textblock}
 	\begin{textblock}{13}(-4,1.5)
@@ -162,18 +162,32 @@ q6: SELECT d, e FROM T WHERE d + e > 0;\\
 \end{frame}
 
 \begin{frame}{Cluster identification}
+	\begin{center}
+	\vspace*{-1cm}
+\[
+  \kbordermatrix{
+      & 2 & 3 & 4 & 6 & 1 & 5 \\
+    1 & 0 & 1 & 1 & 1 & 0 & 0 \\
+    4 & 1 & 0 & 0 & 0 & 1 & 0 \\
+    5 & 1 & 0 & 0 & 0 & 1 & 0 \\
+    2 & 0 & 0 & 1 & 1 & 0 & 1 \\
+    3 & 0 & 1 & 1 & 1 & 0 & 1 \\
+  }
+\]
+	\end{center}	
+
 	\begin{columns}	
 	\renewcommand{\arraystretch}{0.9}
 	\begin{column}{0.4\textwidth}
 \[
 \tiny
   \kbordermatrix{
-      & 1 & 2 & 3 & 4 & 5 & 6 \\
-    1 & 0 & 1 & 1 & 1 & 0 & 0 \\
-    2 & 1 & 0 & 0 & 0 & 1 & 0 \\
-    3 & 1 & 0 & 0 & 0 & 1 & 0 \\
-    4 & 0 & 0 & 1 & 1 & 0 & 1 \\
-    5 & 0 & 1 & 1 & 1 & 0 & 1 \\
+      &        1  &        2  &        3  &        4  &        5  &        6 \\
+    1 & \alert{0} & \alert{1} & \alert{1} & \alert{1} & \alert{0} & \alert{0} \\
+    2 &        1  & \alert{0} & \alert{0} & \alert{0} &        1  &        0  \\
+    3 &        1  & \alert{0} & \alert{0} & \alert{0} &        1  &        0  \\
+    4 &        0  & \alert{0} & \alert{1} & \alert{1} &        0  &        1  \\
+    5 &        0  & \alert{1} & \alert{1} & \alert{1} &        0  &        1  \\
   }
 \]
 	\end{column}
@@ -196,12 +210,12 @@ q6: SELECT d, e FROM T WHERE d + e > 0;\\
 \[
 \tiny
   \kbordermatrix{
-      & 1 & 2 & 3 & 4 & 5 & 6 \\
-    1 & 0 & 1 & 1 & 1 & 0 & 0 \\
-    2 & 1 & 0 & 0 & 0 & 1 & 0 \\
-    3 & 1 & 0 & 0 & 0 & 1 & 0 \\
-    4 & 0 & 0 & 1 & 1 & 0 & 1 \\
-    5 & 0 & 1 & 1 & 1 & 0 & 1 \\
+      &        1  &        2  &        3  &        4  &        5  &        6  \\
+    1 & \alert{0} & \alert{1} & \alert{1} & \alert{1} & \alert{0} & \alert{0} \\
+    2 &        1  & \alert{0} & \alert{0} & \alert{0} &        1  & \alert{0} \\
+    3 &        1  & \alert{0} & \alert{0} & \alert{0} &        1  & \alert{0} \\
+    4 & \alert{0} & \alert{0} & \alert{1} & \alert{1} & \alert{0} & \alert{1} \\
+    5 & \alert{0} & \alert{1} & \alert{1} & \alert{1} & \alert{0} & \alert{1} \\
   }
 \]
 	\end{column}
@@ -225,10 +239,10 @@ q6: SELECT d, e FROM T WHERE d + e > 0;\\
 	\draw[-Latex] (3,-1.8) -- (3.8,-1.8);
 	\draw[-Latex] (7.3,-1.8) -- (8.1,-1.8);
 
-	\path (0.1,-1.45) edge[dashed] (2.8,-1.45);
-	\path (1.645,-2.4) edge[dashed] (1.645,-1);
-	\path (1.21,-2.4) edge[dashed] (1.21,-1);
-	\path (0.76,-2.4) edge[dashed] (0.76,-1);
+	%\path (0.1,-1.45) edge[dashed] (2.8,-1.45);
+	%\path (1.645,-2.4) edge[dashed] (1.645,-1);
+	%\path (1.21,-2.4) edge[dashed] (1.21,-1);
+	%\path (0.76,-2.4) edge[dashed] (0.76,-1);
 	
 	\pgfmathsetmacro{\movefst}{4.31}
 
@@ -239,13 +253,13 @@ q6: SELECT d, e FROM T WHERE d + e > 0;\\
 	%\path (0.1 + \movefst,-2.2) edge[dashed] (2.8 + \movefst,-2.2);
 	%\path (0.1 + \movefst,-2) edge[dashed] (2.8 + \movefst,-2);
 
-	\path (0.1 + 2*\movefst,-1.45) edge[dashed] (2.8 + 2*\movefst,-1.45);
-	\path (1.645 + 2*\movefst,-2.4) edge[dashed] (1.645 + 2*\movefst,-1);
-	\path (1.21 + 2*\movefst,-2.4) edge[dashed] (1.21 + 2*\movefst,-1);
-	\path (0.76 + 2*\movefst,-2.4) edge[dashed] (0.76 + 2*\movefst,-1);
-	\path (0.1 + 2*\movefst,-2.2) edge[dashed] (2.8 + 2*\movefst,-2.2);
-	\path (0.1 + 2*\movefst,-2) edge[dashed] (2.8 + 2*\movefst,-2);
-	\path (2.55 + 2*\movefst,-2.4) edge[dashed] (2.55 + 2*\movefst,-1);
+	%\path (0.1 + 2*\movefst,-1.45) edge[dashed] (2.8 + 2*\movefst,-1.45);
+	%\path (1.645 + 2*\movefst,-2.4) edge[dashed] (1.645 + 2*\movefst,-1);
+	%\path (1.21 + 2*\movefst,-2.4) edge[dashed] (1.21 + 2*\movefst,-1);
+	%\path (0.76 + 2*\movefst,-2.4) edge[dashed] (0.76 + 2*\movefst,-1);
+	%\path (0.1 + 2*\movefst,-2.2) edge[dashed] (2.8 + 2*\movefst,-2.2);
+	%\path (0.1 + 2*\movefst,-2) edge[dashed] (2.8 + 2*\movefst,-2);
+	%\path (2.55 + 2*\movefst,-2.4) edge[dashed] (2.55 + 2*\movefst,-1);
 
 	\end{tikzpicture}
 \end{textblock}
@@ -270,7 +284,7 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 	\begin{textblock}{13}(0.7,-4)
 		\begin{columns}
 			\begin{column}{0.47\textwidth}
-	$R$ - множество индексов транзакций $M$\\[0.2cm]
+	$R$ - множество индексов запросов $M$\\[0.2cm]
 	$C$ - множество индексов атрибутов $M$
 			\end{column}
 			\begin{column}{0.6\textwidth}
@@ -298,7 +312,7 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 
 \begin{frame}{Метод ветвей и границ 2009 -- 1}	
 %\begin{itemize}
-%	\item (инициализация) дерево состоит из корневого узла с матрицей транзакций в нем, $Z_U = \infty$
+%	\item (инициализация) дерево состоит из корневого узла с матрицей запросов в нем, $Z_U = \infty$
 %	\item (ветвление) находим в матрице текущего узла подматрицу $S : cohesion(S) < threshold$
 %	\item (выбор решения) у каждого нового узла обновляем $Z_L$; убираем узел из рассмотрения, если:
 %		\begin{enumerate}
@@ -308,7 +322,7 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 %	\item (завершение фрагментирования) в случае, если не осталось узлов для выбора решения, возвращаем текущее решение, иначе начинаем ветвление
 %	\end{itemize}
 	\begin{textblock}{13}(0,-5.5)
-нижняя граница: $Z_L$ -- число единиц, удаленных из матрицы транзакции в ходе ветвления\\[0.1cm]
+нижняя граница: $Z_L$ -- число единиц, удаленных из матрицы запросов в ходе ветвления\\[0.1cm]
 верхняя граница: $Z_U$ -- минимальный $Z_L$ среди найденных решений\\[0.2cm]
 	\end{textblock}
 	
@@ -390,13 +404,13 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 Распределение межкластерных элементов по матрицам в решении:
 	\begin{itemize}
 	\item (separate) составить отдельный фрагмент из межкластерных эелементов
-	\item (nearest) добавить межкластерный столбец в тот фрагмент, где есть какая-то его часть
-	\item (replicate) добавить в каждый фрагмент все необходимые межкластерные столбцы
+	\item (nearest) добавить в каждый фрагмент только необходимые межкластерные элементы
+	\item (replicate) добавить в каждый фрагмент все необходимые межкластерные элементы
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Метод ветвей и границ 2011 -- 1}
-	\begin{textblock}{13}(0,-5.5)
+	\begin{textblock}{13}(0,-5.2)
 нижняя граница: $Z_L$ -- глубина узла в дереве\\[0.1cm]
 верхняя граница: $Z_U$ -- минимальный $Z_L$ среди найденных решений\\[0.2cm]
 	\end{textblock}
@@ -406,12 +420,12 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 \tiny
   \kbordermatrix{
       & 1 & 2 & 3 & 4 & 5 \\
-    1 & 0 & 1 & 1 & 1 & 0 \\
-    2 & 1 & 0 & 0 & 0 & 1 \\
-    3 & 1 & 0 & 0 & 0 & 1 \\
-    4 & 0 & 0 & 1 & 1 & 0 \\
+    1 & 1 & 1 & 0 & 0 & 0 \\
+    2 & 1 & 1 & 1 & 1 & 1 \\
+    3 & 0 & 0 & 0 & 1 & 1 \\
+    4 & 0 & 0 & 0 & 1 & 1 \\
   }
-\]	
+\]
 	\end{textblock}
 
 	\begin{textblock}{1}(0.5,3.5)
@@ -496,7 +510,11 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
   }
 \]
 	\end{textblock}
-
+	
+	\begin{tikzpicture}[overlay,remember picture]
+	\path (6.5,-3) edge (5.5,-3.2);
+	\path (6.1,-2.7) edge (6,-3.5);
+	\end{tikzpicture}
 %	\begin{figure} 
 %		\begin{textblock}{13}(-1,-2)
 %Иллюстрация правила ветвления
@@ -647,9 +665,9 @@ $M_i^j$ -- $i$-й узел на $j$-ом уровне фрагментирова
 	\begin{textblock}{10}(0,3)
 Критерии оценки алгоритмов\,:
 		\begin{itemize}
-		\item скорость кластеризации
+		\item скорость матричной кластеризации
 		\item скорость выполнения запросов после применения алгоритма
-		\item затраты памяти на хранение кластеров
+		\item затраты памяти на хранение фрагментов
 		\end{itemize}
 	\end{textblock}
 	
@@ -686,7 +704,7 @@ Core(TM) i5-7300HQ\\ CPU @ 2.50GHz
 	\begin{textblock}{10}(0,4)
 Датасет\,:
 		\begin{itemize}
-		\item SDSS Star table
+		\item Sloan Digital Sky Survey, "Star"\, table
 		\end{itemize}
 	\end{textblock}
 \end{frame}
@@ -698,15 +716,14 @@ $$\mathlarger{\sum}_{q_i \in Queries} \frac{size(T)}{time(q_i, T)} = \mathlarger
 	
 	\begin{textblock}{15}(0,-1)
 $size(T)$ -- размер исходной таблицы в байтах\\
-$size(table(q_i))$ -- размер фрагмента, соответствующего запросу\\
+$size(table(q_i))$ -- размер фрагмента, соответствующего запросу\\ 
 $time(q_i, table)$ -- время выполнения запроса к соответствующей таблице
 	\end{textblock}
 	
-	\begin{textblock}{10}(0,2)
+	\begin{textblock}{11}(0,2)
 		\begin{itemize}
-		\item сбросить системный кеш\,: установить флаг $3$ в \path{/proc/sys/vm/drop_caches}
-		\item запретить параллельное выполнение запросов\,: set 
-max\_parallel\_workers\_per\_gather \ to \ 0\,;
+		\item сбросить системный кеш: установить флаг $3$ в \path{/proc/sys/vm/drop_caches}
+		\item запретить параллельное выполнение запросов\,:\\ \texttt{set max\_parallel\_workers\_per\_gather to 0\,;}
 		\end{itemize}
 	\end{textblock}
 \end{frame}
@@ -745,12 +762,15 @@ max\_parallel\_workers\_per\_gather \ to \ 0\,;
 \vspace*{+0.5cm}\hspace*{-1.5cm}\includegraphics[width=14cm, height=4cm]{./images/A11-X-20.png}
 \end{frame}
 
-\begin{frame}{Эксперимент 2 -- матрицы с фиксированным числом строк}
+\begin{frame}{Эксперимент 2 -- матрицы с фиксированным числом строк и квадратные матрицы}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \includegraphics[width=\textwidth, height=7.5cm]{./images/A11-20-X.png}
-\end{frame}
-
-\begin{frame}{Эксперимент 2 -- квадратные матрицы}
+\end{column}
+\begin{column}{0.5\textwidth}
 \includegraphics[width=\textwidth, height=7.5cm]{./images/A11-square.png}
+\end{column}
+\end{columns}
 \end{frame}
 
 \begin{frame}{Выводы -- 1}
